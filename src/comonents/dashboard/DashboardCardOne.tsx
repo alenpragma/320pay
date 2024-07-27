@@ -1,8 +1,27 @@
 import { FaRegCopy } from "react-icons/fa";
 import { dashboardCard } from "../..";
 import { CiCirclePlus } from "react-icons/ci";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const DashboardCardOne = () => {
+  const [textToCopy, setTextToCopy] = useState<string>("");
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        toast("Text copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
+  };
+
+  const handleCopy = (copy: string) => {
+    copyToClipboard();
+    setTextToCopy(copy);
+  };
   return (
     <div>
       <div className="grid grid-cols-3 gap-3">
@@ -26,7 +45,10 @@ const DashboardCardOne = () => {
               </span>
               {i === 0 && (
                 <span className="text-[#5734DC] md:text-[24px] text-[20px]">
-                  <FaRegCopy />
+                  <FaRegCopy
+                    className="cursor-pointer"
+                    onClick={() => handleCopy(item.secretCode)}
+                  />
                 </span>
               )}
             </div>

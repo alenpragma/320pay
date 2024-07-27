@@ -12,7 +12,6 @@ interface SidebarProps {
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
-  console.log(pathname);
 
   const [mouseHover, setMouseHover] = useState<number | null>(null);
 
