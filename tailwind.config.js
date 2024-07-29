@@ -16,6 +16,8 @@ export default {
     extend: {
       colors: {
         primary: "#5734DC",
+        secondary: "#868B8F",
+        black: "#313437",
         current: "currentColor",
         transparent: "transparent",
         white: "#FFFFFF",
@@ -25,7 +27,6 @@ export default {
         bodydark: "#AEB7C0",
         bodydark1: "#DEE4EE",
         bodydark2: "#8A99AF",
-        secondary: "#80CAEE",
         stroke: "#E2E8F0",
         gray: "#EFF4FB",
         graydark: "#333A48",

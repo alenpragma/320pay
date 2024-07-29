@@ -1,0 +1,57 @@
+import { tableData } from "../..";
+import TData from "../../comonents/Table/TData";
+
+const DepositLog = () => {
+  return (
+    <div className="md:p-6 px-3 pt-4">
+      <div className="flex justify-between">
+        <h5>
+          <span className="text-secondary text-[14px]">Balance:</span>{" "}
+          <span className="text-black font-bold">$5000</span>
+        </h5>
+        <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
+          Deposit Now
+        </button>
+      </div>
+      <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
+        <h4 className="text-[24px] font-semibold p-4">My Purchased Plans</h4>
+        <div className="overflow-x-auto w-full">
+          <table className=" border-collapse w-full">
+            <thead>
+              <tr className="bg-[#E2E2E9] text-secondary">
+                <th className="py-2 px-8 text-start">Getway</th>
+                <th className="py-2 px-8 text-start">Amount</th>
+                <th className="py-2 px-8 text-start">Date</th>
+                <th className="py-2 px-8 text-start">Transition ID</th>
+                <th className="py-2 px-8 text-start">Status</th>
+                <th className="py-2 px-8 text-start">More</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              {tableData.map((item, i) => (
+                <tr key={i} className="border-b border-[#E2E2E9]">
+                  <TData data="Crypto" />
+                  <TData data="80 USD" />
+                  <TData data="12 Jun 2025" />
+                  <TData data="0x62535......68ad3a3fA" />
+                  <TData>
+                    <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
+                      Complete
+                    </span>
+                  </TData>
+                  <TData>
+                    <button className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1">
+                      View
+                    </button>
+                  </TData>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DepositLog;

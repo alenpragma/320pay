@@ -5,6 +5,8 @@ import Deposit from "../pages/Deposit/Deposit"
 import Dashboard from "../pages/Dashboard/Dashboard"
 import Licenses from "../pages/Licenses/Licenses"
 import Orders from "../pages/Orders/Orders"
+import PurchasePlane from "../pages/PurchasePlane/PurchasePlane"
+import DepositLog from "../pages/DepositLog/DepositLog"
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const routes = createBrowserRouter([
       {
         path: "/orders",
         element: <Orders />,
+      },
+      {
+        path: "/purchase-plane",
+        element: <PurchasePlane />,
+      },
+      {
+        path: "/deposit-log",
+        element: <DepositLog />,
       },
     ],
   },

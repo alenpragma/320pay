@@ -30,6 +30,8 @@ import shield from "./assets/icon/dashboard/shield-quartered.svg";
 import laptopMobile from "./assets/icon/dashboard/laptop-mobile.svg";
 import ticket from "./assets/icon/dashboard/ticket.svg";
 
+import qrCode from "./assets/image/diposit/qr-code.png"
+
 export const mainNavItem: MenuInterface[] = [
   {
     pathname: "/",
@@ -58,14 +60,20 @@ export const mainNavItem: MenuInterface[] = [
 ];
 export const subNavItem: MenuInterface[] = [
   {
+    pathname: "/purchase-plane",
+    item: "Purchase Plane",
+    icon1: layers,
+    icon2: layerHover,
+  },
+  {
     pathname: "/orders",
     item: "Orders",
     icon1: layers,
     icon2: layerHover,
   },
   {
-    pathname: "/diposit-log",
-    item: "Diposit Log",
+    pathname: "/deposit-log",
+    item: "Deposit Log",
     icon1: clock,
     icon2: clockHover,
   },
@@ -141,4 +149,4 @@ export const tableData: TTable[] = [
   { table: true },
   { table: true },
 ];
-export const images = { home, homeHover, profile, trophy };
+export const images = { home, homeHover, profile, trophy, qrCode };

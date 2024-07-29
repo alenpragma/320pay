@@ -1,23 +1,40 @@
-import { Link } from "react-router-dom"
-import DropdownUser from "./DropdownUser"
+import { Link, useLocation } from "react-router-dom";
+import DropdownUser from "./DropdownUser";
+import { images } from "../..";
 // import DarkModeSwitcher from "./DarkModeSwitcher"
 
 const Header = (props: {
-  sidebarOpen: string | boolean | undefined
-  setSidebarOpen: (arg0: boolean) => void
+  sidebarOpen: string | boolean | undefined;
+  setSidebarOpen: (arg0: boolean) => void;
 }) => {
+  const { pathname } = useLocation();
 
-
+  // const capital = (text: string) => {
+  //   if (!text) return '';
+  //   return text.charAt(0).toUpperCase() + text.slice(1);
+  // };
+  const capital = (text: string) => {
+    const cleneText = text.replace(/[\/-]/g, " ");
+    const capitalFirstLatter =
+      cleneText.charAt(0).toUpperCase() + cleneText.slice(1);
+      console.log(capitalFirstLatter);
+    if (!text) {
+      return "";
+    }
+    return capitalFirstLatter;
+  };
+  const title = capital(pathname);
+  console.log(title);
   return (
-    <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+    <header className="sticky top-0 z-[5] flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
           <button
             aria-controls="sidebar"
             onClick={(e) => {
-              e.stopPropagation()
-              props.setSidebarOpen(!props.sidebarOpen)
+              e.stopPropagation();
+              props.setSidebarOpen(!props.sidebarOpen);
             }}
             className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
           >
@@ -56,31 +73,17 @@ const Header = (props: {
           {/* <!-- Hamburger Toggle BTN --> */}
 
           <Link className="block flex-shrink-0 lg:hidden" to="/">
-            {/* <img className="w-8" src={LogoIcon} alt="Logo" /> */}
+            {/* <img className="w-8" src={images.profile} alt="Logo" /> */}
           </Link>
         </div>
+        <h4 className="text-[20px] font-semibold text-secondary">{title}</h4>
 
         <div className="flex lg:ms-auto items-center gap-3 2xsm:gap-5">
-          <ul className="flex items-center gap-2 2xsm:gap-4">
-            {/* <!-- Dark Mode Toggler --> */}
-            {/* <DarkModeSwitcher /> */}
-            {/* <!-- Dark Mode Toggler --> */}
-          </ul>
-
-          {/* <!-- User Area --> */}
           <DropdownUser />
-          {/* <!-- User Area --> */}
-
-          {/* <button
-            onClick={logout}
-            className="inline-flex items-center justify-center rounded-md bg-meta-7  py-2 px-4 text-center font-medium text-white hover:bg-opacity-90"
-          >
-            Logout
-          </button> */}
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -60,12 +60,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       // ref={sidebar}
-      className={`absolute left-0 top-0 z-999 flex h-screen w-64 flex-col overflow-y-hidden border-r-2 bg-white duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-[5] flex h-screen w-64 flex-col overflow-y-hidden border-r-2 border-r-secondary bg-white duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-2 lg:py-2.5">
+      <div className="flex items-center justify-between gap-2 px-6 py-2 lg:py-2.5 pt-8">
         <NavLink to="/dashboard" className=" w-full">
           <h1 className="text-[24px] font-semibold text-black mx-auto w-fit">
             Web 320
@@ -105,6 +105,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   to={item.pathname}
                   onMouseEnter={() => setMouseHover(i)}
                   onMouseLeave={() => setMouseHover(null)}
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
                   className={({ isActive }) =>
                     isActive
                       ? "p-2 rounded-md font-semibold  text-primary  hover:bg-[#EFEBFE] duration-300 cursor-pointer flex items-center gap-3 bg-[#EFEBFE]"
@@ -134,6 +135,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   to={item.pathname}
                   onMouseEnter={() => setMouseHover(i)}
                   onMouseLeave={() => setMouseHover(null)}
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
                   className={({ isActive }) =>
                     isActive
                       ? "p-2 rounded-md font-semibold  text-primary  hover:bg-[#EFEBFE] duration-300 cursor-pointer flex items-center gap-3 bg-[#EFEBFE]"
