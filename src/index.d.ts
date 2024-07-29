@@ -9,9 +9,9 @@ type TTable = {
 };
 export declare const tableData: TTable[];
 export declare const images: {
-    home: string;
-    homeHover: string;
-    profile: string;
-    trophy: string;
+    home: any;
+    homeHover: any;
+    profile: any;
+    trophy: any;
 };
 export {};

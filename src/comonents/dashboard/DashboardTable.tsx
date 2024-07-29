@@ -1,4 +1,5 @@
 import { tableData } from "../..";
+import TData from "../Table/TData";
 
 const DashboardTable = () => {
   return (
@@ -18,23 +19,15 @@ const DashboardTable = () => {
           <tbody className="bg-white">
             {tableData.map((item, i) => (
               <tr key={i} className="border-b border-[#E2E2E9]">
-                <td className="py-2 px-8 text-start text-[16px] text-[#868B8F]">
-                  London. UK
-                </td>
-                <td className="py-2 px-8 text-start">
+                <TData data="London, Uk" />
+                <TData>
                   <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
                     Ok
                   </span>
-                </td>
-                <td className="py-2 px-8 text-start text-[16px] text-[#868B8F]">
-                  Chrome - Windows 10
-                </td>
-                <td className="py-2 px-8 text-start text-[16px] text-[#868B8F]">
-                  162.158.163.86
-                </td>
-                <td className="py-2 px-8 text-start text-[16px] text-[#868B8F]">
-                  21 hours ago
-                </td>
+                </TData>
+                <TData data="Chrome - Windows 10" />
+                <TData data="162.158.163.86" />
+                <TData data="21 hours ago" />
               </tr>
             ))}
           </tbody>

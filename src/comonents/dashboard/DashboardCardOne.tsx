@@ -2,24 +2,12 @@ import { FaRegCopy } from "react-icons/fa";
 import { dashboardCard } from "../..";
 import { CiCirclePlus } from "react-icons/ci";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { copyToClipboard } from "../../utils/Actions";
 
 const DashboardCardOne = () => {
   const [textToCopy, setTextToCopy] = useState<string>("");
-
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(textToCopy)
-      .then(() => {
-        toast("Text copied to clipboard");
-      })
-      .catch((err) => {
-        console.error("Failed to copy text: ", err);
-      });
-  };
-
   const handleCopy = (copy: string) => {
-    copyToClipboard();
+    copyToClipboard(textToCopy);
     setTextToCopy(copy);
   };
   return (
