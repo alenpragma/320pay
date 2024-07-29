@@ -1,4 +1,4 @@
-import { dashboardCard2, images } from "../..";
+import { dashboardCard2 } from "../..";
 
 const DashboardCardTwo = () => {
   return (
