@@ -8,20 +8,12 @@ const Header = (props: {
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
   const { pathname } = useLocation();
-
-  // const capital = (text: string) => {
-  //   if (!text) return '';
-  //   return text.charAt(0).toUpperCase() + text.slice(1);
-  // };
   const capital = (text: string) => {
     const cleneText = text.replace(/[\/-]/g, " ");
-    const capitalFirstLatter =
-      cleneText.charAt(0).toUpperCase() + cleneText.slice(1);
-      console.log(capitalFirstLatter);
     if (!text) {
       return "";
     }
-    return capitalFirstLatter;
+    return cleneText;
   };
   const title = capital(pathname);
   console.log(title);
@@ -76,7 +68,9 @@ const Header = (props: {
             {/* <img className="w-8" src={images.profile} alt="Logo" /> */}
           </Link>
         </div>
-        <h4 className="text-[20px] font-semibold text-secondary">{title}</h4>
+        <h4 className="text-[20px] font-semibold text-secondary capitalize md:block hidden">
+          {pathname === "/" ? "Dashboard" : title}
+        </h4>
 
         <div className="flex lg:ms-auto items-center gap-3 2xsm:gap-5">
           <DropdownUser />
