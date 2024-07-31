@@ -7,6 +7,8 @@ import Licenses from "../pages/Licenses/Licenses"
 import Orders from "../pages/Orders/Orders"
 import PurchasePlane from "../pages/PurchasePlane/PurchasePlane"
 import DepositLog from "../pages/DepositLog/DepositLog"
+import Login from "../pages/Register/Login"
+import Register from "../pages/Register/Register"
 
 const routes = createBrowserRouter([
   {
@@ -44,14 +46,18 @@ const routes = createBrowserRouter([
     ],
   },
 
-  // {
-  //   path: "/signup",
-  //   element: <p>Signup</p>,
-  // },
-  // {
-  //   path: "*",
-  //   element: <p>NOT FOUND</p>,
-  // },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "*",
+    element: <p>NOT FOUND</p>,
+  },
 ])
 
 export default routes

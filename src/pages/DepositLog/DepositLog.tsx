@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 
@@ -9,9 +10,11 @@ const DepositLog = () => {
           <span className="text-secondary text-[14px]">Balance:</span>{" "}
           <span className="text-black font-bold">$5000</span>
         </h5>
-        <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
-          Deposit Now
-        </button>
+        <Link to="/deposit">
+          <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
+            Deposit Now
+          </button>
+        </Link>
       </div>
       <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
         <h4 className="text-[24px] font-semibold p-4">My Purchased Plans</h4>

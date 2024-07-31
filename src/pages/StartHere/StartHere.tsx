@@ -1,4 +1,5 @@
 import { TiTick } from "react-icons/ti";
+import { Link } from "react-router-dom";
 const StartHere = () => {
   return (
     <div className="md:p-8 px-3 pt-4">
@@ -7,9 +8,11 @@ const StartHere = () => {
           <span className="text-secondary text-[14px]">Balance:</span>{" "}
           <span className="text-black font-bold">$5000</span>
         </h5>
-        <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
-          Deposit Now
-        </button>
+        <Link to="/deposit">
+          <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
+            Deposit Now
+          </button>
+        </Link>
       </div>
       <div className="grid md:grid-cols-4 grid-cols-2 gap-3 mt-8">
         <div className="p-6 space-y-6 border-t-2 border-t-primary rounded-3xl shadow-md duration-300 hover:shadow-xl">
