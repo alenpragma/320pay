@@ -36,7 +36,7 @@ const Deposit = () => {
             </div>
             <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
               <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA
+                0x625336E4A6.....0852A668ad3a3fA
               </span>
               <span
                 onClick={() => handleCopy(copy)}

@@ -7,7 +7,7 @@ type TDataType = {
 
 const TData = ({ data, children }: TDataType) => {
   return (
-    <td className="py-2 px-8 text-start text-[16px] text-[#868B8F]">
+    <td className="py-2 px-6 text-start text-[16px] text-[#868B8F] whitespace-nowrap">
       <h4>{data}</h4>
       {children}
     </td>

@@ -31,6 +31,7 @@ import laptopMobile from "./assets/icon/dashboard/laptop-mobile.svg";
 import ticket from "./assets/icon/dashboard/ticket.svg";
 
 import qrCode from "./assets/image/diposit/qr-code.png"
+import loginImage from "./assets/image/login/login.png"
 
 export const mainNavItem: MenuInterface[] = [
   {
@@ -149,4 +150,4 @@ export const tableData: TTable[] = [
   { table: true },
   { table: true },
 ];
-export const images = { home, homeHover, profile, trophy, qrCode };
+export const images = { home, homeHover, profile, trophy, qrCode, loginImage };

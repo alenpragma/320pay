@@ -21,22 +21,25 @@ const Modal = ({ handleModal, modal }: IModal) => {
       <div
         className={` ${
           modal
-            ? " opacity-100  fixed bg-[#07070745] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
-            : "opacity-0   -z-50"
+            ? " opacity-100   fixed bg-[#07070745] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
+            : "opacity-0    -z-50"
         }`}
         onClick={handleModal}
       ></div>
       <div
         className={`fixed bg-[#ffffff] md:w-2/5 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
           modal
-            ? " opacity-100   z-[101]"
-            : "opacity-0   -z-[101]"
+            ? " opacity-100 z-[101]"
+            : "opacity-0 -z-[102]"
         }`}
       >
         <div className="w-full h-full rounded">
           <div className="w-full py-3 px-5 bg-primary text-white font-semibold text-[20px] flex justify-between items-center rounded-t">
             <h4>Licenses Datils</h4>
-            <RxCross1 onClick={handleModal} className="cursor-pointer hover:scale-105"/>
+            <RxCross1
+              onClick={handleModal}
+              className="cursor-pointer hover:scale-105"
+            />
           </div>
           <div className="pb-5 ">
             <div className="flex justify-between items-center text-secondary py-2 px-5 border-b border-b-[#E2E2E9]">
