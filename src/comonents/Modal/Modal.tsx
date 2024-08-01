@@ -51,7 +51,7 @@ const Modal = ({ handleModal, modal }: IModal) => {
               <span className="text-[16px]">#76380</span>
             </div>
             <div className="flex justify-between items-center text-secondary py-2 px-5 border-b border-b-[#E2E2E9]">
-              <span className="text-[18px] font-semibold">Server Id</span>{" "}
+              <span className="text-[18px] font-semibold">Domain Name</span>{" "}
               <span className="text-[16px]">231783892110</span>
             </div>
             <div className="flex justify-between text-secondary py-2 px-5 border-b border-b-[#E2E2E9]">

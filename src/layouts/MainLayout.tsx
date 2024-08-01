@@ -19,7 +19,7 @@ export default function MainLayout() {
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className="lg:max-w-[1400px] mx-auto">
+            <div className="lg:max-w-[1180px] mx-auto">
               <div className="">
                 <Outlet />
               </div>

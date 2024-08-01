@@ -13,8 +13,8 @@ import layers from "./assets/icon/navIcon/layers.svg";
 import layerHover from "./assets/icon/navIcon/layers-hover.svg";
 import clock from "./assets/icon/navIcon/clock.svg";
 import clockHover from "./assets/icon/navIcon/clock-hover.svg";
-import server from "./assets/icon/navIcon/server.svg";
-import serverHover from "./assets/icon/navIcon/server-hover.svg";
+import domain from "./assets/icon/navIcon/server.svg";
+import domainHover from "./assets/icon/navIcon/server-hover.svg";
 import gift from "./assets/icon/navIcon/gift.svg";
 import giftHover from "./assets/icon/navIcon/gift-hover.svg";
 import smile from "./assets/icon/navIcon/smiley.svg";
@@ -81,8 +81,8 @@ export const subNavItem: MenuInterface[] = [
   {
     pathname: "/manage-server",
     item: "Manage Server",
-    icon1: server,
-    icon2: serverHover,
+    icon1: domain,
+    icon2: domainHover,
   },
   {
     pathname: "/referral",
@@ -123,7 +123,7 @@ export const dashboardCard2: CadeInterface2[] = [
   },
   {
     img: shield,
-    title: "Servers",
+    title: "Domains",
     number: "96",
   },
   {

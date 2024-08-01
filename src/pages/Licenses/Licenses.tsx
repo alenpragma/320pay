@@ -26,7 +26,7 @@ const Licenses = () => {
               <thead>
                 <tr className="bg-[#E2E2E9] text-secondary">
                   <th className="py-2 px-8 text-start">Order Id</th>
-                  <th className="py-2 px-8 text-start">Server</th>
+                  <th className="py-2 px-8 text-start">Domain</th>
                   <th className="py-2 px-8 text-start">Status</th>
                   <th className="py-2 px-8 text-start">Start</th>
                   <th className="py-2 px-8 text-start">Expiry</th>
