@@ -7,13 +7,25 @@ import InputField from "../../comonents/Forms/InputField";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
-import CheckboxField from "../../comonents/Forms/CheckBox";
+
+// const inputFieldSchema = z.object({
+//   username: z.string().min(1, "This field is required."),
+//   email: z.string().email("This field is required."),
+//   password: z.string().min(1, "This field is required."),
+//   confirmPassword: z.string().min(1, "This field is required."),
+//   checkUser: z.literal(true),
+// });
+
 
 const inputFieldSchema = z.object({
   username: z.string().min(1, "This field is required."),
   email: z.string().email("This field is required."),
   password: z.string().min(1, "This field is required."),
   confirmPassword: z.string().min(1, "This field is required."),
+  checkUser: z.literal(true),
+}).refine((data) => data.password === data.confirmPassword, {
+  path: ['confirmPassword'],
+  message: 'Passwords must match',
 });
 
 const Register = () => {
@@ -112,19 +124,19 @@ const Register = () => {
               </div>
             </div>
             <div className="space-y-3">
-              <div className="flex items-center gap-5 mt-8">
-                <input
+              <div className="flex items-center gap-5 mt-8 relative">
+                <InputField
                   name="checkUser"
                   type="checkbox"
                   className="size-5"
                 />
-                <p>I Agree To All Terms & Condition</p>
+                <p>I Agree To All <span className="text-primary cursor-pointer">Terms & Condition</span></p>
               </div>
-              <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
+              <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full focus:bg-[#251756] transition duration-100">
                 Sign Up
               </button>
               <p>
-                You Have Al ready a account <Link to="/login">Sign In</Link>
+                You Have Al ready a account <Link to="/login" className="text-primary">Sign In</Link>
               </p>
             </div>
           </div>
