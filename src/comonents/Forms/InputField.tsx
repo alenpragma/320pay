@@ -21,7 +21,7 @@ const InputField = ({
       control={control}
       name={name}
       render={({ field, fieldState: { error } }) => (
-        <div>
+        <div className={`${type === "checkbox" ? "flex flex-col" : ""}`}>
           <input
             {...field}
             type={type}
@@ -29,7 +29,9 @@ const InputField = ({
             placeholder={placeholder}
             required={requried}
           />
-          {error && <span className="text-[#e82828] text-[14px]">{error.message}</span>}
+          {error && type !== "checkbox" ?  (
+            <span className="text-[#e82828] text-[14px]">{error.message}</span>
+          ) : ""}
         </div>
       )}
     />
