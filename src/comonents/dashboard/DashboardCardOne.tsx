@@ -12,7 +12,7 @@ const DashboardCardOne = () => {
   };
   return (
     <div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-5">
         {dashboardCard.map((item, i) => (
           <div
             key={i}

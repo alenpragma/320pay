@@ -16,7 +16,7 @@ const DashboardCardTwo = () => {
               {item.title}
             </h4>
           </div>
-          <h4 className="text-[24px] font-semibold md:mt-5 mt-3">{item.number}</h4>
+          <h4 className="text-[24px] text-[#313436] font-semibold md:mt-5 mt-3">{item.number}</h4>
         </div>
       ))}
     </div>
