@@ -20,7 +20,7 @@ const Login = () => {
       <div className="flex-1 md:block hidden">
         <img className="w-full h-auto" src={images.loginImage} alt="" />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md">
         <h4 className="text-primary text-[24px] font-semibold">
           Web 320 Payment
         </h4>
