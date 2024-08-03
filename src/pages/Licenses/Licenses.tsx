@@ -2,9 +2,24 @@ import { useState } from "react";
 import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 import Modal from "../../comonents/Modal/Modal";
+import Pagination from "../../comonents/Pagination/Pagination";
 
 const Licenses = () => {
   const [modal, setModal] = useState<boolean>(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(tableData.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
   const handleModal = () => {
     setModal(!modal);
   };
@@ -18,9 +33,6 @@ const Licenses = () => {
           </button>
         </div>
         <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
-          <h4 className="text-[24px] font-semibold p-4">
-            Manage your Licenses
-          </h4>
           <div className="overflow-x-auto w-full">
             <table className=" border-collapse w-full">
               <thead>
@@ -34,7 +46,7 @@ const Licenses = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {tableData.map((item, i) => (
+                {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     <TData data="#76380" />
                     <TData data="BitCoin_Web30" />
@@ -61,6 +73,12 @@ const Licenses = () => {
           </div>
         </div>
       </div>
+      <Pagination
+        totalPages={totalPages}
+        handleNextPage={handleNextPage}
+        currentPage={currentPage}
+        handlePrevPage={handlePrevPage}
+      />
     </>
   );
 };
