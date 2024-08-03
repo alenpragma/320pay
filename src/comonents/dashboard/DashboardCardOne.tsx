@@ -3,6 +3,7 @@ import { dashboardCard } from "../..";
 import { CiCirclePlus } from "react-icons/ci";
 import { useState } from "react";
 import { copyToClipboard } from "../../utils/Actions";
+import { Link } from "react-router-dom";
 
 const DashboardCardOne = () => {
   const [textToCopy, setTextToCopy] = useState<string>("");
@@ -41,7 +42,9 @@ const DashboardCardOne = () => {
               )}
             </div>
             {i !== 0 && (
-              <CiCirclePlus className="text-[24px] text-[#5734DC] absolute top-3 right-3  cursor-pointer" />
+              <Link to={`${item.name === 'wallet' ? "/deposit" : "/licenses"}`}>
+                <CiCirclePlus className="text-[24px] text-[#5734DC] absolute top-3 right-3  cursor-pointer" />
+              </Link>
             )}
           </div>
         ))}

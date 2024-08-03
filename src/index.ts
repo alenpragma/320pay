@@ -105,11 +105,13 @@ export const dashboardCard: CadeInterface[] = [
   },
   {
     img: dWallet,
+    name: "wallet",
     title: "Your Balance",
     secretCode: "5000",
   },
   {
     img: file,
+    name: "licence",
     title: "Active Licenses",
     secretCode: "12/24",
   },

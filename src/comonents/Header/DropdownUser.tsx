@@ -1,4 +1,5 @@
 import UserOne from "../../images/user.jpg";
+import { removeLogedUser } from "../../utils/LocalStorage";
 
 const DropdownUser = () => {
   return (
@@ -7,6 +8,12 @@ const DropdownUser = () => {
         <img src={UserOne} alt="user" className=" rounded-full" />
       </span>
       <span>Mr. Alex</span>
+      <button
+        onClick={removeLogedUser}
+        className="px-5 py-2 rounded-lg bg-primary text-white font-semibold"
+      >
+        Logout
+      </button>
     </div>
   );
 };
