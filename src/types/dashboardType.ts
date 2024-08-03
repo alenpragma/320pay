@@ -1,6 +1,7 @@
 export interface CadeInterface {
   img: string;
   title: string;
+  name?: string;
   secretCode: string;
 }
 

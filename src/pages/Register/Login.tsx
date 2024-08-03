@@ -5,6 +5,8 @@ import Form from "../../comonents/Forms/Form";
 import InputField from "../../comonents/Forms/InputField";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { keyName, keyPassword} from "../../lib/KeyName";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const validationSchema = z.object({
   username: z.string().min(1, "This field is required."),
@@ -12,9 +14,16 @@ export const validationSchema = z.object({
 });
 
 const Login = () => {
-  const formSubmit: SubmitHandler<FieldValues> = (data: FieldValues) => {
-    console.log(data);
+  const location = useLocation();
+  const Navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+
+  const formSubmit: SubmitHandler<FieldValues> = (data) => {
+    localStorage.setItem(keyName, data.username);
+    localStorage.setItem(keyPassword, data.password);
+    Navigate(from, { replace: true });
   };
+
   return (
     <div className="flex justify-between items-center w-full px-3 md:w-10/12 mx-auto h-screen overflex-y-auto">
       <div className="flex-1 md:block hidden">
@@ -67,7 +76,7 @@ const Login = () => {
                   className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
                   placeholder="password"
                 />
-                <FaLock  className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
+                <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
               </div>
             </div>
             <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
