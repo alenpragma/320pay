@@ -22,10 +22,9 @@ const Form = ({ children, onSubmit, resolver, defaultValues }: TFromProps) => {
     formConfig["defaultValues"] = defaultValues;
   }
   const methods = useForm(formConfig);
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit } = methods;
   const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
-    reset();
   };
 
   return (

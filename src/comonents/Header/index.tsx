@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import DropdownUser from "./DropdownUser";
-import { images } from "../..";
 // import DarkModeSwitcher from "./DarkModeSwitcher"
 
 const Header = (props: {

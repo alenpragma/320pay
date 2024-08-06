@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 
-const user = {
+export const userInfo = {
   name: "edulife",
   password: "1234",
 };
@@ -10,7 +10,7 @@ const AdminRoute = ({ children } : any) => {
   const password = localStorage.getItem("password");
   const location = useLocation();
 
-  if (user.name == name && password == user.password) {
+  if (userInfo.name == name && password == userInfo.password) {
     return children;
   }
   return <Navigate to="/login" state={{ from: location }} replace />;
