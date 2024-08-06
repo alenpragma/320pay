@@ -19,6 +19,8 @@ import gift from "./assets/icon/navIcon/gift.svg";
 import giftHover from "./assets/icon/navIcon/gift-hover.svg";
 import smile from "./assets/icon/navIcon/smiley.svg";
 import smileHover from "./assets/icon/navIcon/smiley-hover.svg";
+import deposit from "./assets/icon/navIcon/deposit.svg";
+import depositHover from "./assets/icon/navIcon/deposit-hover.svg";
 
 import file from "./assets/icon/dashboard/file.svg";
 import profile from "./assets/icon/dashboard/profile.svg";
@@ -30,8 +32,10 @@ import shield from "./assets/icon/dashboard/shield-quartered.svg";
 import laptopMobile from "./assets/icon/dashboard/laptop-mobile.svg";
 import ticket from "./assets/icon/dashboard/ticket.svg";
 
-import qrCode from "./assets/image/diposit/qr-code.png"
-import loginImage from "./assets/image/login/login.png"
+import qrCode from "./assets/image/diposit/qr-code.png";
+import loginImage from "./assets/image/login/login.png";
+
+import logo from "./assets/image/logo/logo.png";
 
 export const mainNavItem: MenuInterface[] = [
   {
@@ -49,14 +53,20 @@ export const mainNavItem: MenuInterface[] = [
   {
     pathname: "/deposit",
     item: "Deposit",
-    icon1: wallet,
-    icon2: walletHover,
+    icon1: deposit,
+    icon2: depositHover,
   },
   {
     pathname: "/licenses",
     item: "Licenses",
     icon1: filelock,
     icon2: filelockHover,
+  },
+  {
+    pathname: "/wallet",
+    item: "Wallet",
+    icon1: wallet,
+    icon2: walletHover,
   },
 ];
 export const subNavItem: MenuInterface[] = [
@@ -112,7 +122,7 @@ export const dashboardCard: CadeInterface[] = [
   {
     img: file,
     name: "licence",
-    title: "Active Licenses",
+    title: "My Wallet",
     secretCode: "12/24",
   },
 ];
@@ -130,8 +140,8 @@ export const dashboardCard2: CadeInterface2[] = [
   },
   {
     img: laptopMobile,
-    title: "Your Logins",
-    number: "96",
+    title: "Active Licence",
+    number: "12/15",
   },
   {
     img: ticket,
@@ -168,4 +178,12 @@ export const tableData: TTable[] = [
   { table: true },
   { table: true },
 ];
-export const images = { home, homeHover, profile, trophy, qrCode, loginImage };
+export const images = {
+  home,
+  homeHover,
+  profile,
+  trophy,
+  qrCode,
+  loginImage,
+  logo,
+};

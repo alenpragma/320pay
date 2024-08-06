@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { mainNavItem, subNavItem } from "../..";
+import { images, mainNavItem, subNavItem } from "../..";
 import { MenuInterface } from "../../types/menuType";
 
 interface SidebarProps {
@@ -68,7 +68,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="flex items-center justify-between gap-2 px-6 py-2 lg:py-2.5 pt-8">
         <NavLink to="/dashboard" className=" w-full">
           <h1 className="text-[24px] font-semibold text-black mx-auto w-fit">
-            Web 320
+            <img src={images.logo} alt="" />
           </h1>
         </NavLink>
 

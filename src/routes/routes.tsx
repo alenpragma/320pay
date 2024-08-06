@@ -10,6 +10,7 @@ import DepositLog from "../pages/DepositLog/DepositLog";
 import Login from "../pages/Register/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoute from "../comonents/ProtectRouter/ProtectRoute";
+import Wallet from "../pages/Wallet/WalletPage";
 
 const routes = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const routes = createBrowserRouter([
       {
         path: "/deposit",
         element: <Deposit />,
+      },
+      {
+        path: "/wallet",
+        element: <Wallet />,
       },
       {
         path: "/licenses",
