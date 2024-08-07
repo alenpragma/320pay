@@ -9,5 +9,7 @@ export const setToLocalStorage = (value: FieldValues) => {
 export const removeLogedUser = () => {
   localStorage.removeItem(keyName);
   localStorage.removeItem(keyPassword);
+  localStorage.removeItem("privateKey");
+  localStorage.removeItem("address");
   window.location.reload();
 };

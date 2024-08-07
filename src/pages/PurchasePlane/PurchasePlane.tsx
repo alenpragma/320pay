@@ -30,18 +30,18 @@ const PurchasePlane = () => {
             <table className=" border-collapse w-full">
               <thead>
                 <tr className="bg-[#E2E2E9] text-secondary">
-                  <th className="py-2 px-8 text-start">Order Id</th>
-                  <th className="py-2 px-8 text-start">Plan</th>
-                  <th className="py-2 px-8 text-start">Price</th>
-                  <th className="py-2 px-8 text-start">Created</th>
-                  <th className="py-2 px-8 text-start">Total Days</th>
-                  <th className="py-2 px-8 text-start">Status</th>
-                  <th className="py-2 px-8 text-start">Actions</th>
+                  <th className="py-2 px-6 text-start">Order Id</th>
+                  <th className="py-2 px-6 text-start">Plan</th>
+                  <th className="py-2 px-6 text-start">Price</th>
+                  <th className="py-2 px-6 text-start">Created</th>
+                  <th className="py-2 px-6 text-start">Total Days</th>
+                  <th className="py-2 px-6 text-start">Status</th>
+                  <th className="py-2 px-6 text-start">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
-                  <tr key={i} className="border-b border-[#E2E2E9]">
+                  <tr key={i} className="border-b border-[#E2E2E9] text-[#616365]">
                     <TData data="#76380" />
                     <TData data="1 Month" />
                     <TData data="80 USD" />

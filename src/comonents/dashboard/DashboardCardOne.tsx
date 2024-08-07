@@ -60,7 +60,7 @@ const DashboardCardOne = () => {
                       </Link>
                     ) : (
                       <p className="flex justify-between items-center">
-                        {`${address?.slice(0, 8)} .........${address?.slice(
+                        {`${address?.slice(0, 6)} .....${address?.slice(
                           -6
                         )}`}{" "}
                         <span className="text-[#5734DC] md:text-[24px] text-[20px]">

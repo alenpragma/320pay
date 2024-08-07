@@ -21,16 +21,20 @@ import smile from "./assets/icon/navIcon/smiley.svg";
 import smileHover from "./assets/icon/navIcon/smiley-hover.svg";
 import deposit from "./assets/icon/navIcon/deposit.svg";
 import depositHover from "./assets/icon/navIcon/deposit-hover.svg";
+import transaction from "./assets/icon/navIcon/transactin.svg";
+import transactionHover from "./assets/icon/navIcon/transaction-hover.svg";
 
 import file from "./assets/icon/dashboard/file.svg";
+import wallet2 from "./assets/icon/dashboard/wallet-2.svg";
 import profile from "./assets/icon/dashboard/profile.svg";
-import dWallet from "./assets/icon/dashboard/wallet.svg";
 import { CadeInterface, CadeInterface2 } from "./types/dashboardType";
 
 import trophy from "./assets/icon/dashboard/trophy.svg";
 import shield from "./assets/icon/dashboard/shield-quartered.svg";
 import laptopMobile from "./assets/icon/dashboard/laptop-mobile.svg";
 import ticket from "./assets/icon/dashboard/ticket.svg";
+import dWallet from "./assets/icon/dashboard/wallet.svg";
+
 
 import qrCode from "./assets/image/diposit/qr-code.png";
 import loginImage from "./assets/image/login/login.png";
@@ -77,12 +81,6 @@ export const subNavItem: MenuInterface[] = [
     icon2: layerHover,
   },
   {
-    pathname: "/orders",
-    item: "Orders",
-    icon1: layers,
-    icon2: layerHover,
-  },
-  {
     pathname: "/deposit-log",
     item: "Deposit Log",
     icon1: clock,
@@ -99,6 +97,12 @@ export const subNavItem: MenuInterface[] = [
     item: "Referral",
     icon1: gift,
     icon2: giftHover,
+  },
+  {
+    pathname: "/transition-history",
+    item: "Transition History",
+    icon1: transaction,
+    icon2: transactionHover,
   },
   {
     pathname: "/raise-ticket",
@@ -120,9 +124,9 @@ export const dashboardCard: CadeInterface[] = [
     secretCode: "5000",
   },
   {
-    img: file,
-    name: "licence",
-    title: "My Wallet",
+    img: wallet2,
+    name: "wallet",
+    title: "Wallet",
     secretCode: "12/24",
   },
 ];
@@ -135,12 +139,12 @@ export const dashboardCard2: CadeInterface2[] = [
   },
   {
     img: shield,
-    title: "Domains",
+    title: "Domain",
     number: "96",
   },
   {
-    img: laptopMobile,
-    title: "Active Licence",
+    img: file,
+    title: "Your Logins",
     number: "12/15",
   },
   {
@@ -186,4 +190,5 @@ export const images = {
   qrCode,
   loginImage,
   logo,
+  wallet2
 };

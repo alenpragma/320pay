@@ -4,13 +4,13 @@ import StartHere from "../pages/StartHere/StartHere";
 import Deposit from "../pages/Deposit/Deposit";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Licenses from "../pages/Licenses/Licenses";
-import Orders from "../pages/Orders/Orders";
 import PurchasePlane from "../pages/PurchasePlane/PurchasePlane";
 import DepositLog from "../pages/DepositLog/DepositLog";
 import Login from "../pages/Register/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoute from "../comonents/ProtectRouter/ProtectRoute";
 import Wallet from "../pages/Wallet/WalletPage";
+import TransitionHistory from "../pages/TransitionHistory/TransitionHistory";
 
 const routes = createBrowserRouter([
   {
@@ -42,8 +42,8 @@ const routes = createBrowserRouter([
         element: <Licenses />,
       },
       {
-        path: "/orders",
-        element: <Orders />,
+        path: "/transition-history",
+        element: <TransitionHistory />,
       },
       {
         path: "/purchase-plane",
