@@ -66,7 +66,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-2 lg:py-2.5 pt-8">
-        <NavLink to="/dashboard" className=" w-full">
+        <NavLink to="/" className=" w-full">
           <h1 className="text-[24px] font-semibold text-black mx-auto w-fit">
             <img src={images.logo} alt="" />
           </h1>
@@ -128,7 +128,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <h4 className="font-semibold text-[14px] text-[#868B8F]">
               Post Purchase Step
             </h4>
-            <ul className="mb-6 flex flex-col space-y-2">
+            <ul className="mb-6 mt-6 flex flex-col space-y-2">
               {subNavItem.map((item: MenuInterface, i: number) => (
                 <NavLink
                   key={i}

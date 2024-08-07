@@ -37,12 +37,12 @@ const DepositLog = () => {
             <table className=" border-collapse w-full">
               <thead>
                 <tr className="bg-[#E2E2E9] text-secondary">
-                  <th className="py-2 px-8 text-start">Getway</th>
-                  <th className="py-2 px-8 text-start">Amount</th>
-                  <th className="py-2 px-8 text-start">Date</th>
-                  <th className="py-2 px-8 text-start">Transition ID</th>
-                  <th className="py-2 px-8 text-start">Status</th>
-                  <th className="py-2 px-8 text-start">More</th>
+                  <th className="py-2 px-6 text-start">Getway</th>
+                  <th className="py-2 px-6 text-start">Amount</th>
+                  <th className="py-2 px-6 text-start">Date</th>
+                  <th className="py-2 px-6 text-start">Transition ID</th>
+                  <th className="py-2 px-6 text-start">Status</th>
+                  <th className="py-2 px-6 text-start">More</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
