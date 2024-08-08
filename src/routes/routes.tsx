@@ -8,19 +8,24 @@ import PurchasePlane from "../pages/PurchasePlane/PurchasePlane";
 import DepositLog from "../pages/DepositLog/DepositLog";
 import Login from "../pages/Register/Login";
 import Register from "../pages/Register/Register";
-import PrivateRoute from "../comonents/ProtectRouter/ProtectRoute";
 import Wallet from "../pages/Wallet/WalletPage";
 import TransitionHistory from "../pages/TransitionHistory/TransitionHistory";
+import NotFound from "../pages/NotFound/NotFound";
+import ProtectRoute from "../comonents/ProtectRouter/ProtectRoute";
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: (
-      <PrivateRoute>
+      <ProtectRoute>
         <App />
-      </PrivateRoute>
+      </ProtectRoute>
     ),
     children: [
+      {
+        path: "*",
+        element: <NotFound />,
+      },
       {
         index: true,
         element: <Dashboard />,
@@ -63,10 +68,6 @@ const routes = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
-  },
-  {
-    path: "*",
-    element: <p>NOT FOUND</p>,
   },
 ]);
 

@@ -30,29 +30,46 @@ const PurchasePlane = () => {
             <table className=" border-collapse w-full">
               <thead>
                 <tr className="bg-[#E2E2E9] text-secondary">
-                  <th className="py-2 px-6 text-start">Order Id</th>
-                  <th className="py-2 px-6 text-start">Plan</th>
-                  <th className="py-2 px-6 text-start">Price</th>
-                  <th className="py-2 px-6 text-start">Created</th>
-                  <th className="py-2 px-6 text-start">Total Days</th>
-                  <th className="py-2 px-6 text-start">Status</th>
-                  <th className="py-2 px-6 text-start">Actions</th>
+                  <th className="py-2 px-6 text-start  whitespace-nowrap">
+                    Order Id
+                  </th>
+                  <th className="py-2 px-6 text-start  whitespace-nowrap ">
+                    Plan
+                  </th>
+                  <th className="py-2 px-6 text-start  whitespace-nowrap">
+                    Price
+                  </th>
+                  <th className="py-2 px-6 text-start  whitespace-nowrap">
+                    Created
+                  </th>
+                  <th className="py-2 px-6 text-start  whitespace-nowrap">
+                    Total Days
+                  </th>
+                  <th className="py-2 px-6 text-start  whitespace-nowrap">
+                    Status
+                  </th>
+                  <th className="py-2 px-6 text-start  whitespace-nowrap">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
-                  <tr key={i} className="border-b border-[#E2E2E9] text-[#616365]">
-                    <TData data="#76380" />
-                    <TData data="1 Month" />
-                    <TData data="80 USD" />
-                    <TData data="12 Jun 2025" />
-                    <TData data="30" />
-                    <TData>
+                  <tr
+                    key={i}
+                    className="border-b border-[#E2E2E9] text-[#616365]"
+                  >
+                    <TData data="#76380" className="  px-6" />
+                    <TData data="1 Month" className="  px-6" />
+                    <TData data="80 USD" className="  px-6" />
+                    <TData data="12 Jun 2025" className="  px-6" />
+                    <TData data="30" className="  px-6" />
+                    <TData className="  px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-                        Licenses Genareted
+                        Valid
                       </span>
                     </TData>
-                    <TData>
+                    <TData className="  px-6">
                       <button className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1">
                         View
                       </button>

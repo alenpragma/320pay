@@ -43,12 +43,12 @@ const TransitionHistory = () => {
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
-                    <TData data="12 Jun 2025" />
-                    <TData data="0x625....3a3fA" />
-                    <TData data="80 USD" />
+                    <TData data="12 Jun 2025" className="w-2/12  px-6" />
+                    <TData data="0x625....3a3fA" className="w-2/12  px-6" />
+                    <TData data="80 USD"  className="w-2/12  px-6"/>
 
-                    <TData data="0x625....3a3fA" />
-                    <TData>
+                    <TData data="0x625....3a3fA" className="w-2/12  px-6" />
+                    <TData className="  px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
                         Complete
                       </span>

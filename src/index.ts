@@ -31,15 +31,15 @@ import { CadeInterface, CadeInterface2 } from "./types/dashboardType";
 
 import trophy from "./assets/icon/dashboard/trophy.svg";
 import shield from "./assets/icon/dashboard/shield-quartered.svg";
-import laptopMobile from "./assets/icon/dashboard/laptop-mobile.svg";
 import ticket from "./assets/icon/dashboard/ticket.svg";
 import dWallet from "./assets/icon/dashboard/wallet.svg";
-
 
 import qrCode from "./assets/image/diposit/qr-code.png";
 import loginImage from "./assets/image/login/login.png";
 
 import logo from "./assets/image/logo/logo.png";
+
+import tick from "./assets/icon/Starthere/tick.svg";
 
 export const mainNavItem: MenuInterface[] = [
   {
@@ -154,33 +154,95 @@ export const dashboardCard2: CadeInterface2[] = [
   },
 ];
 
-type TTable = { table: boolean };
+type TTable = { table: boolean; status: boolean };
 export const tableData: TTable[] = [
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
-  { table: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: false },
+  { table: true, status: true },
+  { table: true, status: false },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: false },
+  { table: true, status: false },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+  { table: true, status: true },
+];
+
+export const PlanData = [
+  {
+    plan: "Small",
+    price: [
+      {
+        price: "80",
+        duration: "1 Month",
+      },
+    ],
+    feature: {
+      featureOne: "All-Chains",
+      featureTwo: "Unlimited Account",
+      featureThree: "Limited Customer Support",
+    },
+  },
+  {
+    plan: "Starter",
+    price: [
+      {
+        price: "225",
+        duration: "3 Month",
+      },
+    ],
+    feature: {
+      featureOne: "All-Chains",
+      featureTwo: "Unlimited Account",
+      featureThree: "Limited Customer Support",
+    },
+      save: "6.03"
+  },
+  {
+    plan: "Basic",
+    price: [
+      {
+        price: "2250",
+        duration: "Life Time",
+      },
+    ],
+    feature: {
+      featureOne: "All-Chains",
+      featureTwo: "Unlimited Account",
+      featureThree: "Limited Customer Support",
+    },
+      save: "18"
+  },
+  {
+    plan: "Basic",
+    price: [
+      {
+        price: "780",
+        duration: "1 Years",
+      },
+    ],
+    feature: {
+      featureOne: "All-Chains",
+      featureTwo: "Unlimited Account",
+      featureThree: "Limited Customer Support",
+    },
+      save: "150"
+  },
 ];
 export const images = {
   home,
@@ -190,5 +252,6 @@ export const images = {
   qrCode,
   loginImage,
   logo,
-  wallet2
+  wallet2,
+  tick,
 };

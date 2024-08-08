@@ -3,9 +3,11 @@ import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 import Modal from "../../comonents/Modal/Modal";
 import Pagination from "../../comonents/Pagination/Pagination";
+import Renew from "../../comonents/Modal/Renew";
 
 const Licenses = () => {
   const [modal, setModal] = useState<boolean>(false);
+  const [renewModal, setRenewModal] = useState<boolean>(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -23,9 +25,13 @@ const Licenses = () => {
   const handleModal = () => {
     setModal(!modal);
   };
+  const handleRenewModal = () => {
+    setRenewModal(!renewModal);
+  };
   return (
     <>
       <Modal handleModal={handleModal} modal={modal} />
+      <Renew handleRenewModal={handleRenewModal} renewModal={renewModal} />
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
           <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
@@ -34,37 +40,58 @@ const Licenses = () => {
         </div>
         <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
           <div className="overflow-x-auto w-full">
-            <table className=" border-collapse w-full">
+            <table className=" border-collapse md:w-full w-fit">
               <thead>
                 <tr className="bg-[#E2E2E9] text-secondary">
-                  <th className="py-2 px-6 text-start">Order Id</th>
-                  <th className="py-2 px-6 text-start">Domain</th>
-                  <th className="py-2 px-6 text-start">Status</th>
+                  <th className="py-2 px-6 text-start">SL</th>
+                  <th className="py-2 px-6 text-start">Server</th>
                   <th className="py-2 px-6 text-start">Start</th>
                   <th className="py-2 px-6 text-start">Expiry</th>
+                  <th className="py-2 px-6 text-start">Status</th>
                   <th className="py-2 px-6 text-start">More</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
-                    <TData data="#76380" />
-                    <TData data="BitCoin_Web30" />
-                    <TData>
-                      <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-                        Active
-                      </span>
+                    <TData
+                      children={` ${i <= 8 ? "0" : ""}${i + 1}`}
+                      className="w-2/12 px-6"
+                    />
+                    <TData data="BitCoin_Web30" className="w-2/12  px-6" />
+                    <TData data="12 Jun 2024" className="w-2/12 px-6" />
+                    <TData data="12 Jun 2025" className="w-2/12 px-6" />
+                    <TData className="md:w-2/12 w-full px-6">
+                      <div className="md:w-7/12 w-full">
+                        {item.status === true ? (
+                          <button className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded py-1 w-full   md:px-0 px-3">
+                            Active
+                          </button>
+                        ) : (
+                          <button className="font-semibold text-[14px] text-[#FF9F43] bg-[#FFECD9] rounded py-1 w-full   md:px-0 px-3">
+                            Expired
+                          </button>
+                        )}
+                      </div>
                     </TData>
-
-                    <TData data="12 Jun 2024" />
-                    <TData data="12 Jun 2025" />
-                    <TData>
-                      <button
-                        onClick={handleModal}
-                        className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
-                      >
-                        Details
-                      </button>
+                    <TData className="md:w-2/12 w-full px-6">
+                      <div className="md:w-7/12 w-full">
+                        {item.status === true ? (
+                          <button
+                            onClick={handleModal}
+                            className="font-semibold text-[14px] text-white bg-[#000000ae] rounded w-full py-1  md:px-0 px-3"
+                          >
+                            Details
+                          </button>
+                        ) : (
+                          <button
+                            onClick={handleRenewModal}
+                            className="font-semibold text-[14px] text-white bg-primary rounded w-full  py-1   md:px-0 px-3"
+                          >
+                            Renew
+                          </button>
+                        )}
+                      </div>
                     </TData>
                   </tr>
                 ))}

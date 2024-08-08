@@ -36,7 +36,7 @@ const DepositLog = () => {
           <div className="overflow-x-auto w-full">
             <table className=" border-collapse w-full">
               <thead>
-                <tr className="bg-[#E2E2E9] text-secondary">
+                <tr className="bg-[#E2E2E9] text-[#616365]">
                   <th className="py-2 px-6 text-start">Getway</th>
                   <th className="py-2 px-6 text-start">Amount</th>
                   <th className="py-2 px-6 text-start">Date</th>
@@ -48,16 +48,16 @@ const DepositLog = () => {
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
-                    <TData data="Crypto" />
-                    <TData data="80 USD" />
-                    <TData data="12 Jun 2025" />
-                    <TData data="0x62535......68ad3a3fA" />
-                    <TData>
+                    <TData data="Crypto"  className="w-2/12  px-6"/>
+                    <TData data="80 USD"  className="w-2/12  px-6"/>
+                    <TData data="12 Jun 2025"  className="w-2/12  px-6"/>
+                    <TData data="0x62535......68ad3a3fA"  className="w-2/12  px-6"/>
+                    <TData  className="w-2/12  px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
                         Complete
                       </span>
                     </TData>
-                    <TData>
+                    <TData  className="w-2/12  px-6">
                       <button className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1">
                         View
                       </button>
