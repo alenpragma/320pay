@@ -22,7 +22,7 @@ const Login = () => {
   const location = useLocation();
   const Navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  const [showPassword, setShowPassword] = useState<boolean | null>(false);
+  const [showPassword, setShowPassword] = useState<boolean | null>(true);
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -50,78 +50,80 @@ const Login = () => {
       <div className="flex-1 md:block hidden">
         <img className="w-full h-auto" src={images.loginImage} alt="" />
       </div>
-      <div className="flex-1 md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md">
-        <h4 className="text-primary text-[24px] font-semibold">
-          Web 320 Payment
-        </h4>
-        <p className="text-secondary font-semibold ">
-          Welcome To Web 320 Payment
-        </p>
-        <Form
-          onSubmit={formSubmit}
-          resolver={zodResolver(validationSchema)}
-          defaultValues={{
-            username: "",
-            password: "",
-          }}
-        >
-          <div className="space-y-6 mt-8">
-            <div className="space-y-1 ">
-              <label
-                htmlFor="name"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
-                Username
-              </label>
-              <div className="relative">
-                <InputField
-                  name="username"
-                  type="text"
-                  className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                  placeholder="Enter your user name"
-                />
-                <FaUser className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
-              </div>
-            </div>
-            <div className="space-y-1 ">
-              <label
-                htmlFor="password"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
-                Password
-              </label>
-              <div className="relative">
-                <InputField
-                  name="password"
-                  type={showPassword ? "password" : "text"}
-                  className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                  placeholder="password"
-                />
-                <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
-                {showPassword ? (
-                  <FaRegEyeSlash
-                    onClick={handleShowPassword}
-                    className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+      <div className="flex-1">
+        <div className="md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md md:w-3/4 w-full mx-auto">
+          <h4 className="text-primary text-[24px] font-semibold">
+            Web 320 Payment
+          </h4>
+          <p className="text-secondary font-semibold ">
+            Welcome To Web 320 Payment
+          </p>
+          <Form
+            onSubmit={formSubmit}
+            resolver={zodResolver(validationSchema)}
+            defaultValues={{
+              username: "",
+              password: "",
+            }}
+          >
+            <div className="space-y-6 mt-8">
+              <div className="space-y-3">
+                <label
+                  htmlFor="name"
+                  className="text-[#3e3e3e] font-semibold text-[18px]"
+                >
+                  Username
+                </label>
+                <div className="relative">
+                  <InputField
+                    name="username"
+                    type="text"
+                    className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
+                    placeholder="Enter your user name"
                   />
-                ) : (
-                  <FaRegEye
-                    onClick={handleShowPassword}
-                    className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
-                  />
-                )}
+                  <FaUser className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
+                </div>
               </div>
+              <div className="space-y-3">
+                <label
+                  htmlFor="password"
+                  className="text-[#3e3e3e] font-semibold text-[18px]"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <InputField
+                    name="password"
+                    type={showPassword ? "password" : "text"}
+                    className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
+                    placeholder="password"
+                  />
+                  <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
+                  {showPassword ? (
+                    <FaRegEyeSlash
+                      onClick={handleShowPassword}
+                      className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+                    />
+                  ) : (
+                    <FaRegEye
+                      onClick={handleShowPassword}
+                      className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+                    />
+                  )}
+                </div>
+              </div>
+              <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
+                Login
+              </button>
+              <p className="text-secondary text-[14px]">
+                Don't have an Account?{" "}
+                <Link to="/register" className="text-primary">
+                  Sign Up
+                </Link>
+              </p>
             </div>
-            <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
-              Login
-            </button>
-            <p className="text-secondary text-[14px]">
-              Don't have an Account?{" "}
-              <Link to="/register" className="text-primary">
-                Sign Up
-              </Link>
-            </p>
-          </div>
-        </Form>
+          </Form>
+        </div>
       </div>
     </div>
   );

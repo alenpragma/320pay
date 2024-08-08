@@ -24,7 +24,7 @@ const DashboardTable = () => {
         <div className="overflow-x-auto w-full">
           <table className="overflow-x-auto border-collapse w-full">
             <thead>
-              <tr className="bg-[#E2E2E9]">
+              <tr className="bg-[#E2E2E9] text-[#616365]">
                 <th className="py-2 px-6 text-start">Location</th>
                 <th className="py-2 px-6 text-start">Status</th>
                 <th className="py-2 px-6 text-start">Device</th>
@@ -35,15 +35,15 @@ const DashboardTable = () => {
             <tbody className="bg-white">
               {currentItems.map((item, i) => (
                 <tr key={i} className="border-b border-[#E2E2E9]">
-                  <TData data="London, Uk" />
-                  <TData>
+                  <TData  data="London, Uk" className=" px-6"/>
+                  <TData className=" px-6">
                     <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded py-1 px-3">
                       Ok
                     </span>
                   </TData>
-                  <TData data="Chrome - Windows 10" />
-                  <TData data="162.158.163.86" />
-                  <TData data="21 hours ago" />
+                  <TData data="Chrome - Windows 10" className=" px-6"/>
+                  <TData data="162.158.163.86" className=" px-6" />
+                  <TData data="21 hours ago" className=" px-6"/>
                 </tr>
               ))}
             </tbody>
