@@ -6,7 +6,6 @@ import { ethers } from "ethers";
 
 const Deposit = () => {
   const [textToCopy, setTextToCopy] = useState<string | null>("");
-  const [loading, setLoading] = useState<boolean>(true);
   const handleCopy = (copy: string | null) => {
     copyToClipboard(textToCopy);
     setTextToCopy(copy);
@@ -22,12 +21,9 @@ const Deposit = () => {
     const privateKey = wallet.privateKey;
     localStorage.setItem("address", address);
     localStorage.setItem("privateKey", privateKey);
-    setLoading(false);
     window.location.reload();
   };
-  if (loading) {
-    return <p>Loading.........</p>;
-  }
+
   return (
     <div className="md:p-8 pt-5">
       <div className="md:w-2/5 w-11/12 mx-auto ">
