@@ -54,8 +54,16 @@ const Licenses = () => {
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
-                    <TData
+                    {/* <TData
                       children={` ${i <= 8 ? "0" : ""}${i + 1}`}
+                      className="w-2/12 px-6"
+                    /> */}
+                    <TData
+                      children={`${
+                        indexOfFirstItem + i + 1 <= 9
+                          ? `0${indexOfFirstItem + i + 1}`
+                          : indexOfFirstItem + i + 1
+                      }`}
                       className="w-2/12 px-6"
                     />
                     <TData data="BitCoin_Web30" className="w-2/12  px-6" />

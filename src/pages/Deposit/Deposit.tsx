@@ -17,7 +17,7 @@ const Deposit = () => {
           <select
             name=""
             id=""
-            className="w-full px-2 py-2 rounded border border-slate-300 focus:outline focus:outline-slate-400"
+            className="w-full py-2 rounded border border-slate-300 focus:outline focus:outline-slate-400 px-2"
           >
             <option value="bitcoin">bitcoin</option>
             <option value="bitcoin">bitcoin</option>
