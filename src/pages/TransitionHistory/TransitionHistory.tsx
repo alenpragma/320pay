@@ -3,6 +3,13 @@ import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 import Pagination from "../../comonents/Pagination/Pagination";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+
+const options = [
+  { value: "bnb", label: "BNB" },
+  { value: "btc", label: "BTC" },
+  { value: "usd", label: "USD" },
+];
 
 const TransitionHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,12 +28,13 @@ const TransitionHistory = () => {
   return (
     <>
       <div className="md:p-6 px-3 pt-4">
-        <div className="flex justify-end">
-          <Link to="/deposit">
-            <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
+        <div className="flex justify-start">
+          <div>
+            <Select options={options} classNamePrefix="custom-select" placeholder="Select Here "/>
+            {/* <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
               Deposit Now
-            </button>
-          </Link>
+            </button> */}
+          </div>
         </div>
         <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
           <div className="overflow-x-auto w-full">
@@ -43,11 +51,11 @@ const TransitionHistory = () => {
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
-                    <TData data="12 Jun 2025" className="w-2/12  px-6" />
-                    <TData data="0x625....3a3fA" className="w-2/12  px-6" />
-                    <TData data="80 USD"  className="w-2/12  px-6"/>
+                    <TData data="12 Jun 2025" className="  px-6" />
+                    <TData data="0x625....3a3fA" className="  px-6" />
+                    <TData data="80 USD" className="  px-6" />
 
-                    <TData data="0x625....3a3fA" className="w-2/12  px-6" />
+                    <TData data="0x625....3a3fA" className="  px-6" />
                     <TData className="  px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
                         Complete

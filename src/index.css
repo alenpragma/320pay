@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ------------react select style start------------- */
+/* style.css */
+
+.custom-select__control {
+  background-color: #5734DC !important;
+  color: white !important;
+  font-weight: 500 !important;
+  border-color: #5734DC !important;
+  width: 150px !important;
+}
+
+.custom-select__single-value {
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+.custom-select__option {
+  background-color: white !important;
+  color: black !important;
+  font-weight: 500 !important;
+}
+
+.custom-select__option--is-focused {
+  background-color: lightblue !important;
+}
+
+.custom-select__option--is-selected {
+  background-color: #5734DC !important;
+  color: white !important;
+}
+
+.custom-select__menu {
+  /* background-color: #5734DC !important; */
+}
+
+.custom-select__placeholder {
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+.custom-select__indicator {
+  color: white !important; /* This will make the dropdown icon white */
+}
+
+.custom-select__indicator-separator {
+  background-color: white !important; /* This will make the separator line white, if present */
+}
+
+/* ------------react select style end------------- */

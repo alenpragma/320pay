@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { images } from "../..";
-import { copyToClipboard } from "../../utils/Actions";
-import { FaCopy } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import Form from "../Forms/Form";
 import { FieldValues, SubmitHandler } from "react-hook-form";

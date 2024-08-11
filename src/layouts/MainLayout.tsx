@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom"
-import { useState } from "react"
-import Sidebar from "../comonents/Sidebar/Sidebar"
-import Header from "../comonents/Header"
+import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import Sidebar from "../comonents/Sidebar/Sidebar";
+import Header from "../comonents/Header";
 
 export default function MainLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
@@ -20,9 +20,7 @@ export default function MainLayout() {
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
             <div className="lg:max-w-[1180px] mx-auto">
-              <div className="">
-                <Outlet />
-              </div>
+              <Outlet />
             </div>
           </main>
           {/* <!-- ===== Main Content End ===== --> */}
@@ -30,5 +28,5 @@ export default function MainLayout() {
       </div>
       {/* <!-- ===== Page Wrapper End ===== --> */}
     </div>
-  )
+  );
 }
