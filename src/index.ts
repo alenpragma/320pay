@@ -41,6 +41,10 @@ import logo from "./assets/image/logo/logo.png";
 
 import tick from "./assets/icon/Starthere/tick.svg";
 
+import lottie from "./assets/lottie/loading.json";
+
+export const loading = lottie
+
 export const mainNavItem: MenuInterface[] = [
   {
     pathname: "/",
@@ -93,8 +97,8 @@ export const subNavItem: MenuInterface[] = [
     icon2: domainHover,
   },
   {
-    pathname: "/referral",
-    item: "Referral",
+    pathname: "/referal",
+    item: "Referal",
     icon1: gift,
     icon2: giftHover,
   },
@@ -211,7 +215,7 @@ export const PlanData = [
       featureTwo: "Unlimited Account",
       featureThree: "Limited Customer Support",
     },
-      save: "6.03"
+    save: "6.03",
   },
   {
     plan: "Basic",
@@ -226,7 +230,7 @@ export const PlanData = [
       featureTwo: "Unlimited Account",
       featureThree: "Limited Customer Support",
     },
-      save: "18"
+    save: "18",
   },
   {
     plan: "Basic",
@@ -241,7 +245,7 @@ export const PlanData = [
       featureTwo: "Unlimited Account",
       featureThree: "Limited Customer Support",
     },
-      save: "150"
+    save: "150",
   },
 ];
 export const images = {

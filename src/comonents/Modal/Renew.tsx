@@ -4,6 +4,9 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import SelectField from "../Forms/SelecetField";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import SelectIcon from "../SelectIcon/SelectIcon";
+import { useState } from "react";
+import Loading from "../Lottie/Loading";
 
 type IModal = {
   handleRenewModal: () => void;
@@ -22,7 +25,9 @@ export const validationSchema = z.object({
 });
 
 const Renew = ({ handleRenewModal, renewModal }: IModal) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true);
     console.log(data);
   };
 
@@ -73,14 +78,15 @@ const Renew = ({ handleRenewModal, renewModal }: IModal) => {
                 <span className="text-[18px] text-[#616365] font-semibold">
                   Choose Plan
                 </span>{" "}
-                <span className="text-[16px]">
+                <div className="relative">
                   <SelectField
                     name="month"
-                    className="px-2 py-2 rounded border border-slate-300 focus:outline focus:outline-slate-400 bg-primary text-white font-medium"
+                    className="appearance-none px-2 pr-8 py-2 rounded border border-slate-300 focus:outline focus:outline-slate-400 bg-primary text-white font-medium w-full"
                     options={monthName}
                     placeholder="Please select an option"
                   />
-                </span>
+                  <SelectIcon />
+                </div>
               </div>
               <div className="flex justify-center items-center md:my-16 my-8 text-center w-full ">
                 <p className="text-[#616365] font-semibold text-[18px]">
@@ -91,9 +97,15 @@ const Renew = ({ handleRenewModal, renewModal }: IModal) => {
                 </h4>
               </div>
               <div className="flex justify-center items-center">
-                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%] focus:bg-red-500">
-                  Submit
-                </button>
+                {loading ? (
+                  <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
+                    <Loading />
+                  </button>
+                ) : (
+                  <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
+                    Submit
+                  </button>
+                )}
               </div>
             </Form>
           </div>

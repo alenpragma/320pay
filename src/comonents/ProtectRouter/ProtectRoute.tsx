@@ -29,7 +29,7 @@ const ProtectRoute = ({ children } : any) => {
   const name = localStorage.getItem("username");
   const password = localStorage.getItem("password");
   const location = useLocation();
-  console.log(location.pathname);
+  // console.log(location.pathname);
 
   if (userInfo.name === name && userInfo.password === password) {
     if (location.pathname === "/login") {

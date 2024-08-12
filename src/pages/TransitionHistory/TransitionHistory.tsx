@@ -2,7 +2,6 @@ import { useState } from "react";
 import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 import Pagination from "../../comonents/Pagination/Pagination";
-import { Link } from "react-router-dom";
 import Select from "react-select";
 
 const options = [
@@ -24,13 +23,21 @@ const TransitionHistory = () => {
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-
+  const [selectValue, setSelectValue] = useState("");
+  const hanldeChenge = (e: any) => {
+    setSelectValue(e.label);
+  };
   return (
     <>
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-start">
           <div>
-            <Select options={options} classNamePrefix="custom-select" placeholder="Select Here "/>
+            <Select
+              options={options}
+              classNamePrefix="custom-select"
+              placeholder="Select Here "
+              onChange={hanldeChenge}
+            />
             {/* <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
               Deposit Now
             </button> */}
@@ -53,7 +60,7 @@ const TransitionHistory = () => {
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     <TData data="12 Jun 2025" className="  px-6" />
                     <TData data="0x625....3a3fA" className="  px-6" />
-                    <TData data="80 USD" className="  px-6" />
+                    <TData data={`80 ${selectValue}`} className="  px-6" />
 
                     <TData data="0x625....3a3fA" className="  px-6" />
                     <TData className="  px-6">

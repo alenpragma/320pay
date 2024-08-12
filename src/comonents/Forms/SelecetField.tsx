@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from "react-hook-form";
 
 type TOption = {
- name: string
+  name: string;
 };
 
 type TSelectProps = {
@@ -50,39 +50,3 @@ const SelectField = ({
 };
 
 export default SelectField;
-
-
-
-
-
-// import { Controller, useFormContext } from "react-hook-form";
-
-// type TFieldValue = {
-//     category
-// }
-// const SelectField = ({ category, placeholder, id, name, className }) => {
-//   const { control } = useFormContext();
-//   return (
-//     <Controller
-//       control={control}
-//       name={name}
-//       rules={{
-//         required: true,
-//       }}
-//       render={({ field }) => (
-//         <select {...field} id={id} className={className}>
-//           <option value={placeholder} disabled>
-//             {placeholder}
-//           </option>
-//           {category?.map((option) => (
-//             <option key={option._id} value={option.categoryName}>
-//               {option.categoryName}
-//             </option>
-//           ))}
-//         </select>
-//       )}
-//     />
-//   );
-// };
-
-// export default SelectField;
