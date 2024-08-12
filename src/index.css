@@ -10,7 +10,7 @@
   color: white !important;
   font-weight: 500 !important;
   border-color: #5734DC !important;
-  width: 150px !important;
+  width: 180px !important;
 }
 
 .custom-select__single-value {
@@ -51,3 +51,6 @@
 }
 
 /* ------------react select style end------------- */
+
+
+
