@@ -37,13 +37,13 @@ import dWallet from "./assets/icon/dashboard/wallet.svg";
 import qrCode from "./assets/image/diposit/qr-code.png";
 import loginImage from "./assets/image/login/login.png";
 
-import logo from "./assets/image/logo/logo.png";
+import logo from "./assets/logos/logo.png";
 
 import tick from "./assets/icon/Starthere/tick.svg";
 
 import lottie from "./assets/lottie/loading.json";
 
-export const loading = lottie
+export const loading = lottie;
 
 export const mainNavItem: MenuInterface[] = [
   {
