@@ -45,6 +45,8 @@ import lottie from "./assets/lottie/loading.json";
 
 export const loading = lottie;
 
+import usdt from "./assets/icon/payment/usdt.svg"
+
 export const mainNavItem: MenuInterface[] = [
   {
     pathname: "/",
@@ -73,6 +75,12 @@ export const mainNavItem: MenuInterface[] = [
   {
     pathname: "/wallet",
     item: "Wallet",
+    icon1: wallet,
+    icon2: walletHover,
+  },
+  {
+    pathname: "/payment",
+    item: "Payment",
     icon1: wallet,
     icon2: walletHover,
   },
@@ -258,4 +266,5 @@ export const images = {
   logo,
   wallet2,
   tick,
+  usdt
 };

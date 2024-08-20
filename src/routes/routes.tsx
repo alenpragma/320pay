@@ -12,6 +12,7 @@ import Wallet from "../pages/Wallet/WalletPage";
 import TransitionHistory from "../pages/TransitionHistory/TransitionHistory";
 import NotFound from "../pages/NotFound/NotFound";
 import ProtectRoute from "../comonents/ProtectRouter/ProtectRoute";
+import Payment from "../pages/Payment/Payment";
 
 const routes = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const routes = createBrowserRouter([
       {
         path: "/wallet",
         element: <Wallet />,
+      },
+      {
+        path: "/payment",
+        element: <Payment />,
       },
       {
         path: "/licenses",
