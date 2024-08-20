@@ -52,6 +52,7 @@ const TransitionHistory = () => {
                   <th className="py-2 px-6 text-start">Transaction Hash</th>
                   <th className="py-2 px-6 text-start">Amount</th>
                   <th className="py-2 px-6 text-start">From Wallet</th>
+                  <th className="py-2 px-6 text-start">To Wallet</th>
                   <th className="py-2 px-6 text-start">Status</th>
                 </tr>
               </thead>
@@ -62,6 +63,7 @@ const TransitionHistory = () => {
                     <TData data="0x625....3a3fA" className="  px-6" />
                     <TData data={`80 ${selectValue}`} className="  px-6" />
 
+                    <TData data="0x625....3a3fA" className="  px-6" />
                     <TData data="0x625....3a3fA" className="  px-6" />
                     <TData className="  px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
