@@ -16,7 +16,6 @@ const SelectField = ({
   name,
   className,
   options,
-  placeholder,
   required,
 }: TSelectProps) => {
   const { control } = useFormContext();
