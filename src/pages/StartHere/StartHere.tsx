@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { TiTick } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import StartHereModal from "../../comonents/Modal/StartHereModdal";
 import { images, PlanData } from "../..";
@@ -28,7 +27,7 @@ const StartHere = () => {
           {PlanData.map((data, i) => (
             <div
               key={i}
-              className="p-6 space-y-6 border-t-2 border-t-primary rounded-3xl shadow-md duration-300 hover:shadow-xl"
+              className="p-6 space-y-6 border-t-2 border-t-primary rounded-3xl shadow-md duration-300 hover:shadow-xl hover:translate-y-2"
             >
               <div>
                 <div className="flex items-center gap-4">
