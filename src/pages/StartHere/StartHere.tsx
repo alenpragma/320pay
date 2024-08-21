@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 import StartHereModal from "../../comonents/Modal/StartHereModdal"
 import { images, PlanData } from "../.."
 import axiosInstance from "../../utils/axiosConfig"
+import Loading from "../../comonents/Lottie/Loading"
+import { PuffLoader } from "react-spinners"
 
 type IPackage = {
   id: number
@@ -21,17 +23,21 @@ type IPackage = {
 
 const StartHere = () => {
   const [modal, setModal] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [packages, setPackages] = useState<any>([])
 
   const getDatas = async () => {
+    setLoading(true)
     try {
       const response = await axiosInstance.get("/client/packages")
       console.log(response)
       if (response?.data?.packages) {
+        setLoading(false)
         setPackages(response?.data?.packages)
       }
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
@@ -58,6 +64,9 @@ const StartHere = () => {
             </button>
           </Link>
         </div>
+        {loading && packages.length === 0 && (
+          <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
+        )}
         <div className="grid md:grid-cols-4 grid-cols-2 gap-3 mt-8">
           {packages?.map((data: IPackage, i: Key) => (
             <div
