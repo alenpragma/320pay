@@ -22,7 +22,7 @@ const Payment = () => {
   const [isToggled0, setIsToggled0] = useState(false);
   const [isToggled1, setIsToggled1] = useState(false);
   const [isToggled2, setIsToggled2] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
 
   const handleToggle0 = () => {
     setIsToggled0(!isToggled0);
@@ -53,12 +53,12 @@ const Payment = () => {
           <div className="overflow-x-auto w-full mt-6">
             <table className=" border-collapse w-full">
               <thead>
-                <tr className="bg-[#E2E2E9] text-secondary">
+                <tr className="bg-[#FAFAFA] text-secondary">
                   <th className="py-2 px-6 text-start  whitespace-nowrap">
                     Currency
                   </th>
                   <th className="py-2 px-6 text-start  whitespace-nowrap ">
-                    Address
+                    NetWork
                   </th>
                   <th className="py-2 px-6 text-start  whitespace-nowrap">
                     Status
@@ -85,7 +85,7 @@ const Payment = () => {
                   <TData className="  px-6">
                     <button
                       className={`font-semibold text-[14px] ${
-                        isToggled0 ? "text-green-500" : "text-red-500"
+                        isToggled0 ? "text-[#4FC55B]" : "text-[#FF8109]"
                       } bg-[#DCF3DE] rounded py-1 w-[100px]   md:px-0 px-3`}
                     >
                       {isToggled0 ? "Active" : "Deactive"}
@@ -93,13 +93,13 @@ const Payment = () => {
                   </TData>
                   <TData className="  px-6">
                     <div
-                      className={`w-14 h-8 flex items-center rounded-md p-1 cursor-pointer ${
-                        isToggled0 ? "bg-blue-600" : "bg-orange-500"
+                      className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
+                        isToggled0 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
                       }`}
                       onClick={() => handleToggle0()}
                     >
                       <div
-                        className={`bg-white w-6 h-6 rounded-md shadow-md transform duration-300 ease-in-out ${
+                        className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
                           isToggled0 ? "translate-x-6" : ""
                         }`}
                       ></div>{" "}
@@ -122,7 +122,7 @@ const Payment = () => {
                   <TData className="  px-6">
                     <button
                       className={`font-semibold text-[14px] ${
-                        isToggled1 ? "text-green-500" : "text-red-500"
+                        isToggled1 ? "text-[#4FC55B]" : "text-[#FF8109]"
                       } bg-[#DCF3DE] rounded py-1 w-[100px]   md:px-0 px-3`}
                     >
                       {isToggled1 ? "Active" : "Deactive"}
@@ -130,13 +130,13 @@ const Payment = () => {
                   </TData>
                   <TData className="  px-6">
                     <div
-                      className={`w-14 h-8 flex items-center rounded-md p-1 cursor-pointer ${
-                        isToggled1 ? "bg-blue-600" : "bg-orange-500"
+                      className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
+                        isToggled1 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
                       }`}
-                      onClick={() => handleToggl1(1)}
+                      onClick={() => handleToggl1()}
                     >
                       <div
-                        className={`bg-white w-6 h-6 rounded-md shadow-md transform duration-300 ease-in-out ${
+                        className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
                           isToggled1 ? "translate-x-6" : ""
                         }`}
                       ></div>{" "}
@@ -159,7 +159,7 @@ const Payment = () => {
                   <TData className="  px-6">
                     <button
                       className={`font-semibold text-[14px] ${
-                        isToggled2 ? "text-green-500" : "text-red-500"
+                        isToggled2 ? "text-[#4FC55B]" : "text-[#FF8109]"
                       } bg-[#DCF3DE] rounded py-1 w-[100px]   md:px-0 px-3`}
                     >
                       {isToggled2 ? "Active" : "Deactive"}
@@ -167,13 +167,13 @@ const Payment = () => {
                   </TData>
                   <TData className="  px-6">
                     <div
-                      className={`w-14 h-8 flex items-center rounded-md p-1 cursor-pointer ${
-                        isToggled2 ? "bg-blue-600" : "bg-orange-500"
+                      className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
+                        isToggled2 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
                       }`}
                       onClick={() => handleToggl2()}
                     >
                       <div
-                        className={`bg-white w-6 h-6 rounded-md shadow-md transform duration-300 ease-in-out ${
+                        className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
                           isToggled2 ? "translate-x-6" : ""
                         }`}
                       ></div>{" "}

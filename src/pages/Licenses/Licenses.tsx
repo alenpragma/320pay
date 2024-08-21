@@ -42,7 +42,7 @@ const Licenses = () => {
           <div className="overflow-x-auto w-full">
             <table className=" border-collapse md:w-full w-fit">
               <thead>
-                <tr className="bg-[#E2E2E9] text-secondary">
+                <tr className="bg-[#FAFAFA] text-secondary">
                   <th className="py-2 px-6 text-start">SL</th>
                   <th className="py-2 px-6 text-start">Server</th>
                   <th className="py-2 px-6 text-start">Start</th>

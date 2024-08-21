@@ -24,7 +24,7 @@ const DashboardTable = () => {
         <div className="overflow-x-auto w-full">
           <table className="overflow-x-auto border-collapse w-full">
             <thead>
-              <tr className="bg-[#E2E2E9] text-[#616365]">
+              <tr className="bg-[#FAFAFA] text-[#616365]">
                 <th className="py-2 px-6 text-start">Location</th>
                 <th className="py-2 px-6 text-start">Status</th>
                 <th className="py-2 px-6 text-start">Device</th>
