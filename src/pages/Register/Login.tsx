@@ -1,49 +1,55 @@
-import { FaLock, FaUser } from "react-icons/fa";
-import { images } from "../..";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import Form from "../../comonents/Forms/Form";
-import InputField from "../../comonents/Forms/InputField";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { keyName, keyPassword } from "../../lib/KeyName";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaRegEyeSlash } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa";
-import { useState } from "react";
-import { userInfo } from "../../comonents/ProtectRouter/ProtectRoute";
-import Swal from "sweetalert2";
+import { FaLock, FaUser } from "react-icons/fa"
+import { images } from "../.."
+import { FieldValues, SubmitHandler } from "react-hook-form"
+import Form from "../../comonents/Forms/Form"
+import InputField from "../../comonents/Forms/InputField"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { FaRegEyeSlash } from "react-icons/fa"
+import { FaRegEye } from "react-icons/fa"
+import { useState } from "react"
+import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
+import { setPaymentaToken } from "../../hooks/handelAuthToken"
 
 export const validationSchema = z.object({
-  username: z.string().min(1, "This field is required."),
+  email: z.string().min(1, "This field is required."),
   password: z.string().min(1, "This field is required."),
-});
+})
 
 const Login = () => {
-  const location = useLocation();
-  const Navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
-  const [showPassword, setShowPassword] = useState<boolean | null>(true);
+  const location = useLocation()
+  const navigate = useNavigate()
+  const from = location.state?.from?.pathname || "/"
+  const [showPassword, setShowPassword] = useState<boolean | null>(true)
   const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
+  const [loading, setLoading] = useState<boolean>(false)
+  console.log(loading)
 
-  const formSubmit: SubmitHandler<FieldValues> = (data) => {
-    localStorage.setItem(keyName, data.username);
-    localStorage.setItem(keyPassword, data.password);
-    Navigate(from, { replace: true });
-    if (data.name !== userInfo.name && userInfo.password !== data.password) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Username and Password doesn't match",
-      });
-    } else {
-      return Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-      });
+  const formSubmit: SubmitHandler<any> = async (data) => {
+    try {
+      setLoading(true)
+      const response: any = await axiosInstance.post("/login", data)
+      toast.success(response?.message)
+      console.log(response)
+      if (response.success == 200) {
+        setPaymentaToken(response?.token)
+        navigate("/")
+        return toast.info(response.message)
+      }
+      if (response.error == 403) {
+        return toast.error(response.message)
+      }
+
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.error("Error fetching data:", error)
     }
-  };
+  }
 
   return (
     <div className="flex justify-between items-center w-full px-3 md:w-10/12 mx-auto h-screen overflex-y-auto">
@@ -62,7 +68,7 @@ const Login = () => {
             onSubmit={formSubmit}
             resolver={zodResolver(validationSchema)}
             defaultValues={{
-              username: "",
+              email: "",
               password: "",
             }}
           >
@@ -72,11 +78,11 @@ const Login = () => {
                   htmlFor="name"
                   className="text-[#3e3e3e] font-semibold text-[18px]"
                 >
-                  Username
+                  email
                 </label>
                 <div className="relative">
                   <InputField
-                    name="username"
+                    name="email"
                     type="text"
                     className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
                     placeholder="Enter your user name"
@@ -126,7 +132,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

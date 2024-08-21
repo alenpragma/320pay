@@ -1,6 +1,6 @@
-import DashboardCardOne from "../../comonents/dashboard/DashboardCardOne";
-import DashboardCardTwo from "../../comonents/dashboard/DashboardCardTwo";
-import DashboardTable from "../../comonents/dashboard/DashboardTable";
+import DashboardCardOne from "../../comonents/dashboard/DashboardCardOne"
+import DashboardCardTwo from "../../comonents/dashboard/DashboardCardTwo"
+import DashboardTable from "../../comonents/dashboard/DashboardTable"
 
 const Dashboard = () => {
   return (
@@ -9,7 +9,7 @@ const Dashboard = () => {
       <DashboardCardTwo />
       <DashboardTable />
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

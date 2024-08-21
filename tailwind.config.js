@@ -5,7 +5,7 @@ const defaultTheme = require("tailwindcss/defaultTheme")
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  darkMode: "class",
+  darkMode: "classs",
   theme: {
     screens: {
       "2xsm": "375px",
