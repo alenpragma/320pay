@@ -1,6 +1,7 @@
 import { Controller, useFormContext } from "react-hook-form";
 
 type TInputProps = {
+  
   name: string;
   type: string;
   className?: string;

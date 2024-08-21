@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { images, mainNavItem, subNavItem } from "../..";
-import { MenuInterface } from "../../types/menuType";
+import { useState } from "react"
+import { NavLink, useLocation } from "react-router-dom"
+import { images, mainNavItem, subNavItem } from "../.."
+import { MenuInterface } from "../../types/menuType"
 
 interface SidebarProps {
-  sidebarOpen: boolean;
-  setSidebarOpen: (arg: boolean) => void;
+  sidebarOpen: boolean
+  setSidebarOpen: (arg: boolean) => void
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const location = useLocation();
-  const { pathname } = location;
+  const location = useLocation()
+  const { pathname } = location
 
-  const [mouseHover, setMouseHover] = useState<number | null>(null);
+  const [mouseHover, setMouseHover] = useState<number | null>(null)
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -158,7 +158,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- Sidebar Menu --> */}
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

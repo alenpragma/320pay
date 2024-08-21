@@ -1,14 +1,23 @@
-import { CiSettings } from "react-icons/ci";
-import { removeLogedUser } from "../../utils/LocalStorage";
-import { useState } from "react";
+import { CiSettings } from "react-icons/ci"
+import { useState } from "react"
+import { removePaymentaToken } from "../../hooks/handelAuthToken"
+import { useNavigate } from "react-router-dom"
 
-const UserOne = "https://media.licdn.com/dms/image/D4E03AQFrmDuWUxQoMg/profile-displayphoto-shrink_200_200/0/1715645354619?e=2147483647&v=beta&t=_WBVcQpyigwPLI-efv18uQQ3eV_hhzU5DcUlIHl77HA"
+const UserOne =
+  "https://media.licdn.com/dms/image/D4E03AQFrmDuWUxQoMg/profile-displayphoto-shrink_200_200/0/1715645354619?e=2147483647&v=beta&t=_WBVcQpyigwPLI-efv18uQQ3eV_hhzU5DcUlIHl77HA"
 
 const DropdownUser = () => {
-  const [modal, setModal] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false)
   const handleModal = () => {
-    setModal(!modal);
-  };
+    setModal(!modal)
+  }
+
+  const navigate = useNavigate()
+  const handelLogOut = () => {
+    removePaymentaToken()
+    navigate("/login")
+  }
+
   return (
     <div className="relative flex items-center gap-3">
       <CiSettings className="text-[20px] cursor-pointer" />
@@ -30,7 +39,7 @@ const DropdownUser = () => {
             <p className="text-[#616365]">User Id : ajsdkfjw839</p>
           </div>
           <button
-            onClick={removeLogedUser}
+            onClick={handelLogOut}
             className="px-5 py-2 rounded-lg bg-primary text-white font-semibold"
           >
             Logout
@@ -38,7 +47,7 @@ const DropdownUser = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default DropdownUser;
+export default DropdownUser
