@@ -23,8 +23,8 @@ import deposit from "./assets/icon/navIcon/deposit.svg";
 import depositHover from "./assets/icon/navIcon/deposit-hover.svg";
 import transaction from "./assets/icon/navIcon/transactin.svg";
 import transactionHover from "./assets/icon/navIcon/transaction-hover.svg";
-import withdrow from "./assets/icon/navIcon/withdraw.svg"
-import withdrowHover from "./assets/icon/navIcon/withdraw-hover.svg"
+import withdrow from "./assets/icon/navIcon/withdraw.svg";
+import withdrowHover from "./assets/icon/navIcon/withdraw-hover.svg";
 
 import file from "./assets/icon/dashboard/file.svg";
 import wallet2 from "./assets/icon/dashboard/wallet-2.svg";
@@ -47,7 +47,35 @@ import lottie from "./assets/lottie/loading.json";
 
 export const loading = lottie;
 
-import usdt from "./assets/icon/payment/usdt.svg"
+import usdt from "./assets/icon/payment/usdt.svg";
+
+export const walletHistory = [
+  {
+    id: "012",
+    transition_History: "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3BA",
+    wallletHistory: "0x3cFbca23e190e8E29626aB234",
+  },
+  {
+    id: "013",
+    transition_History: "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f345",
+    wallletHistory: "0x3cFbca23e190e8E29626aB56",
+  },
+  {
+    id: "014",
+    transition_History: "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9fjhg",
+    wallletHistory: "0x3cFbca23e190e8E29626aB456",
+  },
+  {
+    id: "015",
+    transition_History: "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f980",
+    wallletHistory: "0x3cFbca23e190e8E29626aB123",
+  },
+  {
+    id: "016",
+    transition_History: "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f8796",
+    wallletHistory: "0x3cFbca23e190e8E29626aB890",
+  },
+];
 
 export const mainNavItem: MenuInterface[] = [
   {
@@ -135,7 +163,7 @@ export const dashboardCard: CadeInterface[] = [
   {
     img: profile,
     title: "Your Client Id",
-    secretCode: "asjJKLASJ84W5",
+    secretCode: "45",
   },
   {
     img: dWallet,
@@ -274,5 +302,5 @@ export const images = {
   logo,
   wallet2,
   tick,
-  usdt
+  usdt,
 };
