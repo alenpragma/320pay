@@ -5,7 +5,7 @@ import { baseUrl } from "./api"
 import { getPaymentaToken } from "../hooks/handelAuthToken"
 const axiosInstance = axios.create({
   baseURL: `${baseUrl}`,
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,7 +23,9 @@ axiosInstance.interceptors.request.use((config) => {
 
 // Response interceptor to handle token expiration
 axiosInstance.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    return response
+  },
   (error) => {
     if (
       error.response &&

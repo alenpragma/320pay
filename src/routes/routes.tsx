@@ -13,6 +13,7 @@ import TransitionHistory from "../pages/TransitionHistory/TransitionHistory"
 import NotFound from "../pages/NotFound/NotFound"
 import ProtectRoute from "../comonents/ProtectRouter/ProtectRoute"
 import Payment from "../pages/Payment/Payment"
+import WithdrawHistory from "../pages/WithdrawHistory/WithdrawHistory"
 
 const routes = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const routes = createBrowserRouter([
       {
         path: "/deposit-log",
         element: <DepositLog />,
+      },
+      {
+        path: "/withdraw-history",
+        element: <WithdrawHistory />,
       },
     ],
   },

@@ -3,6 +3,9 @@ import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 import Pagination from "../../comonents/Pagination/Pagination";
 import Select from "react-select";
+import { FaCopy } from "react-icons/fa";
+import { copyToClipboard } from "../../utils/Actions";
+import { MdContentCopy } from "react-icons/md";
 
 const options = [
   { value: "bnb", label: "BNB" },
@@ -27,6 +30,10 @@ const TransitionHistory = () => {
   const hanldeChenge = (e: any) => {
     setSelectValue(e.label);
   };
+
+  const handleCopy = (copy: any) => {
+    copyToClipboard(copy);
+  };
   return (
     <>
       <div className="md:p-6 px-3 pt-4">
@@ -35,7 +42,7 @@ const TransitionHistory = () => {
             <Select
               options={options}
               classNamePrefix="custom-select"
-              placeholder="Select Here "
+              placeholder="Select Here"
               onChange={hanldeChenge}
             />
             {/* <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
@@ -47,7 +54,7 @@ const TransitionHistory = () => {
           <div className="overflow-x-auto w-full">
             <table className=" border-collapse w-full">
               <thead>
-                <tr className="bg-[#E2E2E9] text-[#616365]">
+                <tr className="bg-[#FAFAFA] text-[#616365]">
                   <th className="py-2 px-6 text-start">Date</th>
                   <th className="py-2 px-6 text-start">Transaction Hash</th>
                   <th className="py-2 px-6 text-start">Amount</th>
@@ -60,11 +67,35 @@ const TransitionHistory = () => {
                 {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     <TData data="12 Jun 2025" className="  px-6" />
-                    <TData data="0x625....3a3fA" className="  px-6" />
+                    <TData className="  px-6 ">
+                      <div className="flex items-center gap-3">
+                        <span>asksk...fkjf</span>
+                        <FaCopy
+                          onClick={() => handleCopy("text copy")}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    </TData>
                     <TData data={`80 ${selectValue}`} className="  px-6" />
 
-                    <TData data="0x625....3a3fA" className="  px-6" />
-                    <TData data="0x625....3a3fA" className="  px-6" />
+                    <TData className="  px-6 ">
+                      <div className="flex items-center gap-3">
+                        <span>asksk...fkjf</span>
+                        <FaCopy
+                          onClick={() => handleCopy("text copy")}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    </TData>
+                    <TData className="  px-6 ">
+                      <div className="flex items-center gap-3">
+                        <span>asksk...fkjf</span>
+                        <FaCopy
+                          onClick={() => handleCopy("text copy")}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    </TData>
                     <TData className="  px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
                         Complete

@@ -2,15 +2,17 @@ const SelectIcon = () => {
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
       <svg
-        className="w-4 h-4 text-white"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        className=" text-black size-5 mt-8"
       >
         <path
-          fillRule="evenodd"
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-          clipRule="evenodd"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m19.5 8.25-7.5 7.5-7.5-7.5"
         />
       </svg>
     </div>

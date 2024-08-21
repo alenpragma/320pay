@@ -3,6 +3,8 @@ import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 import { useState } from "react";
 import Pagination from "../../comonents/Pagination/Pagination";
+import { FaCopy } from "react-icons/fa";
+import { copyToClipboard } from "../../utils/Actions";
 
 const DepositLog = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,6 +20,9 @@ const DepositLog = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const handleCopy = (copy: any) => {
+    copyToClipboard(copy);
+  };
   return (
     <>
       <div className="md:p-6 px-3 pt-4">
@@ -36,7 +41,7 @@ const DepositLog = () => {
           <div className="overflow-x-auto w-full">
             <table className=" border-collapse w-full">
               <thead>
-                <tr className="bg-[#E2E2E9] text-[#616365]">
+                <tr className="bg-[#FAFAFA] text-[#616365]">
                   <th className="py-2 px-6 text-start">Getway</th>
                   <th className="py-2 px-6 text-start">Amount</th>
                   <th className="py-2 px-6 text-start">Date</th>
@@ -48,16 +53,23 @@ const DepositLog = () => {
               <tbody className="bg-white">
                 {currentItems.map((item, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
-                    <TData data="Crypto"  className="w-2/12  px-6"/>
-                    <TData data="80 USD"  className="w-2/12  px-6"/>
-                    <TData data="12 Jun 2025"  className="w-2/12  px-6"/>
-                    <TData data="0x62535......68ad3a3fA"  className="w-2/12  px-6"/>
-                    <TData  className="w-2/12  px-6">
+                    <TData data="Crypto" className="w-2/12  px-6" />
+                    <TData data="80 USD" className="w-2/12  px-6" />
+                    <TData data="12 Jun 2025" className="w-2/12  px-6" />
+                    <TData className="  px-6 ">
+                      <div className="flex items-center gap-3">
+                        <span>askdfskdfjskjdfsdkjf</span>
+                        <button onClick={() => handleCopy("text copy")}>
+                          <FaCopy className="cursor-pointer" />
+                        </button>
+                      </div>
+                    </TData>
+                    <TData className="w-2/12  px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
                         Complete
                       </span>
                     </TData>
-                    <TData  className="w-2/12  px-6">
+                    <TData className="w-2/12  px-6">
                       <button className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1">
                         View
                       </button>

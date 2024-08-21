@@ -23,6 +23,8 @@ import deposit from "./assets/icon/navIcon/deposit.svg";
 import depositHover from "./assets/icon/navIcon/deposit-hover.svg";
 import transaction from "./assets/icon/navIcon/transactin.svg";
 import transactionHover from "./assets/icon/navIcon/transaction-hover.svg";
+import withdrow from "./assets/icon/navIcon/withdraw.svg"
+import withdrowHover from "./assets/icon/navIcon/withdraw-hover.svg"
 
 import file from "./assets/icon/dashboard/file.svg";
 import wallet2 from "./assets/icon/dashboard/wallet-2.svg";
@@ -115,6 +117,12 @@ export const subNavItem: MenuInterface[] = [
     item: "Transition History",
     icon1: transaction,
     icon2: transactionHover,
+  },
+  {
+    pathname: "/withdraw-history",
+    item: "Withdraw History",
+    icon1: withdrow,
+    icon2: withdrowHover,
   },
   {
     pathname: "/raise-ticket",

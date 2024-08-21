@@ -12,6 +12,7 @@ import { useState } from "react"
 import axiosInstance from "../../utils/axiosConfig"
 import { toast } from "react-toastify"
 import { setPaymentaToken } from "../../hooks/handelAuthToken"
+import { PuffLoader } from "react-spinners"
 
 export const validationSchema = z.object({
   email: z.string().min(1, "This field is required."),
@@ -27,21 +28,22 @@ const Login = () => {
     setShowPassword(!showPassword)
   }
   const [loading, setLoading] = useState<boolean>(false)
-  console.log(loading)
 
   const formSubmit: SubmitHandler<any> = async (data) => {
     try {
       setLoading(true)
-      const response: any = await axiosInstance.post("/login", data)
-      toast.success(response?.message)
-      console.log(response)
-      if (response.success == 200) {
-        setPaymentaToken(response?.token)
+      const response = await axiosInstance.post("/login", data)
+      toast.success(response?.data?.message)
+      if (response?.data?.success == 200) {
+        setPaymentaToken(response?.data?.token)
         navigate("/")
-        return toast.info(response.message)
+        return toast.info(response?.data?.message)
       }
-      if (response.error == 403) {
-        return toast.error(response.message)
+      if (response?.data?.error == 403) {
+        setPaymentaToken(response?.data?.token)
+        navigate("/")
+
+        return toast.error(response?.data?.message)
       }
 
       setLoading(false)
@@ -118,9 +120,13 @@ const Login = () => {
                   )}
                 </div>
               </div>
-              <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
-                Login
-              </button>
+              {loading ? (
+                <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
+              ) : (
+                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
+                  Login
+                </button>
+              )}
               <p className="text-secondary text-[14px]">
                 Don't have an Account?{" "}
                 <Link to="/register" className="text-primary">

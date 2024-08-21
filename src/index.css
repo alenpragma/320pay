@@ -6,10 +6,10 @@
 /* style.css */
 
 .custom-select__control {
-  background-color: #5734DC !important;
+  background-color: #5734dc !important;
   color: white !important;
   font-weight: 500 !important;
-  border-color: #5734DC !important;
+  border-color: #5734dc !important;
   width: 180px !important;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .custom-select__option--is-selected {
-  background-color: #5734DC !important;
+  background-color: #5734dc !important;
   color: white !important;
 }
 
@@ -52,5 +52,6 @@
 
 /* ------------react select style end------------- */
 
-
-
+.custom-padding {
+  padding: 30px !important;
+}

@@ -5,10 +5,9 @@ const ProtectRoute = ({ children }: any) => {
   const token = localStorage.getItem("paymentaToken")
 
   if (!token) {
-    return <Navigate to="/" state={{ from: location }} replace></Navigate>
+    return <Navigate to="/login" state={{ from: location }} replace></Navigate>
   }
   return children
-  return <Navigate to="/login" state={{ from: location }} replace />
 }
 
 export default ProtectRoute

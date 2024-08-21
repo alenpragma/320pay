@@ -29,7 +29,7 @@ const PurchasePlane = () => {
           <div className="overflow-x-auto w-full">
             <table className=" border-collapse w-full">
               <thead>
-                <tr className="bg-[#E2E2E9] text-secondary">
+                <tr className="bg-[#FAFAFA] text-secondary">
                   <th className="py-2 px-6 text-start  whitespace-nowrap">
                     Order Id
                   </th>
