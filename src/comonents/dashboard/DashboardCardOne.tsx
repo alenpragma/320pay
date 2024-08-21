@@ -3,7 +3,7 @@ import { dashboardCard, images } from "../.."
 import { CiCirclePlus } from "react-icons/ci"
 import { useEffect, useState } from "react"
 import { copyToClipboard } from "../../utils/Actions"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ethers } from "ethers"
 import { toast } from "react-toastify"
 import axiosInstance from "../../utils/axiosConfig"
@@ -16,7 +16,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
     copyToClipboard(textToCopy)
     setTextToCopy(copy)
   }
-
+  const navigate = useNavigate()
   const [walletAddress, setWalletAddress] = useState<string | null>(null)
   const [privateKey, setPrivateKey] = useState<string | null>(null)
 
@@ -39,9 +39,13 @@ const DashboardCardOne = ({ clientProfile }: any) => {
     try {
       setLoading(true)
       const response = await axiosInstance.post("/client/create-address")
+      console.log(response)
+
       if (response?.data?.success == 200) {
         setCreatedAddress(response?.data?.data)
-        return toast.info(response?.data?.message)
+        toast.info(response?.data?.message)
+        navigate("/wallet")
+        return
       }
       if (response?.data?.error == 400) {
         return toast.error(response?.data?.message)
