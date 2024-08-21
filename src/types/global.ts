@@ -1,4 +1,3 @@
-import { username, password } from './../lib/KeyName';
 // export interface ApiResponse<T> {
 //   statusCode: number;
 //   success: boolean;
@@ -7,6 +6,6 @@ import { username, password } from './../lib/KeyName';
 // }
 
 export type TLocalStorageValue = {
-  username: string;
+  username: string
   password: string
 }
