@@ -4,6 +4,9 @@ import TData from "../../comonents/Table/TData";
 import Pagination from "../../comonents/Pagination/Pagination";
 import { FaCopy } from "react-icons/fa";
 import PaymenModal from "../../comonents/Modal/PaymentModal";
+import { MdContentCopy } from "react-icons/md";
+import { copyToClipboard } from "../../utils/Actions";
+import HoverTableItem from "../../lib/HoverTableItem";
 
 const Payment = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +40,18 @@ const Payment = () => {
     setModal(!modal);
   };
 
+  const handleCopy = (copy: any) => {
+    copyToClipboard(copy);
+  };
+
+  const history = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3BA";
+  const history1 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f332";
+  const history2 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3fd";
+  const [historyData, setHistory] = useState("");
+  const handleTras = (history: any) => {
+    setHistory(history);
+  };
+
   return (
     <>
       <PaymenModal renewModal={modal} handleRenewModal={handleModal} />
@@ -46,7 +61,10 @@ const Payment = () => {
             <h4 className="text-secondary text-[20px] font-semibold">
               Payment Settings
             </h4>
-            <button onClick={handleModal} className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
+            <button
+              onClick={handleModal}
+              className="px-5 py-2 rounded-lg bg-primary text-white font-semibold"
+            >
               Add New Currency
             </button>
           </div>
@@ -76,10 +94,28 @@ const Payment = () => {
                       <span>USDT</span>
                     </div>
                   </TData>
-                  <TData className="  px-6 ">
-                    <div className="flex items-center gap-3">
-                      <span>askdfskdfjskjdfsdkjf</span>
-                      <FaCopy />
+                  <TData className="px-3">
+                    <div className="relative">
+                      <div className="flex items-center">
+                        <span
+                          className="hover:bg-green-100 px-3 rounded"
+                          onMouseEnter={() => handleTras(history1)}
+                          onMouseLeave={() => handleTras(null)}
+                        >
+                          {history1.slice(0, 10)}
+                          .......
+                          {history1.slice(-8)}
+                        </span>
+                        <MdContentCopy
+                          onClick={() => handleCopy(history1)}
+                          className="cursor-pointer rotate-180 size-5"
+                        />
+                      </div>
+                      {history1 == historyData ? (
+                        <HoverTableItem value={history1} />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </TData>
                   <TData className="  px-6">
@@ -113,10 +149,28 @@ const Payment = () => {
                       <span>USDT</span>
                     </div>
                   </TData>
-                  <TData className="  px-6 ">
-                    <div className="flex items-center gap-3">
-                      <span>askdfskdfjskjdfsdkjf</span>
-                      <FaCopy />
+                  <TData className="px-3">
+                    <div className="relative">
+                      <div className="flex items-center">
+                        <span
+                          className="hover:bg-green-100 px-3 rounded"
+                          onMouseEnter={() => handleTras(history)}
+                          onMouseLeave={() => handleTras(null)}
+                        >
+                          {history.slice(0, 10)}
+                          .......
+                          {history.slice(-8)}
+                        </span>
+                        <MdContentCopy
+                          onClick={() => handleCopy(history)}
+                          className="cursor-pointer rotate-180 size-5"
+                        />
+                      </div>
+                      {history == historyData ? (
+                        <HoverTableItem value={history} />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </TData>
                   <TData className="  px-6">
@@ -150,12 +204,30 @@ const Payment = () => {
                       <span>USDT</span>
                     </div>
                   </TData>
-                  <TData className="  px-6 ">
-                    <div className="flex items-center gap-3">
-                      <span>askdfskdfjskjdfsdkjf</span>
-                      <FaCopy />
-                    </div>
-                  </TData>
+                  <TData className="px-3">
+                      <div className="relative">
+                        <div className="flex items-center">
+                          <span
+                            className="hover:bg-green-100 px-3 rounded"
+                            onMouseEnter={() => handleTras(history2)}
+                            onMouseLeave={() => handleTras(null)}
+                          >
+                            {history2.slice(0, 10)}
+                            .......
+                            {history.slice(-8)}
+                          </span>
+                          <MdContentCopy
+                            onClick={() => handleCopy(history2)}
+                            className="cursor-pointer rotate-180 size-5"
+                          />
+                        </div>
+                        {history2 == historyData ? (
+                          <HoverTableItem value={history2} />
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </TData>
                   <TData className="  px-6">
                     <button
                       className={`font-semibold text-[14px] ${

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { tableData } from "../..";
+import { tableData, walletHistory } from "../..";
 import TData from "../../comonents/Table/TData";
 import Pagination from "../../comonents/Pagination/Pagination";
 import Select from "react-select";
 import { FaCopy } from "react-icons/fa";
 import { copyToClipboard } from "../../utils/Actions";
 import { MdContentCopy } from "react-icons/md";
+import HoverTableItem from "../../lib/HoverTableItem";
 
 const options = [
   { value: "bnb", label: "BNB" },
@@ -33,6 +34,10 @@ const TransitionHistory = () => {
 
   const handleCopy = (copy: any) => {
     copyToClipboard(copy);
+  };
+  const [historyData, setHistory] = useState("");
+  const handleTras = (history: any) => {
+    setHistory(history);
   };
   return (
     <>
@@ -64,36 +69,81 @@ const TransitionHistory = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {currentItems.map((item, i) => (
+                {walletHistory.map((data, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     <TData data="12 Jun 2025" className="  px-6" />
-                    <TData className="  px-6 ">
-                      <div className="flex items-center gap-3">
-                        <span>asksk...fkjf</span>
-                        <FaCopy
-                          onClick={() => handleCopy("text copy")}
-                          className="cursor-pointer"
-                        />
+                    <TData className="px-3">
+                      <div className="relative">
+                        <div className="flex items-center">
+                          <span
+                            className="hover:bg-green-100 px-3 rounded"
+                            onMouseEnter={() => handleTras(data.wallletHistory)}
+                            onMouseLeave={() => handleTras(null)}
+                          >
+                            {data.wallletHistory.slice(0, 10)}
+                            .......
+                            {data.wallletHistory.slice(-8)}
+                          </span>
+                          <MdContentCopy
+                            onClick={() => handleCopy(data.wallletHistory)}
+                            className="cursor-pointer rotate-180 size-5"
+                          />
+                        </div>
+                        {data.wallletHistory == historyData ? (
+                          <HoverTableItem value={data.wallletHistory} />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </TData>
                     <TData data={`80 ${selectValue}`} className="  px-6" />
 
-                    <TData className="  px-6 ">
-                      <div className="flex items-center gap-3">
-                        <span>asksk...fkjf</span>
-                        <FaCopy
-                          onClick={() => handleCopy("text copy")}
-                          className="cursor-pointer"
-                        />
+                    <TData className="px-3">
+                      <div className="relative">
+                        <div className="flex items-center">
+                          <span
+                            className="hover:bg-green-100 px-3 rounded"
+                            onMouseEnter={() => handleTras(data.transition_History)}
+                            onMouseLeave={() => handleTras(null)}
+                          >
+                            {data.transition_History.slice(0, 10)}
+                            .......
+                            {data.transition_History.slice(-8)}
+                          </span>
+                          <MdContentCopy
+                            onClick={() => handleCopy(data.transition_History)}
+                            className="cursor-pointer rotate-180 size-5"
+                          />
+                        </div>
+                        {data.transition_History == historyData ? (
+                          <HoverTableItem value={data.transition_History} />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </TData>
-                    <TData className="  px-6 ">
-                      <div className="flex items-center gap-3">
-                        <span>asksk...fkjf</span>
-                        <FaCopy
-                          onClick={() => handleCopy("text copy")}
-                          className="cursor-pointer"
-                        />
+                    <TData className="px-3">
+                      <div className="relative">
+                        <div className="flex items-center">
+                          <span
+                            className="hover:bg-green-100 px-3 rounded"
+                            onMouseEnter={() => handleTras(data.wallletHistory)}
+                            onMouseLeave={() => handleTras(null)}
+                          >
+                            {data.wallletHistory.slice(0, 10)}
+                            .......
+                            {data.wallletHistory.slice(-8)}
+                          </span>
+                          <MdContentCopy
+                            onClick={() => handleCopy(data.wallletHistory)}
+                            className="cursor-pointer rotate-180 size-5"
+                          />
+                        </div>
+                        {data.wallletHistory == historyData ? (
+                          <HoverTableItem value={data.wallletHistory} />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </TData>
                     <TData className="  px-6">

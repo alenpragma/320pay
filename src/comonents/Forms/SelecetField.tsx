@@ -32,7 +32,7 @@ const SelectField = ({
             defaultValue=""
           >
             {options.map((option) => (
-              <option key={option.name} value={option.name} className="custom-padding">
+              <option key={option.name} value={option.name} className="h-10">
                 {option.name}
               </option>
             ))}

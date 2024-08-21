@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { images, tableData } from "../..";
+import { images, tableData, walletHistory } from "../..";
 import TData from "../../comonents/Table/TData";
 import { FaCopy } from "react-icons/fa";
 import PaymenModal from "../../comonents/Modal/PaymentModal";
 import { copyToClipboard } from "../../utils/Actions";
 import HoverTableItem from "../../lib/HoverTableItem";
+import { MdContentCopy } from "react-icons/md";
 
 const WithdrawHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,13 +42,10 @@ const WithdrawHistory = () => {
     copyToClipboard(copy);
   };
 
-  const [item, setItem] = useState("");
-  const [id, setId] = useState<any>();
-  const handleTras = (item: any) => {
-    setItem(item);
-    setId(item);
+  const [historyData, setHistory] = useState("");
+  const handleTras = (history: any) => {
+    setHistory(history);
   };
-  console.log(item);
   return (
     <>
       <PaymenModal renewModal={modal} handleRenewModal={handleModal} />
@@ -65,13 +63,13 @@ const WithdrawHistory = () => {
                   <th className="py-2 px-6 text-start  whitespace-nowrap">
                     Date
                   </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap ">
+                  <th className="py-2 px-9 text-start  whitespace-nowrap ">
                     Transaction Hash
                   </th>
                   <th className="py-2 px-6 text-start  whitespace-nowrap">
                     Amount
                   </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
+                  <th className="py-2 px-9 text-start  whitespace-nowrap">
                     To Wallet
                   </th>
                   <th className="py-2 px-6 text-start  whitespace-nowrap">
@@ -80,41 +78,74 @@ const WithdrawHistory = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                <tr className="border-b border-[#E2E2E9] text-[#616365]">
-                  <TData className="px-6">
-                    <h4>12 june 2024</h4>
-                  </TData>
-                  <TData className="px-6">
-                    <div
-                      className="relative"
-                      onMouseEnter={() => handleTras(1)}
-                      onMouseLeave={() => handleTras(null)}
-                    >
-                      <HoverTableItem
-                        handleCopy={handleCopy}
-                        item={item}
-                        id={id}
-                      />
-                    </div>
-                  </TData>
-                  <TData className="px-6">
-                    <h4>80 USD</h4>
-                  </TData>
-                  <TData className="px-6">
-                    <div
-                      className="relative"
-                      onMouseEnter={() => handleTras("transition items")}
-                      onMouseLeave={() => handleTras(null)}
-                    >
-                      <HoverTableItem handleCopy={handleCopy} item={item} />
-                    </div>
-                  </TData>
-                  <TData className="px-6">
-                    <button className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded py-1 w-full   md:px-0 px-3">
-                      Active
-                    </button>
-                  </TData>
-                </tr>
+                {walletHistory.map((data, i) => (
+                  <tr
+                    key={data.id}
+                    className="border-b border-[#E2E2E9] text-[#616365]"
+                  >
+                    <TData className="px-6">
+                      <h4>12 june 2024</h4>
+                    </TData>
+                    <TData className="px-6">
+                      <div className="relative">
+                        <div className="flex items-center">
+                          <span
+                            className="px-3 rounded hover:bg-green-100"
+                            onMouseEnter={() =>
+                              handleTras(data.transition_History)
+                            }
+                            onMouseLeave={() => handleTras(null)}
+                          >
+                            {data.transition_History.slice(0, 12)}
+                            .......
+                            {data.transition_History.slice(-8)}
+                          </span>
+                          <MdContentCopy
+                            onClick={() => handleCopy(data.transition_History)}
+                            className="cursor-pointer rotate-180 size-5"
+                          />
+                        </div>
+                        {data.transition_History == historyData ? (
+                          <HoverTableItem value={data.transition_History} />
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </TData>
+                    <TData className="px-6">
+                      <h4>80 USD</h4>
+                    </TData>
+                    <TData className="px-6">
+                      <div
+                        className="relative"
+                        onMouseEnter={() => handleTras(data.wallletHistory)}
+                        onMouseLeave={() => handleTras(null)}
+                      >
+                        <div className="flex items-center">
+                          <span className="hover:bg-green-100 px-3 rounded">
+                            {data.wallletHistory.slice(0, 10)}
+                            .......
+                            {data.wallletHistory.slice(-8)}
+                          </span>
+                          <MdContentCopy
+                            onClick={() => handleCopy(data.wallletHistory)}
+                            className="cursor-pointer rotate-180 size-5"
+                          />
+                        </div>
+                        {data.wallletHistory == historyData ? (
+                          <HoverTableItem value={data.wallletHistory} />
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </TData>
+                    <TData className="px-6">
+                      <button className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded py-1 w-full   md:px-0 px-3">
+                        Active
+                      </button>
+                    </TData>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

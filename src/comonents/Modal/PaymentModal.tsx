@@ -13,12 +13,23 @@ type IModal = {
   renewModal: boolean;
 };
 
-export const monthName = [
-  { name: "1 Month" },
-  { name: "2 Month" },
-  { name: "3 Month" },
-  { name: "6 Month" },
-  { name: "12 Month" },
+export const currency = [
+  { name: "USDT" },
+  { name: "BNB" },
+  { name: "MIND" },
+  { name: "MUSD" },
+  { name: "SHIV" },
+  { name: "DAI" },
+  { name: "MATIC" },
+  { name: "TRX" },
+];
+export const network = [
+  { name: "Binance(BEP20" },
+  { name: "Ethereum(ERC20)" },
+  { name: "Polygon(MATIC)" },
+  { name: "Mind Smart Chain(MIND20)" },
+  { name: "Arbitrum" },
+  { name: "Optimism" },
 ];
 export const validationSchema = z.object({
   month: z.string().min(1, "This field is required"),
@@ -70,7 +81,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                   <SelectField
                     name="month"
                     className="appearance-none px-2 pr-8 py-2 rounded border border-slate-300 focus:outline focus:outline-slate-400  text-secondary font-medium w-full custom_select"
-                    options={monthName}
+                    options={currency}
                     placeholder="Please select an option"
                   />
                   <SelectIcon />
@@ -82,7 +93,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                   <SelectField
                     name="month"
                     className="appearance-none px-2 pr-8 py-2 rounded border border-slate-300 focus:outline focus:outline-slate-400  text-secondary font-medium w-full"
-                    options={monthName}
+                    options={network}
                     placeholder="Please select an option"
                   />
                   <SelectIcon />
