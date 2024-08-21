@@ -86,9 +86,12 @@ const StartHere = () => {
                 </span>
               </h4>
               <ul className="space-y-1">
-                {data.description.split("\n").map((desc) => {
+                {data.description.split("\n").map((desc, i) => {
                   return (
-                    <li className="flex items-center gap-3 text-[14px] text-secondary">
+                    <li
+                      key={i}
+                      className="flex items-center gap-3 text-[14px] text-secondary"
+                    >
                       <img className="size-5" src={images?.tick} alt="" />
                       <span>{desc}</span>
                     </li>
