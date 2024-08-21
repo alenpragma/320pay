@@ -1,56 +1,77 @@
-import { useState } from "react";
-import { images, tableData } from "../..";
-import TData from "../../comonents/Table/TData";
-import Pagination from "../../comonents/Pagination/Pagination";
-import { FaCopy } from "react-icons/fa";
-import PaymenModal from "../../comonents/Modal/PaymentModal";
-import { MdContentCopy } from "react-icons/md";
-import { copyToClipboard } from "../../utils/Actions";
-import HoverTableItem from "../../lib/HoverTableItem";
+import { useEffect, useState } from "react"
+import { images, tableData } from "../.."
+import TData from "../../comonents/Table/TData"
+import Pagination from "../../comonents/Pagination/Pagination"
+import PaymenModal from "../../comonents/Modal/PaymentModal"
+import { MdContentCopy } from "react-icons/md"
+import { copyToClipboard } from "../../utils/Actions"
+import HoverTableItem from "../../lib/HoverTableItem"
+import axiosInstance from "../../utils/axiosConfig"
 
 const Payment = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(tableData.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+  const totalPages = Math.ceil(tableData.length / itemsPerPage)
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+  }
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+  }
 
-  const [isToggled0, setIsToggled0] = useState(false);
-  const [isToggled1, setIsToggled1] = useState(false);
-  const [isToggled2, setIsToggled2] = useState(false);
-  const [modal, setModal] = useState(true);
+  const [isToggled0, setIsToggled0] = useState(false)
+  const [isToggled1, setIsToggled1] = useState(false)
+  const [isToggled2, setIsToggled2] = useState(false)
+  const [modal, setModal] = useState(false)
 
   const handleToggle0 = () => {
-    setIsToggled0(!isToggled0);
-  };
+    setIsToggled0(!isToggled0)
+  }
   const handleToggl1 = () => {
-    setIsToggled1(!isToggled1);
-  };
+    setIsToggled1(!isToggled1)
+  }
   const handleToggl2 = () => {
-    setIsToggled2(!isToggled2);
-  };
+    setIsToggled2(!isToggled2)
+  }
   const handleModal = () => {
-    setModal(!modal);
-  };
+    setModal(!modal)
+  }
 
   const handleCopy = (copy: any) => {
-    copyToClipboard(copy);
-  };
+    copyToClipboard(copy)
+  }
 
-  const history = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3BA";
-  const history1 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f332";
-  const history2 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3fd";
-  const [historyData, setHistory] = useState("");
+  const history = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3BA"
+  const history1 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f332"
+  const history2 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3fd"
+  const [historyData, setHistory] = useState("")
   const handleTras = (history: any) => {
-    setHistory(history);
-  };
+    setHistory(history)
+  }
+
+  const [loading, setLoading] = useState<boolean>(false)
+  const [tokens, setTokens] = useState([])
+  const getDatas = async () => {
+    setLoading(true)
+    try {
+      const response = await axiosInstance.get("/client/client-tokens")
+      console.log(response)
+      if (response?.data?.packages) {
+        setLoading(false)
+        setTokens(response?.data?.data)
+      }
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getDatas()
+  }, [])
 
   return (
     <>
@@ -205,29 +226,29 @@ const Payment = () => {
                     </div>
                   </TData>
                   <TData className="px-3">
-                      <div className="relative">
-                        <div className="flex items-center">
-                          <span
-                            className="hover:bg-green-100 px-3 rounded"
-                            onMouseEnter={() => handleTras(history2)}
-                            onMouseLeave={() => handleTras(null)}
-                          >
-                            {history2.slice(0, 10)}
-                            .......
-                            {history.slice(-8)}
-                          </span>
-                          <MdContentCopy
-                            onClick={() => handleCopy(history2)}
-                            className="cursor-pointer rotate-180 size-5"
-                          />
-                        </div>
-                        {history2 == historyData ? (
-                          <HoverTableItem value={history2} />
-                        ) : (
-                          ""
-                        )}
+                    <div className="relative">
+                      <div className="flex items-center">
+                        <span
+                          className="hover:bg-green-100 px-3 rounded"
+                          onMouseEnter={() => handleTras(history2)}
+                          onMouseLeave={() => handleTras(null)}
+                        >
+                          {history2.slice(0, 10)}
+                          .......
+                          {history.slice(-8)}
+                        </span>
+                        <MdContentCopy
+                          onClick={() => handleCopy(history2)}
+                          className="cursor-pointer rotate-180 size-5"
+                        />
                       </div>
-                    </TData>
+                      {history2 == historyData ? (
+                        <HoverTableItem value={history2} />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </TData>
                   <TData className="  px-6">
                     <button
                       className={`font-semibold text-[14px] ${
@@ -258,7 +279,7 @@ const Payment = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Payment;
+export default Payment
