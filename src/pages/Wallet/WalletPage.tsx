@@ -1,28 +1,41 @@
-import { FaCopy } from "react-icons/fa";
-import { images } from "../..";
-import { useState } from "react";
-import { copyToClipboard } from "../../utils/Actions";
-import { ethers } from "ethers";
+import { FaCopy } from "react-icons/fa"
+import { images } from "../.."
+import { useEffect, useState } from "react"
+import { copyToClipboard } from "../../utils/Actions"
+import { ethers } from "ethers"
+import axiosInstance from "../../utils/axiosConfig"
 
 const Deposit = () => {
-  const [textToCopy, setTextToCopy] = useState<string | null>("");
+  const [textToCopy, setTextToCopy] = useState<string | null>("")
   const handleCopy = (copy: string | null) => {
-    copyToClipboard(textToCopy);
-    setTextToCopy(copy);
-  };
+    copyToClipboard(textToCopy)
+    setTextToCopy(copy)
+  }
 
-  const address = localStorage.getItem("address");
-  const privateKey = localStorage.getItem("privateKey");
+  const address = localStorage.getItem("address")
+  const privateKey = localStorage.getItem("privateKey")
   //   const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA";
 
   const createWallet = () => {
-    const wallet = ethers.Wallet.createRandom();
-    const address = wallet.address;
-    const privateKey = wallet.privateKey;
-    localStorage.setItem("address", address);
-    localStorage.setItem("privateKey", privateKey);
-    window.location.reload();
-  };
+    const wallet = ethers.Wallet.createRandom()
+    const address = wallet.address
+    const privateKey = wallet.privateKey
+    localStorage.setItem("address", address)
+    localStorage.setItem("privateKey", privateKey)
+    window.location.reload()
+  }
+
+  const [wallet, setWallet] = useState<any>({})
+
+  const getWallet = async () => {
+    const response = await axiosInstance.get("/client-wallets")
+    if (response?.data?.success) {
+      setWallet(response?.data?.data)
+    }
+  }
+  useEffect(() => {
+    getWallet()
+  }, [])
 
   return (
     <div className="md:p-8 pt-5">
@@ -40,26 +53,15 @@ const Deposit = () => {
                 <p className="text-[14px]">Wallet Address</p>
                 <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
                   <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                    {`${address?.slice(0, 18)} .........${address?.slice(-6)}`}
-                  </span>
-                  <span
-                    onClick={() => handleCopy(address)}
-                    className="px-3 py-3 text-white bg-primary rounded-r-lg cursor-pointer"
-                  >
-                    <FaCopy />
-                  </span>
-                </div>
-              </div>
-              <div className="mt-5">
-                <p className="text-[14px]">Secret Key</p>
-                <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
-                  <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                    {`${privateKey?.slice(0, 18)} .........${address?.slice(
+                    {`${wallet.client_wallet_address?.slice(
+                      0,
+                      18
+                    )} .........${wallet?.client_wallet_address?.slice(
                       -6
-                    )}`}
+                    )}`}{" "}
                   </span>
                   <span
-                    onClick={() => handleCopy(privateKey)}
+                    onClick={() => handleCopy(wallet?.client_wallet_address)}
                     className="px-3 py-3 text-white bg-primary rounded-r-lg cursor-pointer"
                   >
                     <FaCopy />
@@ -78,7 +80,7 @@ const Deposit = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Deposit;
+export default Deposit
