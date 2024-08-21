@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { tableData } from "../..";
+import { tableData, walletHistory } from "../..";
 import TData from "../../comonents/Table/TData";
 import { useState } from "react";
 import Pagination from "../../comonents/Pagination/Pagination";
 import { FaCopy } from "react-icons/fa";
 import { copyToClipboard } from "../../utils/Actions";
+import { MdContentCopy } from "react-icons/md";
+import HoverTableItem from "../../lib/HoverTableItem";
 
 const DepositLog = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +24,11 @@ const DepositLog = () => {
 
   const handleCopy = (copy: any) => {
     copyToClipboard(copy);
+  };
+
+  const [historyData, setHistory] = useState("");
+  const handleTras = (history: any) => {
+    setHistory(history);
   };
   return (
     <>
@@ -51,17 +58,33 @@ const DepositLog = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {currentItems.map((item, i) => (
+                {walletHistory.map((data, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     <TData data="Crypto" className="w-2/12  px-6" />
                     <TData data="80 USD" className="w-2/12  px-6" />
                     <TData data="12 Jun 2025" className="w-2/12  px-6" />
-                    <TData className="  px-6 ">
-                      <div className="flex items-center gap-3">
-                        <span>askdfskdfjskjdfsdkjf</span>
-                        <button onClick={() => handleCopy("text copy")}>
-                          <FaCopy className="cursor-pointer" />
-                        </button>
+                    <TData className="px-6">
+                      <div className="relative">
+                        <div className="flex items-center">
+                          <span
+                            className="hover:bg-green-100 px-3 rounded"
+                            onMouseEnter={() => handleTras(data.wallletHistory)}
+                            onMouseLeave={() => handleTras(null)}
+                          >
+                            {data.wallletHistory.slice(0, 10)}
+                            .......
+                            {data.wallletHistory.slice(-8)}
+                          </span>
+                          <MdContentCopy
+                            onClick={() => handleCopy(data.wallletHistory)}
+                            className="cursor-pointer rotate-180 size-5"
+                          />
+                        </div>
+                        {data.wallletHistory == historyData ? (
+                          <HoverTableItem value={data.wallletHistory} />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </TData>
                     <TData className="w-2/12  px-6">
@@ -81,12 +104,12 @@ const DepositLog = () => {
           </div>
         </div>
       </div>
-      <Pagination
+      {/* <Pagination
         totalPages={totalPages}
         handleNextPage={handleNextPage}
         currentPage={currentPage}
         handlePrevPage={handlePrevPage}
-      />
+      /> */}
     </>
   );
 };
