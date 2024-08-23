@@ -34,6 +34,8 @@ const Login = () => {
       setLoading(true)
       const response = await axiosInstance.post("/login", data)
       toast.success(response?.data?.message)
+      console.log(response?.data?.token)
+
       if (response?.data?.success == 200) {
         setPaymentaToken(response?.data?.token)
         navigate("/")
