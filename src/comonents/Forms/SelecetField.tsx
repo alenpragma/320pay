@@ -50,8 +50,6 @@
 
 // export default SelectField;
 
-
-
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
@@ -90,6 +88,9 @@ const SelectField = ({
             placeholder={placeholder}
             className={className}
             isClearable={!required}
+            value={
+              options.find((option) => option.value === field.value) || null
+            }
             onChange={(option) => field.onChange(option?.value)}
             onBlur={field.onBlur}
           />
