@@ -13,16 +13,18 @@ type IModal = {
   renewModal: boolean;
 };
 
-export const currency = [
-  { name: "USDT" },
-  { name: "BNB" },
-  { name: "MIND" },
-  { name: "MUSD" },
-  { name: "SHIV" },
-  { name: "DAI" },
-  { name: "MATIC" },
-  { name: "TRX" },
-];
+// export const currency = [
+//   { name: "USDT" },
+//   { name: "BNB" },
+//   { name: "MIND" },
+//   { name: "MUSD" },
+//   { name: "SHIV" },
+//   { name: "DAI" },
+//   { name: "MATIC" },
+//   { name: "TRX" },
+// ];
+
+export const currency = [{ label: "USDT", value: "USDT" }];
 export const network = [
   { name: "Binance(BEP20" },
   { name: "Ethereum(ERC20)" },
@@ -84,7 +86,6 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                     options={currency}
                     placeholder="Please select an option"
                   />
-                  <SelectIcon />
                 </div>
                 <div className="relative mb-8">
                   <p className="font-semibold text-secondary mb-2">

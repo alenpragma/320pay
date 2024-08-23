@@ -36,7 +36,7 @@ const DashboardTable = () => {
   return (
     <>
       <div className="rounded-xl border-2 border-[#E2E2E9] pb-4">
-        <h4 className="text-[24px] font-semibold p-4">Last Login Sessions</h4>
+        <h4 className="text-[24px] font-semibold p-4 text-[#313437]">Last Login Sessions</h4>
         <div className="overflow-x-auto w-full">
           <table className="overflow-x-auto border-collapse w-full">
             <thead>
