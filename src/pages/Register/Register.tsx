@@ -11,7 +11,6 @@ import axiosInstance from "../../utils/axiosConfig"
 import { useState } from "react"
 import { BiPhone } from "react-icons/bi"
 import { setPaymentaToken } from "../../hooks/handelAuthToken"
-import { toast } from "react-toastify"
 
 // const inputFieldSchema = z.object({
 //   username: z.string().min(1, "This field is required."),
@@ -43,7 +42,18 @@ const Register = () => {
     try {
       setLoading(true)
       const response = await axiosInstance.post("/register", data)
-      toast.success(response?.data?.message)
+
+      console.log(response)
+      if (response.data.status == 422) {
+        alert(response?.data?.message)
+        return
+      }
+      if (response.data.status == 200) {
+        alert(response?.data?.message)
+
+        return
+      }
+
       setPaymentaToken(response?.data?.token)
       setLoading(false)
     } catch (error) {
@@ -176,7 +186,7 @@ const Register = () => {
                   </span>
                 </p>
               </div> */}
-              {loading ? (
+              {loading == false ? (
                 <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full focus:bg-[#251756] transition duration-100">
                   Sign Up
                 </button>
