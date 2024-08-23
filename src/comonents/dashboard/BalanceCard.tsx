@@ -5,6 +5,7 @@ import "swiper/css/navigation";
 import { GoArrowRight } from "react-icons/go";
 import BalanceSwiperCard from "../SwiperCard/BalanceSwiperCard";
 
+
 const BalanceCard = () => {
   return (
     <div>

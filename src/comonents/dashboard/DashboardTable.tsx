@@ -1,42 +1,39 @@
-import { useEffect, useState } from "react"
-import { tableData } from "../.."
-import TData from "../Table/TData"
-import Pagination from "../Pagination/Pagination"
-import axiosInstance from "../../utils/axiosConfig"
-import { formatToLocalDate } from "../../hooks/formatDate"
+import { useEffect, useState } from "react";
+import { tableData } from "../..";
+import TData from "../Table/TData";
+import Pagination from "../Pagination/Pagination";
+import axiosInstance from "../../utils/axiosConfig";
+import { formatToLocalDate } from "../../hooks/formatDate";
+import PaginationButtons from "../PaginationButton/PaginationButton";
 
 const DashboardTable = () => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
-  const totalPages = Math.ceil(tableData.length / itemsPerPage)
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-  }
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
+  const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState<any>();
 
-  const [lastSessions, setLastSessions] = useState([])
+  const [lastSessions, setLastSessions] = useState([]);
 
   const getData = async () => {
-    const response = await axiosInstance.get("/user-last-sessions")
-    console.log(response)
+    const response = await axiosInstance.get("/user-last-sessions");
+    console.log(response);
 
     if (response?.data?.success == 200) {
-      setLastSessions(response?.data?.sessions)
+      setLastSessions(response?.data?.sessions);
+      setTotal(lastSessions?.length);
     }
-  }
+  };
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
+  console.log(lastSessions.length);
+
+  const perPage = 10;
 
   return (
     <>
       <div className="rounded-xl border-2 border-[#E2E2E9] pb-4">
-        <h4 className="text-[24px] font-semibold p-4 text-[#313437]">Last Login Sessions</h4>
+        <h4 className="text-[24px] font-semibold p-4 text-[#313437]">
+          Last Login Sessions
+        </h4>
         <div className="overflow-x-auto w-full">
           <table className="overflow-x-auto border-collapse w-full">
             <thead>
@@ -74,14 +71,15 @@ const DashboardTable = () => {
           </table>
         </div>
       </div>
-      <Pagination
-        totalPages={totalPages}
-        handleNextPage={handleNextPage}
-        currentPage={currentPage}
-        handlePrevPage={handlePrevPage}
-      />
+      <div className="my-4">
+        <PaginationButtons
+          totalPages={Math.ceil(total / perPage)}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default DashboardTable
+export default DashboardTable;

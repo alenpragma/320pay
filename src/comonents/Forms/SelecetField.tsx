@@ -1,71 +1,21 @@
-// import { Controller, useFormContext } from "react-hook-form";
-
-// type TOption = {
-//   name: string;
-// };
-
-// type TSelectProps = {
-//   name: string;
-//   className?: string;
-//   options: TOption[];
-//   placeholder?: string;
-//   required?: boolean;
-// };
-
-// const SelectField = ({
-//   name,
-//   className,
-//   options,
-//   required,
-// }: TSelectProps) => {
-//   const { control } = useFormContext();
-//   return (
-//     <Controller
-//       control={control}
-//       name={name}
-//       render={({ field, fieldState: { error } }) => (
-//         <div className="flex flex-col">
-//           <select
-//             {...field}
-//             className={className}
-//             required={required}
-//             defaultValue=""
-//           >
-//             {options.map((option) => (
-//               <option key={option.name} value={option.name} className="h-10">
-//                 {option.name}
-//               </option>
-//             ))}
-//           </select>
-//           {error ? (
-//             <span className="text-[#e82828] text-[14px]">{error.message}</span>
-//           ) : (
-//             ""
-//           )}
-//         </div>
-//       )}
-//     />
-//   );
-// };
-
-// export default SelectField;
-
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import Select from "react-select";
+import React from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import Select from "react-select"
 
 type TOption = {
-  label: string;
-  value: string;
-};
+  label: string
+  value: string
+  id?: string
+}
 
 type TSelectProps = {
-  name: string;
-  className?: string;
-  options: TOption[];
-  placeholder?: string;
-  required?: boolean;
-};
+  name: string
+  className?: string
+  options: TOption[]
+  placeholder?: string
+  required?: boolean
+  onChange?: (value: string) => void // Add onChange prop type
+}
 
 const SelectField = ({
   name,
@@ -73,8 +23,9 @@ const SelectField = ({
   options,
   placeholder,
   required,
+  onChange, // Receive the onChange prop
 }: TSelectProps) => {
-  const { control } = useFormContext();
+  const { control } = useFormContext()
 
   return (
     <Controller
@@ -91,7 +42,12 @@ const SelectField = ({
             value={
               options.find((option) => option.value === field.value) || null
             }
-            onChange={(option) => field.onChange(option?.value)}
+            onChange={(option) => {
+              field.onChange(option?.value)
+              if (onChange) {
+                onChange(option?.id || "") // Call the parent onChange
+              }
+            }}
             onBlur={field.onBlur}
           />
           {error ? (
@@ -102,7 +58,7 @@ const SelectField = ({
         </div>
       )}
     />
-  );
-};
+  )
+}
 
-export default SelectField;
+export default SelectField

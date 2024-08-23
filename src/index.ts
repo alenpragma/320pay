@@ -49,6 +49,11 @@ export const loading = lottie;
 
 import usdt from "./assets/icon/payment/usdt.svg";
 
+import bnb from "./assets/icon/dashboard/bnb.svg";
+import usdts from "./assets/icon/dashboard/usdt.svg";
+import musd from "./assets/icon/dashboard/musd.svg";
+import mind from "./assets/icon/dashboard/mind.svg";
+
 export const walletHistory = [
   {
     id: "012",
@@ -303,4 +308,8 @@ export const images = {
   wallet2,
   tick,
   usdt,
+  usdts,
+  mind,
+  bnb,
+  musd,
 };
