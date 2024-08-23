@@ -1,22 +1,23 @@
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form"
 
 type TInputProps = {
-  
-  name: string;
-  type: string;
-  className?: string;
-  placeholder?: string;
-  requried?: boolean;
-};
+  name: string
+  type: string
+  className?: string
+  placeholder?: string
+  requried?: boolean
+  defaultValue?: string | number
+}
 
 const InputField = ({
   name,
   type,
   className,
   placeholder,
+  defaultValue,
   requried,
 }: TInputProps) => {
-  const { control } = useFormContext();
+  const { control } = useFormContext()
   return (
     <Controller
       control={control}
@@ -28,15 +29,18 @@ const InputField = ({
             type={type}
             className={className}
             placeholder={placeholder}
+            value={defaultValue}
             required={requried}
           />
-          {error && type !== "checkbox" ?  (
+          {error && type !== "checkbox" ? (
             <span className="text-[#e82828] text-[14px]">{error.message}</span>
-          ) : ""}
+          ) : (
+            ""
+          )}
         </div>
       )}
     />
-  );
-};
+  )
+}
 
-export default InputField;
+export default InputField

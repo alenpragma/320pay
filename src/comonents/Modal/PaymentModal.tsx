@@ -1,17 +1,20 @@
-import { RxCross1 } from "react-icons/rx";
-import Form from "../Forms/Form";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import SelectField from "../Forms/SelecetField";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import SelectIcon from "../SelectIcon/SelectIcon";
-import { useState } from "react";
-import Loading from "../Lottie/Loading";
+import { RxCross1 } from "react-icons/rx"
+import Form from "../Forms/Form"
+import { FieldValues, SubmitHandler } from "react-hook-form"
+import SelectField from "../Forms/SelecetField"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import SelectIcon from "../SelectIcon/SelectIcon"
+import { useEffect, useState } from "react"
+import Loading from "../Lottie/Loading"
+import axiosInstance from "../../utils/axiosConfig"
+import InputField from "../Forms/InputField"
+import { toast } from "react-toastify"
 
 type IModal = {
-  handleRenewModal: () => void;
-  renewModal: boolean;
-};
+  handleRenewModal: () => void
+  renewModal: boolean
+}
 
 export const currency = [
   { label: "USDT", value: "usdt" },
@@ -21,7 +24,7 @@ export const currency = [
   { label: "SHIV", value: "shiv" },
   { label: "DAI", value: "dai" },
   { label: "TRX", value: "trx" },
-];
+]
 
 export const network = [
   { label: "Binance(BEP20)", value: "binance" },
@@ -30,18 +33,53 @@ export const network = [
   { label: "MIND SMART CHAIN((MIND20)", value: "polygon" },
   { label: "ARBITRUM", value: "arbitrum" },
   { label: "OPTIMISM", value: "optimism" },
-];
+]
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
-  network: z.string().min(1, "This field is required"),
-});
+  network: z.string().optional(),
+})
 
 const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setLoading(true);
-    console.log(data);
-  };
+  const [loading, setLoading] = useState<boolean>(false)
+  const [selectedCurrency, setSelectedCurrency] = useState<any>()
+  const [availableTokens, setAvailableTokens] = useState([])
+
+  const formSubmit: SubmitHandler<FieldValues> = async () => {
+    setLoading(true)
+    const data = {
+      token_id: selectedCurrency.id,
+    }
+
+    const response = await axiosInstance.post("/client-token/store", data)
+    console.log(response)
+    if (response.data.success == 200) {
+      toast.success("Successfuly added currency")
+    }
+  }
+
+  const getDatas = async () => {
+    const response = await axiosInstance.get("/client/available-tokens")
+    if (response?.data?.data) {
+      setAvailableTokens(response?.data?.data)
+    }
+  }
+
+  useEffect(() => {
+    getDatas()
+  }, [])
+  const currencys = availableTokens.map((item: any) => ({
+    id: item.id,
+    label: item?.rpc_chain,
+    value: item?.rpc_chain,
+  }))
+
+  const handleCurrencyChange = (value: string) => {
+    const selectedToken = availableTokens.find((token: any) => {
+      return token.id === value
+    })
+
+    setSelectedCurrency(selectedToken)
+  }
 
   return (
     <div className="w-full ">
@@ -83,26 +121,40 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                   <SelectField
                     name="currency"
                     className=""
-                    options={currency}
+                    options={currencys}
                     placeholder="Please select an option"
+                    onChange={handleCurrencyChange}
                   />
                 </div>
                 <div className="relative mb-8">
-                  <p className="font-semibold text-secondary mb-2">
-                    Choose Network
-                  </p>
-                  <SelectField
+                  <p className="font-semibold text-secondary mb-2">Network</p>
+                  {/* <SelectField
                     name="network"
                     className=" "
                     options={network}
                     placeholder="Please select an option"
-                  />
+                  /> */}
+                  <div className="relative">
+                    <InputField
+                      name="network"
+                      type="text"
+                      defaultValue={
+                        selectedCurrency && selectedCurrency?.token_name
+                      }
+                      className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
+                    />
+                    <img
+                      className="absolute w-6 top-1 my-auto left-2 text-slate-500 text-[20px] cursor-pointer"
+                      src={selectedCurrency?.image}
+                      alt=""
+                    />
+                  </div>
                   {/* <SelectIcon /> */}
                 </div>
-                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
+                {/* <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
                   Submit
-                </button>
-                {/* <div className="flex justify-center items-center">
+                </button> */}
+                <div className="flex justify-center items-center">
                   {loading ? (
                     <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
                       <Loading />
@@ -112,17 +164,17 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                       Submit
                     </button>
                   )}
-                </div> */}
+                </div>
               </div>
             </Form>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PaymenModal;
+export default PaymenModal
 
 // import { RxCross1 } from "react-icons/rx";
 // import Form from "../Forms/Form";
