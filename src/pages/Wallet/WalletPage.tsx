@@ -53,7 +53,7 @@ const Deposit = () => {
                 <p className="text-[14px]">Wallet Address</p>
                 <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
                   <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                    {`${wallet.client_wallet_address?.slice(
+                    {`${wallet?.client_wallet_address?.slice(
                       0,
                       18
                     )} .........${wallet?.client_wallet_address?.slice(

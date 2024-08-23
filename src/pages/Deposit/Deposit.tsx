@@ -2,6 +2,16 @@ import { FaCopy } from "react-icons/fa";
 import { images } from "../..";
 import { useState } from "react";
 import { copyToClipboard } from "../../utils/Actions";
+import Form from "../../comonents/Forms/Form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import SelectField from "../../comonents/Forms/SelecetField";
+import { currency } from "../../comonents/Modal/PaymentModal";
+
+export const validationSchema = z.object({
+  currency: z.string().min(1, "This field is required"),
+});
 
 const Deposit = () => {
   const [textToCopy, setTextToCopy] = useState<string>("");
@@ -10,20 +20,27 @@ const Deposit = () => {
     setTextToCopy(copy);
   };
   const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA";
+
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+  };
   return (
     <div className="md:p-8 pt-5">
       <div className="md:w-2/5 w-11/12 mx-auto ">
-        <form>
-          <select
-            name=""
-            id=""
-            className="w-full py-2 rounded border border-slate-300 focus:outline focus:outline-slate-400 px-2"
-          >
-            <option value="bitcoin">bitcoin</option>
-            <option value="bitcoin">bitcoin</option>
-            <option value="bitcoin">bitcoin</option>
-          </select>
-        </form>
+        <Form
+          onSubmit={formSubmit}
+          resolver={zodResolver(validationSchema)}
+          defaultValues={{
+            currency: "",
+          }}
+        >
+          <SelectField
+            name="currency"
+            className=""
+            options={currency}
+            placeholder="Please select an option"
+          />
+        </Form>
         <div className="mt-5 border border-[#E2E2E9] rounded-2xl">
           <div className="py-2 bg-primary w-full rounded-t-2xl px-5">
             <span className="font-semibold text-white ">
