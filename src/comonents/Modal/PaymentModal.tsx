@@ -4,7 +4,6 @@ import { FieldValues, SubmitHandler } from "react-hook-form"
 import SelectField from "../Forms/SelecetField"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import SelectIcon from "../SelectIcon/SelectIcon"
 import { useEffect, useState } from "react"
 import Loading from "../Lottie/Loading"
 import axiosInstance from "../../utils/axiosConfig"
@@ -44,21 +43,9 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [selectedCurrency, setSelectedCurrency] = useState<any>()
   const [availableTokens, setAvailableTokens] = useState([])
 
-  const formSubmit: SubmitHandler<FieldValues> = async () => {
-    setLoading(true)
-    const data = {
-      token_id: selectedCurrency.id,
-    }
-
-    const response = await axiosInstance.post("/client-token/store", data)
-    console.log(response)
-    if (response.data.success == 200) {
-      toast.success("Successfuly added currency")
-    }
-  }
-
   const getDatas = async () => {
     const response = await axiosInstance.get("/client/available-tokens")
+
     if (response?.data?.data) {
       setAvailableTokens(response?.data?.data)
     }
@@ -67,7 +54,8 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   useEffect(() => {
     getDatas()
   }, [])
-  const currencys = availableTokens.map((item: any) => ({
+
+  const currencys = availableTokens?.map((item: any) => ({
     id: item.id,
     label: item?.rpc_chain,
     value: item?.rpc_chain,
@@ -79,6 +67,19 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
     })
 
     setSelectedCurrency(selectedToken)
+  }
+
+  const formSubmit: SubmitHandler<FieldValues> = async () => {
+    setLoading(true)
+    const data = {
+      token_id: selectedCurrency.id,
+    }
+
+    const response = await axiosInstance.post("/client-token/store", data)
+    console.log(response)
+    if (response.data.success == 200) {
+      toast.success("Successfuly added currency")
+    }
   }
 
   return (

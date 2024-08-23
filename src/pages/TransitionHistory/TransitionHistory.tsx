@@ -1,44 +1,43 @@
-import { useState } from "react";
-import { tableData, walletHistory } from "../..";
-import TData from "../../comonents/Table/TData";
-import Pagination from "../../comonents/Pagination/Pagination";
-import Select from "react-select";
-import { FaCopy } from "react-icons/fa";
-import { copyToClipboard } from "../../utils/Actions";
-import { MdContentCopy } from "react-icons/md";
-import HoverTableItem from "../../lib/HoverTableItem";
+import { useState } from "react"
+import { tableData, walletHistory } from "../.."
+import TData from "../../comonents/Table/TData"
+import Pagination from "../../comonents/Pagination/Pagination"
+import Select from "react-select"
+import { copyToClipboard } from "../../utils/Actions"
+import { MdContentCopy } from "react-icons/md"
+import HoverTableItem from "../../lib/HoverTableItem"
 
 const options = [
   { value: "bnb", label: "BNB" },
   { value: "btc", label: "BTC" },
   { value: "usd", label: "USD" },
-];
+]
 
 const TransitionHistory = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(tableData.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+  const totalPages = Math.ceil(tableData.length / itemsPerPage)
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+  }
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-  const [selectValue, setSelectValue] = useState("");
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+  }
+  const [selectValue, setSelectValue] = useState("")
   const hanldeChenge = (e: any) => {
-    setSelectValue(e.label);
-  };
+    setSelectValue(e.label)
+  }
 
   const handleCopy = (copy: any) => {
-    copyToClipboard(copy);
-  };
-  const [historyData, setHistory] = useState("");
+    copyToClipboard(copy)
+  }
+  const [historyData, setHistory] = useState("")
   const handleTras = (history: any) => {
-    setHistory(history);
-  };
+    setHistory(history)
+  }
   return (
     <>
       <div className="md:p-6 px-3 pt-4">
@@ -103,7 +102,9 @@ const TransitionHistory = () => {
                         <div className="flex items-center">
                           <span
                             className="hover:bg-green-100 px-3 rounded"
-                            onMouseEnter={() => handleTras(data.transition_History)}
+                            onMouseEnter={() =>
+                              handleTras(data.transition_History)
+                            }
                             onMouseLeave={() => handleTras(null)}
                           >
                             {data.transition_History.slice(0, 10)}
@@ -165,7 +166,7 @@ const TransitionHistory = () => {
         handlePrevPage={handlePrevPage}
       />
     </>
-  );
-};
+  )
+}
 
-export default TransitionHistory;
+export default TransitionHistory
