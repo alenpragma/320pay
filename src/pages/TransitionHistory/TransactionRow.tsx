@@ -1,28 +1,38 @@
-import React from "react"
-import TData from "../../comonents/Table/TData"
+import React, { useState } from "react"
 import { MdContentCopy } from "react-icons/md"
 import HoverTableItem from "../../lib/HoverTableItem"
 import { copyToClipboard } from "../../utils/Actions"
+import TData from "../../comonents/Table/TData"
 
-const TransactionRow = ({ data }: any) => {
+const TransactionRow = ({ data, selectValue, wallet_address }: any) => {
+  const [hoveredField, setHoveredField] = useState<string | null>(null)
+
   const handleCopy = (copy: any) => {
     copyToClipboard(copy)
+  }
+
+  const handleMouseEnter = (field: string) => {
+    setHoveredField(field)
+  }
+
+  const handleMouseLeave = () => {
+    setHoveredField(null)
   }
 
   return (
     <>
       <tr className="border-b border-[#E2E2E9]">
-        <TData data={data?.timestamp} className="  px-6" />
+        <TData data={data?.timestamp} className="px-6" />
         <TData className="px-3">
           <div className="relative">
             <div className="flex items-center">
               <span
-                className="hover:bg-green-100 px-3 rounded"
-                // onMouseEnter={() => handleTras(data.wallletHistory)}
-                // onMouseLeave={() => handleTras(null)}
+                className="hover:bg-green-100 w-40 px-3 rounded"
+                onMouseEnter={() => handleMouseEnter("hash")}
+                onMouseLeave={handleMouseLeave}
               >
-                {data.hash?.slice(0, 10)}
-                .......
+                {data.hash?.slice(0, 6)}
+                ........
                 {data.hash?.slice(-8)}
               </span>
               <MdContentCopy
@@ -30,22 +40,18 @@ const TransactionRow = ({ data }: any) => {
                 className="cursor-pointer rotate-180 size-5"
               />
             </div>
-            {/* {data.hash  ? ( */}
-            <HoverTableItem value={data.hash} />
-            {/* ) : ( */}
-            {/* "" */}
-            {/* )} */}
+            {hoveredField === "hash" && <HoverTableItem value={data.hash} />}
           </div>
         </TData>
-        <TData data={`${data?.value} ${"selectValue"}`} className="px-6" />
+        <TData data={`${data?.value} ${selectValue}`} className="px-6" />
 
         <TData className="px-3">
           <div className="relative">
             <div className="flex items-center">
               <span
                 className="hover:bg-green-100 px-3 rounded"
-                // onMouseEnter={() => handleTras(data.from)}
-                // onMouseLeave={() => handleTras(null)}
+                onMouseEnter={() => handleMouseEnter("from")}
+                onMouseLeave={handleMouseLeave}
               >
                 {data.from?.slice(0, 10)}
                 .......
@@ -56,11 +62,7 @@ const TransactionRow = ({ data }: any) => {
                 className="cursor-pointer rotate-180 size-5"
               />
             </div>
-            <HoverTableItem value={data.from} />
-            {/* {data.from == historyData ? (
-                        ) : (
-                          ""
-                        )} */}
+            {hoveredField === "from" && <HoverTableItem value={data.from} />}
           </div>
         </TData>
         <TData className="px-3">
@@ -68,8 +70,8 @@ const TransactionRow = ({ data }: any) => {
             <div className="flex items-center">
               <span
                 className="hover:bg-green-100 px-3 rounded"
-                // onMouseEnter={() => handleTras(data.to)}
-                // onMouseLeave={() => handleTras(null)}
+                onMouseEnter={() => handleMouseEnter("to")}
+                onMouseLeave={handleMouseLeave}
               >
                 {data.to?.slice(0, 10)}
                 .......
@@ -80,16 +82,12 @@ const TransactionRow = ({ data }: any) => {
                 className="cursor-pointer rotate-180 size-5"
               />
             </div>
-            <HoverTableItem value={data.to} />
-            {/* {data.to == historyData ? (
-                        ) : (
-                          ""
-                        )} */}
+            {hoveredField === "to" && <HoverTableItem value={data.to} />}
           </div>
         </TData>
-        <TData className="  px-6">
+        <TData className="px-6">
           <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-            {data.status == 1 ? "Complete" : "Pending"}
+            {data.to == wallet_address ? "In" : "Out"}
           </span>
         </TData>
       </tr>
