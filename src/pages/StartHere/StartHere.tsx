@@ -24,6 +24,7 @@ type IPackage = {
 const StartHere = () => {
   const [modal, setModal] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+  const [planId, setPlanId] = useState<any>("")
 
   const [packages, setPackages] = useState<any>([])
 
@@ -46,12 +47,13 @@ const StartHere = () => {
     getDatas()
   }, [])
 
-  const handleModal = () => {
+  const handleModal = (id?: any) => {
+    setPlanId(id)
     setModal(!modal)
   }
   return (
     <>
-      <StartHereModal handleModal={handleModal} modal={modal} />
+      <StartHereModal planId={planId} handleModal={handleModal} modal={modal} />
       <div className="md:p-8 px-3 pt-4">
         <div className="flex justify-between">
           <h5>
@@ -108,7 +110,7 @@ const StartHere = () => {
                 })}
               </ul>
               <button
-                onClick={handleModal}
+                onClick={() => handleModal(data.id)}
                 className="w-full py-2 rounded-xl bg-primary text-white font-semibold"
               >
                 Get Started

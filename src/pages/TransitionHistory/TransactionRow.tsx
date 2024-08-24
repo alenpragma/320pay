@@ -86,7 +86,13 @@ const TransactionRow = ({ data, selectValue, wallet_address }: any) => {
           </div>
         </TData>
         <TData className="px-6">
-          <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
+          <span
+            className={`${
+              data.to == wallet_address
+                ? " text-green-500 bg-[#DCF3DE]"
+                : " text-red-500 bg-[rgba(163,10,10,0.2)]"
+            } font-semibold text-[14px]  rounded px-5 py-1`}
+          >
             {data.to == wallet_address ? "In" : "Out"}
           </span>
         </TData>

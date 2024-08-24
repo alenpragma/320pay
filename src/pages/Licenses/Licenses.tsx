@@ -1,33 +1,47 @@
-import { useState } from "react";
-import { tableData } from "../..";
-import TData from "../../comonents/Table/TData";
-import Modal from "../../comonents/Modal/Modal";
-import Pagination from "../../comonents/Pagination/Pagination";
-import Renew from "../../comonents/Modal/Renew";
+import { Key, useEffect, useState } from "react"
+import { tableData } from "../.."
+import TData from "../../comonents/Table/TData"
+import Modal from "../../comonents/Modal/Modal"
+import Pagination from "../../comonents/Pagination/Pagination"
+import Renew from "../../comonents/Modal/Renew"
+import axiosInstance from "../../utils/axiosConfig"
 
 const Licenses = () => {
-  const [modal, setModal] = useState<boolean>(false);
-  const [renewModal, setRenewModal] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false)
+  const [renewModal, setRenewModal] = useState<boolean>(false)
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(tableData.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+  const totalPages = Math.ceil(tableData.length / itemsPerPage)
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+  }
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+  }
 
   const handleModal = () => {
-    setModal(!modal);
-  };
+    setModal(!modal)
+  }
   const handleRenewModal = () => {
-    setRenewModal(!renewModal);
-  };
+    setRenewModal(!renewModal)
+  }
+
+  const [licenses, setLicenses] = useState<any>([])
+
+  const getLicenses = async () => {
+    const response = await axiosInstance.get("/client/packages")
+    if (response?.data?.success == 200) {
+      setLicenses(response?.data?.data)
+    }
+  }
+  useEffect(() => {
+    getLicenses()
+  }, [])
+
   return (
     <>
       <Modal handleModal={handleModal} modal={modal} />
@@ -52,20 +66,13 @@ const Licenses = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {currentItems.map((item, i) => (
+                {licenses?.map((item: any, i: Key) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     {/* <TData
                       children={` ${i <= 8 ? "0" : ""}${i + 1}`}
                       className="w-2/12 px-6"
                     /> */}
-                    <TData
-                      children={`${
-                        indexOfFirstItem + i + 1 <= 9
-                          ? `0${indexOfFirstItem + i + 1}`
-                          : indexOfFirstItem + i + 1
-                      }`}
-                      className="w-2/12 px-6"
-                    />
+                    <TData children={Number(i) + 1} className="w-2/12 px-6" />
                     <TData data="BitCoin_Web30" className="w-2/12  px-6" />
                     <TData data="12 Jun 2024" className="w-2/12 px-6" />
                     <TData data="12 Jun 2025" className="w-2/12 px-6" />
@@ -115,7 +122,7 @@ const Licenses = () => {
         handlePrevPage={handlePrevPage}
       />
     </>
-  );
-};
+  )
+}
 
-export default Licenses;
+export default Licenses

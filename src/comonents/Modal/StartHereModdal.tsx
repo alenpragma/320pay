@@ -1,22 +1,52 @@
-import { RxCross1 } from "react-icons/rx";
-import Form from "../Forms/Form";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import InputField from "../Forms/InputField";
+import { RxCross1 } from "react-icons/rx"
+import Form from "../Forms/Form"
+import { FieldValues, SubmitHandler } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import InputField from "../Forms/InputField"
+import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
 
 type IModal = {
-  handleModal: () => void;
-  modal: boolean;
-};
+  handleModal: () => void
+  modal: boolean
+  planId: string
+}
 export const validationSchema = z.object({
   domainName: z.string().min(1, "This field is required"),
-});
-const StartHereModal = ({ handleModal, modal }: IModal) => {
-  const formSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-  };
-  // const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA";
+})
+const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const planData = {
+      package_id: planId,
+      domain_name: data.domainName,
+    }
+    console.log(planData)
+
+    try {
+      const response = await axiosInstance.post(
+        "/client/purchase-package",
+        planData
+      )
+      console.log(response)
+
+      if (response?.data?.error == 400) {
+        toast.error(response?.data?.messsage)
+        return
+      }
+
+      if (response?.data?.success == 200) {
+        toast.success(response?.data?.message)
+        return
+      } else {
+        // Handle any other unexpected cases
+        toast.error("Unexpected response from the server")
+      }
+    } catch (error) {
+      console.error("Request failed:", error)
+      toast.error("Something went wrong. Please try again.")
+    }
+  }
   return (
     <div className="w-full ">
       <div
@@ -75,7 +105,7 @@ const StartHereModal = ({ handleModal, modal }: IModal) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StartHereModal;
+export default StartHereModal
