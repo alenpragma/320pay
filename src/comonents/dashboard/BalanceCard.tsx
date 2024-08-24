@@ -7,6 +7,7 @@ import BalanceSwiperCard from "../SwiperCard/BalanceSwiperCard"
 import axiosInstance from "../../utils/axiosConfig"
 import { Key, useEffect, useState } from "react"
 
+
 const BalanceCard = () => {
   const [wallets, setWallets] = useState<any>([{}, {}, {}])
 
