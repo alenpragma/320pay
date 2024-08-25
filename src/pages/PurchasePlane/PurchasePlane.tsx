@@ -2,9 +2,11 @@ import { useState } from "react";
 import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
 import Pagination from "../../comonents/Pagination/Pagination";
+import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal";
 
 const PurchasePlane = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [modal, setModal] = useState<boolean>(false);
   const itemsPerPage = 10;
   const totalPages = Math.ceil(tableData.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -17,8 +19,12 @@ const PurchasePlane = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const handleModal = () => {
+    setModal(!modal);
+  };
   return (
     <>
+      <PurchasePlaneModal handleModal={handleModal} modal={modal} />
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
           <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
@@ -70,7 +76,10 @@ const PurchasePlane = () => {
                       </span>
                     </TData>
                     <TData className="  px-6">
-                      <button className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1">
+                      <button
+                        onClick={handleModal}
+                        className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
+                      >
                         View
                       </button>
                     </TData>

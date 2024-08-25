@@ -119,6 +119,12 @@ export const mainNavItem: MenuInterface[] = [
     icon1: wallet,
     icon2: walletHover,
   },
+  {
+    pathname: "/withdraw",
+    item: "Withdraw",
+    icon1: wallet,
+    icon2: walletHover,
+  },
 ];
 export const subNavItem: MenuInterface[] = [
   {

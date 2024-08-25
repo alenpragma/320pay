@@ -1,21 +1,20 @@
-import React from "react"
-import { Controller, useFormContext } from "react-hook-form"
-import Select from "react-select"
+import { Controller, useFormContext } from "react-hook-form";
+import Select from "react-select";
 
 type TOption = {
-  label: string
-  value: string
-  id?: string
-}
+  label: string;
+  value: string;
+  id?: string;
+};
 
 type TSelectProps = {
-  name: string
-  className?: string
-  options: TOption[]
-  placeholder?: string
-  required?: boolean
-  onChange?: (value: string) => void // Add onChange prop type
-}
+  name: string;
+  className?: string;
+  options: TOption[];
+  placeholder?: string;
+  required?: boolean;
+  onChange?: (value: string) => void;
+};
 
 const SelectField = ({
   name,
@@ -23,9 +22,9 @@ const SelectField = ({
   options,
   placeholder,
   required,
-  onChange, // Receive the onChange prop
+  onChange,
 }: TSelectProps) => {
-  const { control } = useFormContext()
+  const { control } = useFormContext();
 
   return (
     <Controller
@@ -43,9 +42,9 @@ const SelectField = ({
               options.find((option) => option.value === field.value) || null
             }
             onChange={(option) => {
-              field.onChange(option?.value)
+              field.onChange(option?.value);
               if (onChange) {
-                onChange(option?.id || "") // Call the parent onChange
+                onChange(option?.id || "");
               }
             }}
             onBlur={field.onBlur}
@@ -58,7 +57,7 @@ const SelectField = ({
         </div>
       )}
     />
-  )
-}
+  );
+};
 
-export default SelectField
+export default SelectField;
