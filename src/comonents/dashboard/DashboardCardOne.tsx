@@ -1,73 +1,74 @@
-import { FaRegCopy } from "react-icons/fa";
-import { dashboardCard, images } from "../..";
-import { CiCirclePlus } from "react-icons/ci";
-import { useEffect, useState } from "react";
-import { copyToClipboard } from "../../utils/Actions";
-import { Link, useNavigate } from "react-router-dom";
-import { ethers } from "ethers";
-import { toast } from "react-toastify";
-import axiosInstance from "../../utils/axiosConfig";
-import { PuffLoader } from "react-spinners";
-import Skeleton from "react-loading-skeleton";
+import { FaRegCopy } from "react-icons/fa"
+import { dashboardCard, images } from "../.."
+import { CiCirclePlus } from "react-icons/ci"
+import { useEffect, useState } from "react"
+import { copyToClipboard } from "../../utils/Actions"
+import { Link, useNavigate } from "react-router-dom"
+import { ethers } from "ethers"
+import { toast } from "react-toastify"
+import axiosInstance from "../../utils/axiosConfig"
+import { PuffLoader } from "react-spinners"
+import Skeleton from "react-loading-skeleton"
 
 const DashboardCardOne = ({ clientProfile }: any) => {
-  const [wallet, setWallet] = useState<any>("");
+  const [wallet, setWallet] = useState<any>("")
 
   const handleCopy = (copy: string) => {
-    copyToClipboard(copy);
-  };
-  const navigate = useNavigate();
+    copyToClipboard(copy)
+  }
+  const navigate = useNavigate()
 
-  const [createdAddress, setCreatedAddress] = useState();
-  const [address] = useState("0090");
+  const [createdAddress, setCreatedAddress] = useState()
+  const [address] = useState("0090")
 
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false)
+  const [walletLoading, setWalletLoading] = useState<boolean>(false)
 
   const creteWallet = async () => {
     try {
-      setLoading(true);
-      const response = await axiosInstance.post("/client/create-address");
-      console.log(response);
+      setLoading(true)
+      const response = await axiosInstance.post("/client/create-address")
+      console.log(response)
 
       if (response?.data?.success == 200) {
-        setCreatedAddress(response?.data?.data);
-        toast.info(response?.data?.message);
-        navigate("/wallet");
-        return;
+        setCreatedAddress(response?.data?.data)
+        toast.info(response?.data?.message)
+        navigate("/wallet")
+        return
       }
       if (response?.data?.error == 400) {
-        return toast.error(response?.data?.message);
+        return toast.error(response?.data?.message)
       }
-      setLoading(false);
+      setLoading(false)
     } catch (error) {
-      setLoading(false);
-      console.error("Error fetching data:", error);
+      setLoading(false)
+      console.error("Error fetching data:", error)
     }
-  };
+  }
 
   const getWallet = async () => {
     try {
-      setLoading(true);
-      const response = await axiosInstance.get("/client-wallets");
+      setWalletLoading(true)
+      const response = await axiosInstance.get("/client-wallets")
       if (response?.data?.success === 200) {
-        setWallet(response?.data?.data);
+        setWallet(response?.data?.data)
       }
     } catch (error) {
-      console.error("Failed to fetch wallet data:", error);
+      console.error("Failed to fetch wallet data:", error)
     } finally {
-      setLoading(false);
+      setWalletLoading(false)
     }
-  };
+  }
   useEffect(() => {
-    getWallet();
-  }, []);
+    getWallet()
+  }, [])
 
   const shortenAddress = (address: string) => {
-    if (!address) return "";
-    const firstPart = address.slice(0, 5);
-    const lastPart = address.slice(-6);
-    return `${firstPart}....${lastPart}`;
-  };
+    if (!address) return ""
+    const firstPart = address.slice(0, 5)
+    const lastPart = address.slice(-6)
+    return `${firstPart}....${lastPart}`
+  }
 
   return (
     <div>
@@ -88,8 +89,8 @@ const DashboardCardOne = ({ clientProfile }: any) => {
           <div className="flex flex-row md:items-center items-start justify-between md:mt-8 mt-3 mb-2">
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
-                {loading ? (
-                  <Skeleton height={40} count={1} highlightColor="#F4F5F6"/>
+                {walletLoading ? (
+                  <Skeleton height={40} count={1} highlightColor="#F4F5F6" />
                 ) : (
                   <p className="flex justify-between items-center">
                     {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
@@ -125,13 +126,10 @@ const DashboardCardOne = ({ clientProfile }: any) => {
           <div className="flex flex-row md:items-center items-start justify-between md:mt-8 mt-3 mb-2">
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
-                {loading ? (
-                 <Skeleton height={40} count={1} highlightColor="#F4F5F6"/>
+                {walletLoading ? (
+                  <Skeleton height={40} count={1} highlightColor="#F4F5F6" />
                 ) : (
-                  <p className="flex justify-between items-center">
-                    {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
-                    {clientProfile?.client_secret_id.slice(-3)}
-                  </p>
+                  <p className="flex justify-between items-center">0.00</p>
                 )}
               </div>
             </span>
@@ -154,8 +152,8 @@ const DashboardCardOne = ({ clientProfile }: any) => {
           <div className="flex flex-row md:items-center items-start justify-between md:mt-8 mt-3 mb-2">
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
-                {!wallet?.client_wallet_address ? (
-                  <Skeleton height={40} count={1} highlightColor="#F4F5F6"/>
+                {!wallet?.client_wallet_address && walletLoading == true ? (
+                  <Skeleton height={40} count={1} highlightColor="#F4F5F6" />
                 ) : (
                   <p className="flex justify-between items-center">
                     {!wallet?.client_wallet_address ? (
@@ -194,7 +192,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DashboardCardOne;
+export default DashboardCardOne

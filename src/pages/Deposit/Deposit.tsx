@@ -9,6 +9,7 @@ import { z } from "zod"
 import SelectField from "../../comonents/Forms/SelecetField"
 import { currency } from "../../comonents/Modal/PaymentModal"
 import axiosInstance from "../../utils/axiosConfig"
+import Skeleton from "react-loading-skeleton"
 
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
@@ -22,7 +23,6 @@ const Deposit = () => {
     copyToClipboard(textToCopy)
     setTextToCopy(copy)
   }
-  const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA"
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data)
@@ -35,6 +35,7 @@ const Deposit = () => {
       if (response?.data?.success === 200) {
         setWallet(response?.data?.data)
       }
+      setLoading(false)
     } catch (error) {
       console.error("Failed to fetch wallet data:", error)
     } finally {
@@ -44,6 +45,13 @@ const Deposit = () => {
   useEffect(() => {
     getWallet()
   }, [])
+
+  const shortenAddress = (address: string) => {
+    if (!address) return ""
+    const firstPart = address.slice(0, 5)
+    const lastPart = address.slice(-6)
+    return `${firstPart}....${lastPart}`
+  }
 
   return (
     <div className="md:p-8 pt-5">
@@ -55,12 +63,12 @@ const Deposit = () => {
             currency: "",
           }}
         >
-          <SelectField
+          {/* <SelectField
             name="currency"
             className=""
             options={currency}
             placeholder="Please select an option"
-          />
+          /> */}
         </Form>
         <div className="mt-5 border border-[#E2E2E9] rounded-2xl">
           <div className="py-2 bg-primary w-full rounded-t-2xl px-5">
@@ -74,10 +82,14 @@ const Deposit = () => {
             </div>
             <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
               <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                0x625336E4A6.....0852A668ad3a3fA
+                {loading ? (
+                  <Skeleton height={30} count={1} />
+                ) : (
+                  shortenAddress(wallet?.client_wallet_address)
+                )}
               </span>
               <span
-                onClick={() => handleCopy(copy)}
+                onClick={() => handleCopy(wallet?.client_wallet_address)}
                 className="px-3 py-3 text-white bg-primary rounded-r-lg cursor-pointer"
               >
                 <FaCopy />

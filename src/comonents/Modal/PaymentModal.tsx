@@ -44,11 +44,12 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [availableTokens, setAvailableTokens] = useState([])
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client-tokens")
+    const response = await axiosInstance.get("/client/available-tokens")
     if (response?.data?.data) {
       setAvailableTokens(response?.data?.data)
     }
   }
+  console.log(availableTokens, "availableTokens")
 
   useEffect(() => {
     getDatas()
@@ -72,13 +73,14 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
     const data = {
       token_id: selectedCurrency.id,
     }
-    // console.log(data)
 
-    // return
     const response = await axiosInstance.post("/client-token/store", data)
     console.log(response)
     if (response.data.success == 200) {
+      setLoading(false)
+
       toast.success("Successfuly added currency")
+      handleRenewModal()
     }
   }
 

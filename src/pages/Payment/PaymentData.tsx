@@ -3,6 +3,7 @@ import TData from "../../comonents/Table/TData"
 
 const PaymentData = ({ handelUpdateStatus, loading, token }: any) => {
   const [isToggled, setIsToggled] = useState(false)
+  const [updateId, setUpdateId] = useState()
 
   // const handleToggl1 = () => {
   //   setIsToggled1(!isToggled1)
@@ -11,8 +12,9 @@ const PaymentData = ({ handelUpdateStatus, loading, token }: any) => {
   //   setIsToggled2(!isToggled2)
   // }
 
-  const handleToggle0 = (id: string, status: string) => {
+  const handleToggle0 = (id: any, status: string) => {
     // console.log(id, "iddddd")
+    setUpdateId(id)
     handelUpdateStatus(id, status)
     setIsToggled(!isToggled)
   }
@@ -43,22 +45,22 @@ const PaymentData = ({ handelUpdateStatus, loading, token }: any) => {
         </TData>
 
         <TData className="  px-6">
-          <div
-            className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-              token.status == 1 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
-            }`}
-            onClick={() => handleToggle0(token.id, token.status)}
-          >
-            {loading ? (
-              "loading"
-            ) : (
+          {loading && token.id == updateId ? (
+            <div
+              className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
+                token.status != 1 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
+              }`}
+              onClick={() => handleToggle0(token.id, token.status)}
+            >
               <div
                 className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
                   token.status == 1 ? "translate-x-6" : ""
                 }`}
               ></div>
-            )}
-          </div>
+            </div>
+          ) : (
+            "loading.."
+          )}
         </TData>
       </tr>
     </>
@@ -66,3 +68,26 @@ const PaymentData = ({ handelUpdateStatus, loading, token }: any) => {
 }
 
 export default PaymentData
+
+// <div
+// className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
+//   token.status != 1 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
+// }`}
+// onClick={() => handleToggle0(token.id, token.status)}
+// >
+//    {loading && token.id == updateId ? (
+//   "loading"
+// ) : (
+//   <div
+//     className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
+//       token.status == 1 ? "translate-x-6" : ""
+//     }`}
+//   ></div>
+// )}
+
+// <div
+//   className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
+//     token.status == 1 ? "translate-x-6" : ""
+//   }`}
+// ></div>
+// </div>

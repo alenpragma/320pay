@@ -1,7 +1,8 @@
 import { CiSettings } from "react-icons/ci"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { removePaymentaToken } from "../../hooks/handelAuthToken"
 import { useNavigate } from "react-router-dom"
+import axiosInstance from "../../utils/axiosConfig"
 
 const UserOne =
   "https://media.licdn.com/dms/image/D4E03AQFrmDuWUxQoMg/profile-displayphoto-shrink_200_200/0/1715645354619?e=2147483647&v=beta&t=_WBVcQpyigwPLI-efv18uQQ3eV_hhzU5DcUlIHl77HA"
@@ -17,6 +18,18 @@ const DropdownUser = () => {
     removePaymentaToken()
     navigate("/login")
   }
+
+  const [clientProfile, setClientProfile] = useState<any>()
+
+  const getData = async () => {
+    const response = await axiosInstance.get("/client-profile")
+    if (response?.data?.success == 200) {
+      setClientProfile(response?.data?.profile)
+    }
+  }
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <div className="relative flex items-center gap-3">
@@ -34,9 +47,12 @@ const DropdownUser = () => {
           <img src={UserOne} alt="user" className=" rounded-full size-16" />
           <div>
             <h4 className="font-semibold text-[20px] text-[#616365]">
-              Mr. Alex Jonson
+              {clientProfile.name}
             </h4>
-            <p className="text-[#616365]">User Id : ajsdkfjw839</p>
+            <p className="text-[#616365]">
+              User Id : {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
+              {clientProfile?.client_secret_id.slice(-3)}
+            </p>
           </div>
           <button
             onClick={handelLogOut}

@@ -50,6 +50,45 @@ const StartHere = () => {
     setPlanId(id)
     setModal(!modal)
   }
+
+  const [clientWallets, setClientWallets] = useState<any>()
+  const getWalletData = async () => {
+    const response = await axiosInstance.get("/client-wallets")
+    if (response?.data?.success == 200) {
+      setClientWallets(response?.data?.data)
+    }
+  }
+  useEffect(() => {
+    getWalletData()
+  }, [])
+  console.log(clientWallets)
+
+  const [usdtBalance, setUsdtBalance] = useState<any>()
+  const getData = async () => {
+    try {
+      setLoading(true)
+      const response = await axiosInstance.get(
+        `/usdt-balance?address=${clientWallets?.client_wallet_address}`
+      )
+      console.log(response)
+
+      if (response?.data?.balance) {
+        setUsdtBalance(response?.data?.balance)
+      }
+    } catch (error) {
+      console.error("Failed to fetch wallet data:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (clientWallets?.client_wallet_address) {
+      getData()
+    }
+  }, [])
+  console.log(usdtBalance)
+
   return (
     <>
       <StartHereModal planId={planId} handleModal={handleModal} modal={modal} />
@@ -57,7 +96,7 @@ const StartHere = () => {
         <div className="flex justify-between">
           <h5>
             <span className="text-secondary text-[14px]">Balance:</span>{" "}
-            <span className="text-black font-bold">$5000</span>
+            <span className="text-black font-bold"> ${usdtBalance ?? 0}</span>
           </h5>
           <Link to="/deposit">
             <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
