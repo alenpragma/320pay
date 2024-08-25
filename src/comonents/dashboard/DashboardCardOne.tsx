@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import axiosInstance from "../../utils/axiosConfig";
 import { PuffLoader } from "react-spinners";
+import Skeleton from "react-loading-skeleton";
 
 const DashboardCardOne = ({ clientProfile }: any) => {
   const [wallet, setWallet] = useState<any>("");
@@ -88,9 +89,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
                 {loading ? (
-                  <div className="w-full flex justify-center items-center">
-                    <PuffLoader size={30} />
-                  </div>
+                  <Skeleton height={40} count={1} highlightColor="#F4F5F6"/>
                 ) : (
                   <p className="flex justify-between items-center">
                     {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
@@ -127,9 +126,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
                 {loading ? (
-                  <div className="w-full flex justify-center items-center">
-                    <PuffLoader size={30} />
-                  </div>
+                 <Skeleton height={40} count={1} highlightColor="#F4F5F6"/>
                 ) : (
                   <p className="flex justify-between items-center">
                     {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
@@ -158,9 +155,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
                 {!wallet?.client_wallet_address ? (
-                  <div className="w-full flex justify-center items-center">
-                    <PuffLoader size={30} />
-                  </div>
+                  <Skeleton height={40} count={1} highlightColor="#F4F5F6"/>
                 ) : (
                   <p className="flex justify-between items-center">
                     {!wallet?.client_wallet_address ? (

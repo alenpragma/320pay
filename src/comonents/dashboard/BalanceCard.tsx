@@ -7,6 +7,7 @@ import BalanceSwiperCard from "../SwiperCard/BalanceSwiperCard";
 import axiosInstance from "../../utils/axiosConfig";
 import { Key, useEffect, useState } from "react";
 import LoadLoading from "../Lottie/LoadLoading";
+import Skeleton from "react-loading-skeleton";
 
 const BalanceCard = () => {
   const [wallets, setWallets] = useState<any>([{}, {}, {}, {}]);
@@ -67,7 +68,7 @@ const BalanceCard = () => {
             return (
               <SwiperSlide key={i} className="w-full mt-5">
                 {loading ? (
-                  <LoadLoading />
+                    <Skeleton height={60} count={1} highlightColor="#F4F5F6"/>
                 ) : (
                   <BalanceSwiperCard wallet={wallet} />
                 )}
