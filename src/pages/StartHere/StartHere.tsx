@@ -67,7 +67,7 @@ const StartHere = () => {
           </Link>
         </div>
         {loading && packages.length === 0 && (
-          <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
+          <PuffLoader className="mx-auto" color="#5734DC" size={40} />
         )}
         <div className="grid md:grid-cols-4 grid-cols-2 gap-3 mt-8">
           {packages?.map((data: IPackage, i: Key) => (
