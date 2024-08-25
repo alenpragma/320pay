@@ -48,28 +48,29 @@ const Deposit = () => {
 
   const shortenAddress = (address: string) => {
     if (!address) return ""
-    const firstPart = address.slice(0, 5)
-    const lastPart = address.slice(-6)
+    const firstPart = address.slice(0, 10)
+    const lastPart = address.slice(-8)
     return `${firstPart}....${lastPart}`
   }
 
   return (
     <div className="md:p-8 pt-5">
       <div className="md:w-2/5 w-11/12 mx-auto ">
-        <Form
+        {/* <Form
           onSubmit={formSubmit}
           resolver={zodResolver(validationSchema)}
+
           defaultValues={{
             currency: "",
           }}
         >
-          {/* <SelectField
+          <SelectField
             name="currency"
             className=""
             options={currency}
             placeholder="Please select an option"
-          /> */}
-        </Form>
+          />
+        </Form> */}
         <div className="mt-5 border border-[#E2E2E9] rounded-2xl">
           <div className="py-2 bg-primary w-full rounded-t-2xl px-5">
             <span className="font-semibold text-white ">
