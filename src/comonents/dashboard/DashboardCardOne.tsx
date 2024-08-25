@@ -1,78 +1,72 @@
-import { FaRegCopy } from "react-icons/fa"
-import { dashboardCard, images } from "../.."
-import { CiCirclePlus } from "react-icons/ci"
-import { useEffect, useState } from "react"
-import { copyToClipboard } from "../../utils/Actions"
-import { Link, useNavigate } from "react-router-dom"
-import { ethers } from "ethers"
-import { toast } from "react-toastify"
-import axiosInstance from "../../utils/axiosConfig"
+import { FaRegCopy } from "react-icons/fa";
+import { dashboardCard, images } from "../..";
+import { CiCirclePlus } from "react-icons/ci";
+import { useEffect, useState } from "react";
+import { copyToClipboard } from "../../utils/Actions";
+import { Link, useNavigate } from "react-router-dom";
+import { ethers } from "ethers";
+import { toast } from "react-toastify";
+import axiosInstance from "../../utils/axiosConfig";
+import { PuffLoader } from "react-spinners";
 
 const DashboardCardOne = ({ clientProfile }: any) => {
-  const [textToCopy, setTextToCopy] = useState<string>("")
-  const [wallet, setWallet] = useState<any>("")
+  const [wallet, setWallet] = useState<any>("");
 
   const handleCopy = (copy: string) => {
-    copyToClipboard(textToCopy)
-    setTextToCopy(copy)
-  }
-  const navigate = useNavigate()
-  const [walletAddress, setWalletAddress] = useState<string | null>(null)
-  const [privateKey, setPrivateKey] = useState<string | null>(null)
+    copyToClipboard(copy);
+  };
+  const navigate = useNavigate();
 
-  const createWallet = () => {
-    const wallet = ethers.Wallet.createRandom()
-    const address = wallet.address
-    const privateKey = wallet.privateKey
-    setWalletAddress(address)
-    setPrivateKey(privateKey)
-    localStorage.setItem("address", address)
-    localStorage.setItem("privateKey", privateKey)
-  }
+  const [createdAddress, setCreatedAddress] = useState();
+  const [address] = useState("0090");
 
-  const [createdAddress, setCreatedAddress] = useState()
-  const [address] = useState("0090")
-
-  const [laoding, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
 
   const creteWallet = async () => {
     try {
-      setLoading(true)
-      const response = await axiosInstance.post("/client/create-address")
-      console.log(response)
+      setLoading(true);
+      const response = await axiosInstance.post("/client/create-address");
+      console.log(response);
 
       if (response?.data?.success == 200) {
-        setCreatedAddress(response?.data?.data)
-        toast.info(response?.data?.message)
-        navigate("/wallet")
-        return
+        setCreatedAddress(response?.data?.data);
+        toast.info(response?.data?.message);
+        navigate("/wallet");
+        return;
       }
       if (response?.data?.error == 400) {
-        return toast.error(response?.data?.message)
+        return toast.error(response?.data?.message);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
-      console.error("Error fetching data:", error)
+      setLoading(false);
+      console.error("Error fetching data:", error);
     }
-  }
+  };
 
   const getWallet = async () => {
-    const response = await axiosInstance.get("/client-wallets")
-    if (response?.data?.success) {
-      setWallet(response?.data?.data)
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get("/client-wallets");
+      if (response?.data?.success === 200) {
+        setWallet(response?.data?.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch wallet data:", error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
   useEffect(() => {
-    getWallet()
-  }, [])
+    getWallet();
+  }, []);
 
   const shortenAddress = (address: string) => {
-    if (!address) return ""
-    const firstPart = address.slice(0, 5)
-    const lastPart = address.slice(-6)
-    return `${firstPart}....${lastPart}`
-  }
+    if (!address) return "";
+    const firstPart = address.slice(0, 5);
+    const lastPart = address.slice(-6);
+    return `${firstPart}....${lastPart}`;
+  };
 
   return (
     <div>
@@ -93,17 +87,24 @@ const DashboardCardOne = ({ clientProfile }: any) => {
           <div className="flex flex-row md:items-center items-start justify-between md:mt-8 mt-3 mb-2">
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
-                <p className="flex justify-between items-center">
-                  {clientProfile?.client_secret_id}
-                  <span className="text-[#5734DC] md:text-[24px] text-[20px]">
-                    <FaRegCopy
-                      className="cursor-pointer"
-                      onClick={() =>
-                        handleCopy(clientProfile?.client_secret_id)
-                      }
-                    />
-                  </span>
-                </p>
+                {loading ? (
+                  <div className="w-full flex justify-center items-center">
+                    <PuffLoader size={30} />
+                  </div>
+                ) : (
+                  <p className="flex justify-between items-center">
+                    {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
+                    {clientProfile?.client_secret_id.slice(-3)}
+                    <span className="text-[#5734DC] md:text-[24px] text-[20px]">
+                      <FaRegCopy
+                        className="cursor-pointer"
+                        onClick={() =>
+                          handleCopy(clientProfile?.client_secret_id)
+                        }
+                      />
+                    </span>
+                  </p>
+                )}
               </div>
             </span>
           </div>
@@ -125,17 +126,16 @@ const DashboardCardOne = ({ clientProfile }: any) => {
           <div className="flex flex-row md:items-center items-start justify-between md:mt-8 mt-3 mb-2">
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
-                <p className="flex justify-between items-center">
-                  0989809{/* {clientProfile?.client_secret_id} */}
-                  <span className="text-[#5734DC] md:text-[24px] text-[20px]">
-                    <FaRegCopy
-                      className="cursor-pointer"
-                      onClick={() =>
-                        handleCopy(clientProfile?.client_secret_id)
-                      }
-                    />
-                  </span>
-                </p>
+                {loading ? (
+                  <div className="w-full flex justify-center items-center">
+                    <PuffLoader size={30} />
+                  </div>
+                ) : (
+                  <p className="flex justify-between items-center">
+                    {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
+                    {clientProfile?.client_secret_id.slice(-3)}
+                  </p>
+                )}
               </div>
             </span>
           </div>
@@ -158,15 +158,31 @@ const DashboardCardOne = ({ clientProfile }: any) => {
             <span className="md:text-[28px] text-[12px] font-medium text-[#313436] w-full">
               <div>
                 {!wallet?.client_wallet_address ? (
-                  <button
-                    onClick={() => creteWallet()}
-                    className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]"
-                  >
-                    Create Wallets
-                  </button>
+                  <div className="w-full flex justify-center items-center">
+                    <PuffLoader size={30} />
+                  </div>
                 ) : (
                   <p className="flex justify-between items-center">
-                    {shortenAddress(wallet?.client_wallet_address)}
+                    {!wallet?.client_wallet_address ? (
+                      <div className="w-full flex justify-center items-center">
+                        <button
+                          onClick={() => creteWallet()}
+                          className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]"
+                        >
+                          Create Wallets
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        {`${wallet?.client_wallet_address?.slice(
+                          0,
+                          5
+                        )} .........${wallet?.client_wallet_address?.slice(
+                          -6
+                        )}`}{" "}
+                      </>
+                    )}
+                    {/* {shortenAddress(wallet?.client_wallet_address)}
                     <span className="text-[#5734DC] md:text-[24px] text-[20px]">
                       <FaRegCopy
                         className="cursor-pointer"
@@ -174,7 +190,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
                           handleCopy(wallet?.client_wallet_address)
                         }
                       />
-                    </span>
+                    </span> */}
                   </p>
                 )}
               </div>
@@ -183,7 +199,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardCardOne
+export default DashboardCardOne;

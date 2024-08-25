@@ -1,25 +1,34 @@
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
-import "swiper/css"
-import "swiper/css/navigation"
-import { GoArrowRight } from "react-icons/go"
-import BalanceSwiperCard from "../SwiperCard/BalanceSwiperCard"
-import axiosInstance from "../../utils/axiosConfig"
-import { Key, useEffect, useState } from "react"
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import { GoArrowRight } from "react-icons/go";
+import BalanceSwiperCard from "../SwiperCard/BalanceSwiperCard";
+import axiosInstance from "../../utils/axiosConfig";
+import { Key, useEffect, useState } from "react";
+import LoadLoading from "../Lottie/LoadLoading";
 
 const BalanceCard = () => {
-  const [wallets, setWallets] = useState<any>([{}, {}, {}])
-
+  const [wallets, setWallets] = useState<any>([{}, {}, {}, {}]);
+  const [loading, setLoading] = useState(false);
   const getWalletData = async () => {
-    const response = await axiosInstance.get("/client-tokens")
-    if (response?.data?.success == 200) {
-      setWallets(response?.data?.data)
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get("/client-tokens");
+      if (response?.data?.success === 200) {
+        setWallets(response?.data?.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch wallet data:", error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
   useEffect(() => {
-    getWalletData()
-  }, [])
+    getWalletData();
+  }, []);
+
   return (
     <div>
       <div className="relative mt-5">
@@ -57,9 +66,13 @@ const BalanceCard = () => {
           {wallets?.map((wallet: any, i: Key) => {
             return (
               <SwiperSlide key={i} className="w-full mt-5">
-                <BalanceSwiperCard wallet={wallet} />
+                {loading ? (
+                  <LoadLoading />
+                ) : (
+                  <BalanceSwiperCard wallet={wallet} />
+                )}
               </SwiperSlide>
-            )
+            );
           })}
         </Swiper>
         <div className="button-atrrangment absolute top-0 right-0">
@@ -75,10 +88,10 @@ const BalanceCard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BalanceCard
+export default BalanceCard;
 
 // // Import Swiper React components
 // import { Swiper, SwiperSlide } from "swiper/react";

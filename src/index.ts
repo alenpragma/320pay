@@ -44,8 +44,10 @@ import logo from "./assets/logos/logo.png";
 import tick from "./assets/icon/Starthere/tick.svg";
 
 import lottie from "./assets/lottie/loading.json";
+import loadingLottie from "./assets/lottie/loading-lottie.json";
 
 export const loading = lottie;
+export const loadingLotti = loadingLottie;
 
 import usdt from "./assets/icon/payment/usdt.svg";
 

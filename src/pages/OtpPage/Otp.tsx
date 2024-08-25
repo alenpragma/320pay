@@ -39,7 +39,7 @@ export const validationSchema = z.object({
   network: z.string().optional(),
 });
 
-const Withdraw = () => {
+const Otp = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
   const [availableTokens, setAvailableTokens] = useState([]);
@@ -85,8 +85,11 @@ const Withdraw = () => {
     <div className="w-full mt-20">
       <div className=" md:w-[600px] mx-auto border border-slate-300 shadow-4 rounded-lg md:px-0 px-3">
         <h4 className="w-full bg-primary font-semibold text-[20px] text-white px-3 rounded-t-lg py-2">
-          Withdraw
+          Verification
         </h4>
+        <p className="text-[14px] text-secondary px-3 mt-4">
+          Enter The 4 Digit Code To Process <br /> Your Withdraw
+        </p>
         <Form
           onSubmit={formSubmit}
           resolver={zodResolver(validationSchema)}
@@ -95,25 +98,14 @@ const Withdraw = () => {
             network: "",
           }}
         >
-          <div className="w-full mx-auto px-3 my-10">
+          <div className="w-full mx-auto px-3 mt-6 mb-10">
             <div className="relative mb-8">
               <p className="font-semibold text-secondary mb-2">Network</p>
-              <SelectField
-                name="network"
-                className=""
-                options={currencys}
-                placeholder="Please select an option"
-                onChange={handleCurrencyChange}
-              />
-            </div>
-            <div className="relative mb-8">
-              <p className="font-semibold text-secondary mb-2">Amount</p>
-              <SelectField
-                name="network"
-                className=""
-                options={currencys}
-                placeholder="Please select an option"
-                onChange={handleCurrencyChange}
+              <InputField
+                name="email"
+                type="text"
+                className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 px-3 pr-4"
+                placeholder="Enter your user name"
               />
             </div>
             <div className="flex justify-center items-center">
@@ -122,7 +114,9 @@ const Withdraw = () => {
                   <Loading />
                 </button>
               ) : (
-                <SlideButton/>
+                <button className="bg-primary py-2 rounded-lg text-white w-full font-semibold">
+                  Verify Withdraw
+                </button>
               )}
             </div>
           </div>
@@ -132,4 +126,4 @@ const Withdraw = () => {
   );
 };
 
-export default Withdraw;
+export default Otp;

@@ -16,6 +16,7 @@ import Payment from "../pages/Payment/Payment"
 import WithdrawHistory from "../pages/WithdrawHistory/WithdrawHistory"
 import Withdraw from "../pages/Withdraw/Withdraw"
 import ManageServer from "../pages/ManageServer/ManageSerever"
+import Otp from "../pages/OtpPage/Otp"
 
 const routes = createBrowserRouter([
   {
@@ -75,8 +76,8 @@ const routes = createBrowserRouter([
         element: <Withdraw />,
       },
       {
-        path: "/manage-server",
-        element: <ManageServer />,
+        path: "/withdraw/otp",
+        element: <Otp />,
       },
     ],
   },
