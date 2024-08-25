@@ -28,7 +28,7 @@ function App() {
     <>
       <MyContext.Provider value={contextValues}>
         <SkeletonTheme
-          baseColor={`${colorMode === "light" ? "#e5e6ea" : "#1d2a39"}`}
+          baseColor={`${colorMode === "light" ? "#e5e6ea" : "#e5e6ee"}`}
           highlightColor="#47566c"
         >
           <ToastContainer />
