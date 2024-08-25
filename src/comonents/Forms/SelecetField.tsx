@@ -8,13 +8,13 @@ type TOption = {
 }
 
 type TSelectProps = {
-  name: string
-  className?: string
-  options: TOption[]
-  placeholder?: string
-  required?: boolean
-  onChange?: (value: string) => void // Add onChange prop type
-}
+  name: string;
+  className?: string;
+  options: TOption[];
+  placeholder?: string;
+  required?: boolean;
+  onChange?: (value: string) => void;
+};
 
 const SelectField = ({
   name,
@@ -22,9 +22,9 @@ const SelectField = ({
   options,
   placeholder,
   required,
-  onChange, // Receive the onChange prop
+  onChange,
 }: TSelectProps) => {
-  const { control } = useFormContext()
+  const { control } = useFormContext();
 
   return (
     <Controller
@@ -42,7 +42,7 @@ const SelectField = ({
               options.find((option) => option.value === field.value) || null
             }
             onChange={(option) => {
-              field.onChange(option?.value)
+              field.onChange(option?.value);
               if (onChange) {
                 onChange(option?.value || "") // Call the parent onChange
               }
@@ -57,7 +57,7 @@ const SelectField = ({
         </div>
       )}
     />
-  )
-}
+  );
+};
 
-export default SelectField
+export default SelectField;

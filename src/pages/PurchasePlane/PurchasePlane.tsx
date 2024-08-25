@@ -30,8 +30,12 @@ const PurchasePlane = () => {
     getPurchasePlane()
   }, [])
 
+  const handleModal = () => {
+    setModal(!modal);
+  };
   return (
     <>
+      <PurchasePlaneModal handleModal={handleModal} modal={modal} />
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
           <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
@@ -83,7 +87,10 @@ const PurchasePlane = () => {
                       </span>
                     </TData>
                     <TData className="  px-6">
-                      <button className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1">
+                      <button
+                        onClick={handleModal}
+                        className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
+                      >
                         View
                       </button>
                     </TData>
