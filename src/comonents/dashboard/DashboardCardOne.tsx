@@ -1,13 +1,10 @@
 import { FaRegCopy } from "react-icons/fa"
-import { dashboardCard, images } from "../.."
-import { CiCirclePlus } from "react-icons/ci"
+import { images } from "../.."
 import { useEffect, useState } from "react"
 import { copyToClipboard } from "../../utils/Actions"
-import { Link, useNavigate } from "react-router-dom"
-import { ethers } from "ethers"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import axiosInstance from "../../utils/axiosConfig"
-import { PuffLoader } from "react-spinners"
 import Skeleton from "react-loading-skeleton"
 
 const DashboardCardOne = ({ clientProfile }: any) => {
@@ -18,33 +15,8 @@ const DashboardCardOne = ({ clientProfile }: any) => {
   }
   const navigate = useNavigate()
 
-  const [createdAddress, setCreatedAddress] = useState()
-  const [address] = useState("0090")
-
-  // const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [walletLoading, setWalletLoading] = useState<boolean>(false)
-
-  const creteWallet = async () => {
-    try {
-      setLoading(true)
-      const response = await axiosInstance.post("/client/create-address")
-      console.log(response)
-
-      if (response?.data?.success == 200) {
-        setCreatedAddress(response?.data?.data)
-        toast.info(response?.data?.message)
-        navigate("/wallet")
-        return
-      }
-      if (response?.data?.error == 400) {
-        return toast.error(response?.data?.message)
-      }
-      setLoading(false)
-    } catch (error) {
-      setLoading(false)
-      console.error("Error fetching data:", error)
-    }
-  }
 
   const getWallet = async () => {
     try {
@@ -63,12 +35,35 @@ const DashboardCardOne = ({ clientProfile }: any) => {
     getWallet()
   }, [])
 
-  const shortenAddress = (address: string) => {
-    if (!address) return ""
-    const firstPart = address.slice(0, 5)
-    const lastPart = address.slice(-6)
-    return `${firstPart}....${lastPart}`
+  const creteWallet = async () => {
+    try {
+      setLoading(true)
+      const response = await axiosInstance.post("/client/create-address")
+      console.log(response)
+
+      if (response?.data?.success == 200) {
+        getWallet()
+        // setCreatedAddress(response?.data?.data)
+        toast.info(response?.data?.message)
+        navigate("/wallet")
+        return
+      }
+      if (response?.data?.error == 400) {
+        return toast.error(response?.data?.message)
+      }
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.error("Error fetching data:", error)
+    }
   }
+
+  // const shortenAddress = (address: string) => {
+  //   if (!address) return ""
+  //   const firstPart = address.slice(0, 5)
+  //   const lastPart = address.slice(-6)
+  //   return `${firstPart}....${lastPart}`
+  // }
 
   return (
     <div>
@@ -158,12 +153,20 @@ const DashboardCardOne = ({ clientProfile }: any) => {
                   <p className="flex justify-between items-center">
                     {!wallet?.client_wallet_address ? (
                       <div className="w-full flex justify-center items-center">
-                        <button
-                          onClick={() => creteWallet()}
-                          className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]"
-                        >
-                          Create Wallets
-                        </button>
+                        {!loading && (
+                          <button
+                            onClick={() => creteWallet()}
+                            className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]"
+                          >
+                            Create Wallets
+                          </button>
+                        )}
+
+                        {loading && (
+                          <button className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]">
+                            Loading...
+                          </button>
+                        )}
                       </div>
                     ) : (
                       <>

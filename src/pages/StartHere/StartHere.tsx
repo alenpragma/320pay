@@ -61,7 +61,7 @@ const StartHere = () => {
   useEffect(() => {
     getWalletData()
   }, [])
-  console.log(clientWallets)
+  // console.log(clientWallets)
 
   const [usdtBalance, setUsdtBalance] = useState<any>()
   const getData = async () => {
@@ -87,7 +87,7 @@ const StartHere = () => {
       getData()
     }
   }, [])
-  console.log(usdtBalance)
+  // console.log(usdtBalance)
 
   return (
     <>
@@ -95,8 +95,11 @@ const StartHere = () => {
       <div className="md:p-8 px-3 pt-4">
         <div className="flex justify-between">
           <h5>
-            <span className="text-secondary text-[14px]">Balance:</span>{" "}
-            <span className="text-black font-bold"> ${usdtBalance ?? 0}</span>
+            <span className="text-secondary text-[14px]"> Balance:</span>{" "}
+            <span className="text-black font-bold">
+              {" "}
+              ${usdtBalance ?? 0} USDT
+            </span>
           </h5>
           <Link to="/deposit">
             <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">

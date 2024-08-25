@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { images } from "../..";
-import { copyToClipboard } from "../../utils/Actions";
-import { FaCopy } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
+import { useState } from "react"
+import { images } from "../.."
+import { copyToClipboard } from "../../utils/Actions"
+import { FaCopy } from "react-icons/fa"
+import { RxCross1 } from "react-icons/rx"
 
 type IModal = {
-  handleModal: () => void;
-  modal: boolean;
-};
+  handleModal: () => void
+  modal: boolean
+}
 
 const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
-  const [textToCopy, setTextToCopy] = useState<string>("");
+  const [textToCopy, setTextToCopy] = useState<string>("")
   const handleCopy = (copy: string) => {
-    copyToClipboard(textToCopy);
-    setTextToCopy(copy);
-  };
-  const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA";
+    copyToClipboard(textToCopy)
+    setTextToCopy(copy)
+  }
+  const copy = "eeeee"
   return (
     <div className="w-full ">
       <div
@@ -86,7 +86,7 @@ const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PurchasePlaneModal;
+export default PurchasePlaneModal

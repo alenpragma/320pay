@@ -135,18 +135,18 @@ export const subNavItem: MenuInterface[] = [
     icon1: layers,
     icon2: layerHover,
   },
-  {
-    pathname: "/deposit-log",
-    item: "Deposit Log",
-    icon1: clock,
-    icon2: clockHover,
-  },
-  {
-    pathname: "/manage-server",
-    item: "Manage Server",
-    icon1: domain,
-    icon2: domainHover,
-  },
+  // {
+  //   pathname: "/deposit-log",
+  //   item: "Deposit Log",
+  //   icon1: clock,
+  //   icon2: clockHover,
+  // },
+  // {
+  //   pathname: "/manage-server",
+  //   item: "Manage Server",
+  //   icon1: domain,
+  //   icon2: domainHover,
+  // },
   {
     pathname: "/referal",
     item: "Referal",

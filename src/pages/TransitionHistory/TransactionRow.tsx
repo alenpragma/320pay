@@ -4,7 +4,7 @@ import HoverTableItem from "../../lib/HoverTableItem"
 import { copyToClipboard } from "../../utils/Actions"
 import TData from "../../comonents/Table/TData"
 
-const TransactionRow = ({ data, selectValue, wallet_address }: any) => {
+const TransactionRow = ({ data, selectValue, wallet }: any) => {
   const [hoveredField, setHoveredField] = useState<string | null>(null)
 
   const handleCopy = (copy: any) => {
@@ -88,12 +88,12 @@ const TransactionRow = ({ data, selectValue, wallet_address }: any) => {
         <TData className="px-6">
           <span
             className={`${
-              data.to == wallet_address
+              data?.to?.toLowerCase() === wallet?.toLowerCase()
                 ? " text-green-500 bg-[#DCF3DE]"
                 : " text-red-500 bg-[rgba(163,10,10,0.2)]"
             } font-semibold text-[14px]  rounded px-5 py-1`}
           >
-            {data.to == wallet_address ? "In" : "Out"}
+            {data?.to?.toLowerCase() === wallet?.toLowerCase() ? "in" : "out"}
           </span>
         </TData>
       </tr>

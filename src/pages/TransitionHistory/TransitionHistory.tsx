@@ -13,6 +13,11 @@ import Loading from "../../comonents/Lottie/Loading"
 //   { value: "usd", label: "USD" },
 // ]
 
+type OptionType = {
+  id: number
+  label: string
+  value: string
+}
 const TransitionHistory = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState<boolean>(false)
@@ -36,7 +41,7 @@ const TransitionHistory = () => {
     const response = await axiosInstance.get("/client-tokens")
     if (response?.data?.data) {
       setTokenSymbol(response?.data?.data)
-      setSelectValue(response?.data?.data[0].token_symbol)
+      setSelectValue(response?.data?.data[0]?.token_symbol)
     }
   }
 
@@ -55,7 +60,7 @@ const TransitionHistory = () => {
 
   const getTransactions = async (value: string) => {
     if (value) {
-      console.log(value)
+      setWalletHistory([])
       setLoading(true)
       try {
         const response = await axiosInstance.get(
@@ -84,22 +89,26 @@ const TransitionHistory = () => {
     }
   }, [selectValue, tokenSymbol])
 
-  type OptionType = {
-    id: number
-    label: string
-    value: string
-  }
-
   const handleChange = (newValue: SingleValue<OptionType>) => {
     if (newValue) {
       setSelectValue(newValue.label)
       getTransactions(newValue.label)
     }
   }
-  const [client_wallet_address, setClient_wallet_address] = useState<any>()
+  const [wallet, setWallet] = useState<any>("")
+
+  const getWallet = async () => {
+    try {
+      const response = await axiosInstance.get("/client-wallets")
+      if (response?.data?.success === 200) {
+        setWallet(response?.data?.data)
+      }
+    } catch (error) {
+      console.error("Failed to fetch wallet data:", error)
+    }
+  }
   useEffect(() => {
-    const client_wallet_address = localStorage.getItem("client_wallet_address")
-    setClient_wallet_address(client_wallet_address)
+    getWallet()
   }, [])
 
   return (
@@ -139,7 +148,7 @@ const TransitionHistory = () => {
                     key={i}
                     data={data}
                     selectValue={selectValue}
-                    wallet_address={client_wallet_address}
+                    wallet={wallet?.client_wallet_address}
                   />
                 ))}
               </tbody>

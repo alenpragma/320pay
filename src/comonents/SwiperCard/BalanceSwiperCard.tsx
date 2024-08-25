@@ -1,7 +1,6 @@
-
 const BalanceSwiperCard = ({ wallet }: any) => {
   return (
-    <div className="bg-red-100 flex p-3 rounded-md justify-between items-center border border-slate-300 gap-2">
+    <div className="bg-red-100  border-2 min-w-full flex p-3 rounded-md justify-between items-center   border-slate-300 gap-2">
       <div className="w-1/5">
         <img className="size-10" src={wallet.image} alt="" />
       </div>
@@ -21,7 +20,7 @@ const BalanceSwiperCard = ({ wallet }: any) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BalanceSwiperCard;
+export default BalanceSwiperCard

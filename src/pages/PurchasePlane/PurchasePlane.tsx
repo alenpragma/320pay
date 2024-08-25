@@ -3,9 +3,11 @@ import { tableData } from "../.."
 import TData from "../../comonents/Table/TData"
 import Pagination from "../../comonents/Pagination/Pagination"
 import axiosInstance from "../../utils/axiosConfig"
+// import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal"
 
 const PurchasePlane = () => {
   const [currentPage, setCurrentPage] = useState(1)
+  const [modal, setModal] = useState(false)
   const itemsPerPage = 10
   const totalPages = Math.ceil(tableData.length / itemsPerPage)
   // const indexOfLastItem = currentPage * itemsPerPage
@@ -31,11 +33,11 @@ const PurchasePlane = () => {
   }, [])
 
   const handleModal = () => {
-    setModal(!modal);
-  };
+    setModal(!modal)
+  }
   return (
     <>
-      <PurchasePlaneModal handleModal={handleModal} modal={modal} />
+      {/* <PurchasePlaneModal handleModal={handleModal} modal={modal} /> */}
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
           <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
