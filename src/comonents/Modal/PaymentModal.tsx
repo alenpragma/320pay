@@ -4,7 +4,6 @@ import { FieldValues, SubmitHandler } from "react-hook-form"
 import SelectField from "../Forms/SelecetField"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import SelectIcon from "../SelectIcon/SelectIcon"
 import { useEffect, useState } from "react"
 import Loading from "../Lottie/Loading"
 import axiosInstance from "../../utils/axiosConfig"
@@ -35,7 +34,7 @@ export const network = [
   { label: "OPTIMISM", value: "optimism" },
 ]
 export const validationSchema = z.object({
-  currency: z.string().min(1, "This field is required"),
+  currency: z.number().min(1, "This field is required"),
   network: z.string().optional(),
 })
 
@@ -44,21 +43,8 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [selectedCurrency, setSelectedCurrency] = useState<any>()
   const [availableTokens, setAvailableTokens] = useState([])
 
-  const formSubmit: SubmitHandler<FieldValues> = async () => {
-    setLoading(true)
-    const data = {
-      token_id: selectedCurrency.id,
-    }
-
-    const response = await axiosInstance.post("/client-token/store", data)
-    console.log(response)
-    if (response.data.success == 200) {
-      toast.success("Successfuly added currency")
-    }
-  }
-
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/available-tokens")
+    const response = await axiosInstance.get("/client-tokens")
     if (response?.data?.data) {
       setAvailableTokens(response?.data?.data)
     }
@@ -67,10 +53,10 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   useEffect(() => {
     getDatas()
   }, [])
-  const currencys = availableTokens.map((item: any) => ({
-    id: item.id,
-    label: item?.rpc_chain,
-    value: item?.rpc_chain,
+
+  const currencys = availableTokens?.map((item: any) => ({
+    label: item?.token_symbol,
+    value: item.id,
   }))
 
   const handleCurrencyChange = (value: string) => {
@@ -79,6 +65,21 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
     })
 
     setSelectedCurrency(selectedToken)
+  }
+
+  const formSubmit: SubmitHandler<FieldValues> = async () => {
+    setLoading(true)
+    const data = {
+      token_id: selectedCurrency.id,
+    }
+    // console.log(data)
+
+    // return
+    const response = await axiosInstance.post("/client-token/store", data)
+    console.log(response)
+    if (response.data.success == 200) {
+      toast.success("Successfuly added currency")
+    }
   }
 
   return (
@@ -124,6 +125,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                     options={currencys}
                     placeholder="Please select an option"
                     onChange={handleCurrencyChange}
+                    // value={'selectedCurrency'}
                   />
                 </div>
                 <div className="relative mb-8">
@@ -139,7 +141,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                       name="network"
                       type="text"
                       defaultValue={
-                        selectedCurrency && selectedCurrency?.token_name
+                        selectedCurrency && selectedCurrency?.rpc_chain
                       }
                       className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
                     />

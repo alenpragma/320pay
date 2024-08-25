@@ -1,11 +1,11 @@
-import { Controller, useFormContext } from "react-hook-form";
-import Select from "react-select";
+import { Controller, useFormContext } from "react-hook-form"
+import Select from "react-select"
 
 type TOption = {
-  label: string;
-  value: string;
-  id?: string;
-};
+  label: string
+  value: string
+  // id?: string
+}
 
 type TSelectProps = {
   name: string;
@@ -44,7 +44,7 @@ const SelectField = ({
             onChange={(option) => {
               field.onChange(option?.value);
               if (onChange) {
-                onChange(option?.id || "");
+                onChange(option?.value || "") // Call the parent onChange
               }
             }}
             onBlur={field.onBlur}

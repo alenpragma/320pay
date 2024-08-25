@@ -1,12 +1,25 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import { GoArrowRight } from "react-icons/go";
-import BalanceSwiperCard from "../SwiperCard/BalanceSwiperCard";
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation } from "swiper/modules"
+import "swiper/css"
+import "swiper/css/navigation"
+import { GoArrowRight } from "react-icons/go"
+import BalanceSwiperCard from "../SwiperCard/BalanceSwiperCard"
+import axiosInstance from "../../utils/axiosConfig"
+import { Key, useEffect, useState } from "react"
 
 
 const BalanceCard = () => {
+  const [wallets, setWallets] = useState<any>([{}, {}, {}])
+
+  const getWalletData = async () => {
+    const response = await axiosInstance.get("/client-tokens")
+    if (response?.data?.success == 200) {
+      setWallets(response?.data?.data)
+    }
+  }
+  useEffect(() => {
+    getWalletData()
+  }, [])
   return (
     <div>
       <div className="relative mt-5">
@@ -30,7 +43,7 @@ const BalanceCard = () => {
               spaceBetween: 20,
             },
             768: {
-              slidesPerView: 3,
+              slidesPerView: 2.5,
               spaceBetween: 10,
             },
             1024: {
@@ -41,33 +54,13 @@ const BalanceCard = () => {
           modules={[Navigation]}
           className="mySwiper"
         >
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
-          <SwiperSlide className="w-full mt-5">
-            <BalanceSwiperCard />
-          </SwiperSlide>
+          {wallets?.map((wallet: any, i: Key) => {
+            return (
+              <SwiperSlide key={i} className="w-full mt-5">
+                <BalanceSwiperCard wallet={wallet} />
+              </SwiperSlide>
+            )
+          })}
         </Swiper>
         <div className="button-atrrangment absolute top-0 right-0">
           <div className="button-swiper px-3 flex items-center justify-between w-[100px]">
@@ -82,10 +75,10 @@ const BalanceCard = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BalanceCard;
+export default BalanceCard
 
 // // Import Swiper React components
 // import { Swiper, SwiperSlide } from "swiper/react";

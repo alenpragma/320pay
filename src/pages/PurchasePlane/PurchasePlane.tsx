@@ -1,23 +1,34 @@
-import { useState } from "react";
-import { tableData } from "../..";
-import TData from "../../comonents/Table/TData";
-import Pagination from "../../comonents/Pagination/Pagination";
-import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal";
+import { Key, useEffect, useState } from "react"
+import { tableData } from "../.."
+import TData from "../../comonents/Table/TData"
+import Pagination from "../../comonents/Pagination/Pagination"
+import axiosInstance from "../../utils/axiosConfig"
 
 const PurchasePlane = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [modal, setModal] = useState<boolean>(false);
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(tableData.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+  const totalPages = Math.ceil(tableData.length / itemsPerPage)
+  // const indexOfLastItem = currentPage * itemsPerPage
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  // const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+  }
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+  }
+
+  const [purchasePlane, setPurchasePlane] = useState<any>([])
+
+  const getPurchasePlane = async () => {
+    const response = await axiosInstance.get("/client/package-purchase-history")
+    if (response?.data?.success == 200) {
+      setPurchasePlane(response?.data?.data)
+    }
+  }
+  useEffect(() => {
+    getPurchasePlane()
+  }, [])
 
   const handleModal = () => {
     setModal(!modal);
@@ -60,19 +71,19 @@ const PurchasePlane = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {currentItems.map((item, i) => (
+                {purchasePlane?.map((item: any, i: Key) => (
                   <tr
                     key={i}
                     className="border-b border-[#E2E2E9] text-[#616365]"
                   >
-                    <TData data="#76380" className="  px-6" />
-                    <TData data="1 Month" className="  px-6" />
-                    <TData data="80 USD" className="  px-6" />
-                    <TData data="12 Jun 2025" className="  px-6" />
-                    <TData data="30" className="  px-6" />
-                    <TData className="  px-6">
+                    <TData data={item.client_id} className="  px-6" />
+                    <TData data={item.package_name} className="  px-6" />
+                    <TData data={item.package_price} className="  px-6" />
+                    <TData data={item.created_at} className="  px-6" />
+                    <TData data="0" className="  px-6" />
+                    <TData className="px-6">
                       <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-                        Valid
+                        {item.status == 0 ? "Valid" : "Invalid"}
                       </span>
                     </TData>
                     <TData className="  px-6">
@@ -97,7 +108,7 @@ const PurchasePlane = () => {
         handlePrevPage={handlePrevPage}
       />
     </>
-  );
-};
+  )
+}
 
-export default PurchasePlane;
+export default PurchasePlane

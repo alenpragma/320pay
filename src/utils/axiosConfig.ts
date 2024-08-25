@@ -14,6 +14,7 @@ const axiosInstance = axios.create({
 // Request interceptor to add the token to headers
 axiosInstance.interceptors.request.use((config) => {
   const token = getPaymentaToken()
+  // console.log(token)
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
