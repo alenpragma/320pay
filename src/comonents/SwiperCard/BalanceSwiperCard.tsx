@@ -12,7 +12,7 @@ const BalanceSwiperCard = ({ wallet }: any) => {
               {wallet?.chain_symbol}
             </span>
           </div>
-          <p className="text-[12px] text-secondary">{wallet?.rpc_chain}</p>
+          <p className="text-[12px] text-secondary">{wallet?.token_name}</p>
         </div>
         <div>
           <h4 className="text-[18px]">{wallet.balance}</h4>

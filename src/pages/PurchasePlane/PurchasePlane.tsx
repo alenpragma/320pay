@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { Key, useEffect, useState } from "react"
 import { tableData } from "../.."
 import TData from "../../comonents/Table/TData"
 import Pagination from "../../comonents/Pagination/Pagination"
@@ -8,9 +8,9 @@ const PurchasePlane = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
   const totalPages = Math.ceil(tableData.length / itemsPerPage)
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
+  // const indexOfLastItem = currentPage * itemsPerPage
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  // const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
   }
@@ -67,7 +67,7 @@ const PurchasePlane = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {purchasePlane?.map((item, i) => (
+                {purchasePlane?.map((item: any, i: Key) => (
                   <tr
                     key={i}
                     className="border-b border-[#E2E2E9] text-[#616365]"

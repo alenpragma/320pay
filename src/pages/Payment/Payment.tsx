@@ -3,60 +3,41 @@ import { images, tableData } from "../.."
 import TData from "../../comonents/Table/TData"
 import Pagination from "../../comonents/Pagination/Pagination"
 import PaymenModal from "../../comonents/Modal/PaymentModal"
-import { MdContentCopy } from "react-icons/md"
-import { copyToClipboard } from "../../utils/Actions"
-import HoverTableItem from "../../lib/HoverTableItem"
 import axiosInstance from "../../utils/axiosConfig"
+import PaymentData from "./PaymentData"
 
 const Payment = () => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
-  const totalPages = Math.ceil(tableData.length / itemsPerPage)
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-  }
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
+  const [currentPage, setCurrentPage] = useState([])
 
   const [isToggled0, setIsToggled0] = useState(false)
-  const [isToggled1, setIsToggled1] = useState(false)
-  const [isToggled2, setIsToggled2] = useState(false)
   const [modal, setModal] = useState(false)
 
-  const handleToggle0 = () => {
+  const handleToggle0 = (id: string) => {
+    console.log(id, "iddddd")
+
     setIsToggled0(!isToggled0)
-  }
-  const handleToggl1 = () => {
-    setIsToggled1(!isToggled1)
-  }
-  const handleToggl2 = () => {
-    setIsToggled2(!isToggled2)
   }
   const handleModal = () => {
     setModal(!modal)
   }
 
-  const handleCopy = (copy: any) => {
-    copyToClipboard(copy)
-  }
+  // const handleCopy = (copy: any) => {
+  //   copyToClipboard(copy)
+  // }
 
-  const history = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3BA"
-  const history1 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f332"
-  const history2 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3fd"
-  const [historyData, setHistory] = useState("")
-  const handleTras = (history: any) => {
-    setHistory(history)
-  }
+  // const history = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3BA"
+  // const history1 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f332"
+  // const history2 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3fd"
+  // const [historyData, setHistory] = useState("")
+  // const handleTras = (history: any) => {
+  //   setHistory(history)
+  // }
 
   const [loading, setLoading] = useState<boolean>(false)
   const [tokens, setTokens] = useState<any>([])
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/available-tokens")
+    const response = await axiosInstance.get("/client-tokens")
     if (response?.data?.data) {
       setTokens(response?.data?.data)
     }
@@ -65,6 +46,31 @@ const Payment = () => {
   useEffect(() => {
     getDatas()
   }, [])
+
+  const handelUpdateStatus = async (id: string, status: any) => {
+    setLoading(true)
+    console.log(status, id, "id")
+
+    const updatedData = {
+      id,
+      status: status == 1 ? 0 : 1,
+    }
+    const response = await axiosInstance.post(
+      "/client-token/update",
+      updatedData
+    )
+    console.log(response.data.succeses)
+    if (response.data.succeses == 200) {
+      // const tokenToUpdate =
+      // tokens.map((token: any) =>
+      //   token.id === response.data.id
+      //     ? { ...token, status: response.data.status }
+      //     : token
+      // )
+    }
+
+    setLoading(false)
+  }
 
   return (
     <>
@@ -90,7 +96,7 @@ const Payment = () => {
                     Currency
                   </th>
                   <th className="py-2 px-6 text-start  whitespace-nowrap ">
-                    NetWork
+                    Network
                   </th>
                   <th className="py-2 px-6 text-start  whitespace-nowrap">
                     Status
@@ -103,124 +109,14 @@ const Payment = () => {
               <tbody className="bg-white">
                 {tokens?.map((token: any, i: Key) => {
                   return (
-                    <tr
+                    <PaymentData
                       key={i}
-                      className="border-b border-[#E2E2E9] text-[#616365]"
-                    >
-                      <TData className="  px-6">
-                        <div className="flex items-center gap-3">
-                          <img className="w-10" src={token.image} alt="" />
-                          <span>USDT</span>
-                        </div>
-                      </TData>
-
-                      <TData className="px-3">
-                        <div className="relative">
-                          <div className="flex items-center">
-                            <span
-                              className="hover:bg-green-100 px-3 rounded"
-                              onMouseEnter={() => handleTras(history2)}
-                              onMouseLeave={() => handleTras(null)}
-                            >
-                              {history2.slice(0, 10)}
-                              .......
-                              {history.slice(-8)}
-                            </span>
-                            <MdContentCopy
-                              onClick={() => handleCopy(history2)}
-                              className="cursor-pointer rotate-180 size-5"
-                            />
-                          </div>
-                          {history2 == historyData ? (
-                            <HoverTableItem value={history2} />
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </TData>
-                      <TData className="  px-6">
-                        <button
-                          className={`font-semibold text-[14px] ${
-                            isToggled0 ? "text-[#4FC55B]" : "text-[#FF8109]"
-                          } bg-[#DCF3DE] rounded py-1 w-[100px]   md:px-0 px-3`}
-                        >
-                          {isToggled0 ? "Active" : "Deactive"}
-                        </button>
-                      </TData>
-
-                      <TData className="  px-6">
-                        <div
-                          className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-                            isToggled0 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
-                          }`}
-                          onClick={() => handleToggle0()}
-                        >
-                          <div
-                            className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-                              isToggled0 ? "translate-x-6" : ""
-                            }`}
-                          ></div>{" "}
-                        </div>
-                      </TData>
-                    </tr>
+                      handelUpdateStatus={handelUpdateStatus}
+                      loading={loading}
+                      token={token}
+                    />
                   )
                 })}
-
-                <tr className="border-b border-[#E2E2E9] text-[#616365]">
-                  <TData className="  px-6">
-                    <div className="flex items-center gap-3">
-                      <img src={images.usdt} alt="" />
-                      <span>USDT</span>
-                    </div>
-                  </TData>
-                  <TData className="px-3">
-                    <div className="relative">
-                      <div className="flex items-center">
-                        <span
-                          className="hover:bg-green-100 px-3 rounded"
-                          onMouseEnter={() => handleTras(history2)}
-                          onMouseLeave={() => handleTras(null)}
-                        >
-                          {history2.slice(0, 10)}
-                          .......
-                          {history.slice(-8)}
-                        </span>
-                        <MdContentCopy
-                          onClick={() => handleCopy(history2)}
-                          className="cursor-pointer rotate-180 size-5"
-                        />
-                      </div>
-                      {history2 == historyData ? (
-                        <HoverTableItem value={history2} />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </TData>
-                  <TData className="  px-6">
-                    <button
-                      className={`font-semibold text-[14px] ${
-                        isToggled2 ? "text-[#4FC55B]" : "text-[#FF8109]"
-                      } bg-[#DCF3DE] rounded py-1 w-[100px]   md:px-0 px-3`}
-                    >
-                      {isToggled2 ? "Active" : "Deactive"}
-                    </button>
-                  </TData>
-                  <TData className="  px-6">
-                    <div
-                      className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-                        isToggled2 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
-                      }`}
-                      onClick={() => handleToggl2()}
-                    >
-                      <div
-                        className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-                          isToggled2 ? "translate-x-6" : ""
-                        }`}
-                      ></div>{" "}
-                    </div>
-                  </TData>
-                </tr>
               </tbody>
             </table>
           </div>

@@ -5,6 +5,7 @@ import Modal from "../../comonents/Modal/Modal"
 import Pagination from "../../comonents/Pagination/Pagination"
 import Renew from "../../comonents/Modal/Renew"
 import axiosInstance from "../../utils/axiosConfig"
+import { formatToLocalDate } from "../../hooks/formatDate"
 
 const Licenses = () => {
   const [modal, setModal] = useState<boolean>(false)
@@ -33,7 +34,7 @@ const Licenses = () => {
   const [licenses, setLicenses] = useState<any>([])
 
   const getLicenses = async () => {
-    const response = await axiosInstance.get("/client/packages")
+    const response = await axiosInstance.get("/client/license-purchase-history")
     if (response?.data?.success == 200) {
       setLicenses(response?.data?.data)
     }
@@ -62,23 +63,29 @@ const Licenses = () => {
                   <th className="py-2 px-6 text-start">Start</th>
                   <th className="py-2 px-6 text-start">Expiry</th>
                   <th className="py-2 px-6 text-start">Status</th>
-                  <th className="py-2 px-6 text-start">More</th>
+                  <th className="py-2 px-6 w-[30px] text-start">More</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {licenses?.map((item: any, i: Key) => (
+                {licenses?.map((data: any, i: Key) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     {/* <TData
                       children={` ${i <= 8 ? "0" : ""}${i + 1}`}
                       className="w-2/12 px-6"
-                    /> */}
+                    /> */}{" "}
                     <TData children={Number(i) + 1} className="w-2/12 px-6" />
-                    <TData data="BitCoin_Web30" className="w-2/12  px-6" />
-                    <TData data="12 Jun 2024" className="w-2/12 px-6" />
-                    <TData data="12 Jun 2025" className="w-2/12 px-6" />
-                    <TData className="md:w-2/12 w-full px-6">
+                    <TData data={data.domain_name} className="w-2/12  px-6" />
+                    <TData
+                      data={formatToLocalDate(data?.start_date)}
+                      className="w-2/12 px-6"
+                    />
+                    <TData
+                      data={formatToLocalDate(data.end_date)}
+                      className="w-2/12 px-6"
+                    />
+                    <TData className="md:w-3/12 w-full px-6">
                       <div className="md:w-7/12 w-full">
-                        {item.status === true ? (
+                        {data.status == 1 ? (
                           <button className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded py-1 w-full   md:px-0 px-3">
                             Active
                           </button>
@@ -89,12 +96,12 @@ const Licenses = () => {
                         )}
                       </div>
                     </TData>
-                    <TData className="md:w-2/12 w-full px-6">
-                      <div className="md:w-7/12 w-full">
-                        {item.status === true ? (
+                    <TData className="w-full px-7">
+                      <div className="w-full">
+                        {data.status == 1 ? (
                           <button
                             onClick={handleModal}
-                            className="font-semibold text-[14px] text-white bg-[#000000ae] rounded w-full py-1  md:px-0 px-3"
+                            className="font-semibold text-[14px] text-white bg-[#000000ae] rounded w-full py-1  md:px-0 px-4"
                           >
                             Details
                           </button>
