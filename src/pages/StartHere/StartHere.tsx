@@ -1,55 +1,55 @@
-import { Key, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import StartHereModal from "../../comonents/Modal/StartHereModdal";
-import { images } from "../..";
-import axiosInstance from "../../utils/axiosConfig";
-import Skeleton from "react-loading-skeleton";
+import { Key, useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import StartHereModal from "../../comonents/Modal/StartHereModdal"
+import { images } from "../.."
+import axiosInstance from "../../utils/axiosConfig"
+import Skeleton from "react-loading-skeleton"
 
 type IPackage = {
-  id: number;
-  package_name: string;
-  short_description: string;
-  savings: string | null;
-  no_of_domains: string;
-  package_price: string;
-  duration: string;
-  description: string;
-  status: string;
-  is_deleted: string;
-  created_at: string;
-  updated_at: string;
-};
+  id: number
+  package_name: string
+  short_description: string
+  savings: string | null
+  no_of_domains: string
+  package_price: string
+  duration: string
+  description: string
+  status: string
+  is_deleted: string
+  created_at: string
+  updated_at: string
+}
 
 const StartHere = () => {
-  const [modal, setModal] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [planId, setPlanId] = useState<any>("");
+  const [modal, setModal] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [planId, setPlanId] = useState<any>("")
 
-  const [packages, setPackages] = useState<any>([]);
+  const [packages, setPackages] = useState<any>([])
 
   const getDatas = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const response = await axiosInstance.get("/client/packages");
-      console.log(response);
+      const response = await axiosInstance.get("/client/packages")
+      console.log(response)
       if (response?.data?.packages) {
-        setLoading(false);
-        setPackages(response?.data?.packages);
+        setLoading(false)
+        setPackages(response?.data?.packages)
       }
     } catch (error) {
-      setLoading(false);
-      console.log(error);
+      setLoading(false)
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    getDatas();
-  }, []);
+    getDatas()
+  }, [])
 
   const handleModal = (id?: any) => {
-    setPlanId(id);
-    setModal(!modal);
-  };
+    setPlanId(id)
+    setModal(!modal)
+  }
   return (
     <>
       <StartHereModal planId={planId} handleModal={handleModal} modal={modal} />
@@ -65,7 +65,6 @@ const StartHere = () => {
             </button>
           </Link>
         </div>
-
         <div className="grid md:grid-cols-4 grid-cols-2 gap-3 mt-8">
           {loading ? (
             <>
@@ -87,7 +86,7 @@ const StartHere = () => {
                         {data.package_name}
                       </h4>
                       <span className="px-2 py-1 bg-[#E8E2FD] text-primary rounded font-semibold">
-                        Save {data.savings} %
+                        Save {data.savings}
                       </span>
                     </div>
                     <p className="text-[14px] text-secondary mt-3">
@@ -112,7 +111,7 @@ const StartHere = () => {
                           <img className="size-5" src={images?.tick} alt="" />
                           <span>{desc}</span>
                         </li>
-                      );
+                      )
                     })}
                   </ul>
                   <button
@@ -128,7 +127,7 @@ const StartHere = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default StartHere;
+export default StartHere

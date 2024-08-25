@@ -1,29 +1,50 @@
-import { FaCopy } from "react-icons/fa";
-import { images } from "../..";
-import { useState } from "react";
-import { copyToClipboard } from "../../utils/Actions";
-import Form from "../../comonents/Forms/Form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
-import SelectField from "../../comonents/Forms/SelecetField";
-import { currency } from "../../comonents/Modal/PaymentModal";
+import { FaCopy } from "react-icons/fa"
+import { images } from "../.."
+import { useEffect, useState } from "react"
+import { copyToClipboard } from "../../utils/Actions"
+import Form from "../../comonents/Forms/Form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { FieldValues, SubmitHandler } from "react-hook-form"
+import { z } from "zod"
+import SelectField from "../../comonents/Forms/SelecetField"
+import { currency } from "../../comonents/Modal/PaymentModal"
+import axiosInstance from "../../utils/axiosConfig"
 
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
-});
+})
 
 const Deposit = () => {
-  const [textToCopy, setTextToCopy] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false)
+  const [textToCopy, setTextToCopy] = useState<string>("")
+  const [wallet, setWallet] = useState<any>()
   const handleCopy = (copy: string) => {
-    copyToClipboard(textToCopy);
-    setTextToCopy(copy);
-  };
-  const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA";
+    copyToClipboard(textToCopy)
+    setTextToCopy(copy)
+  }
+  const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA"
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
+
+  const getWallet = async () => {
+    try {
+      setLoading(true)
+      const response = await axiosInstance.get("/client-wallets")
+      if (response?.data?.success === 200) {
+        setWallet(response?.data?.data)
+      }
+    } catch (error) {
+      console.error("Failed to fetch wallet data:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    getWallet()
+  }, [])
+
   return (
     <div className="md:p-8 pt-5">
       <div className="md:w-2/5 w-11/12 mx-auto ">
@@ -66,7 +87,7 @@ const Deposit = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Deposit;
+export default Deposit

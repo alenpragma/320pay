@@ -56,7 +56,7 @@ const routes = createBrowserRouter([
         element: <Licenses />,
       },
       {
-        path: "/transition-history",
+        path: "/transaction-history",
         element: <TransitionHistory />,
       },
       {
