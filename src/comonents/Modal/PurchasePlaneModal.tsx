@@ -1,21 +1,32 @@
-import { useState } from "react"
-import { images } from "../.."
-import { copyToClipboard } from "../../utils/Actions"
-import { FaCopy } from "react-icons/fa"
-import { RxCross1 } from "react-icons/rx"
+import { useState } from "react";
+import { images } from "../..";
+import { copyToClipboard } from "../../utils/Actions";
+import { FaCopy } from "react-icons/fa";
+import { RxCross1 } from "react-icons/rx";
+
+export type IPurchasPlane = {
+  domain_name: string;
+  date: string;
+  package_id: string;
+  package_name: string;
+  package_price: string;
+  updated_at: string;
+};
 
 type IModal = {
-  handleModal: () => void
-  modal: boolean
-}
+  handleModal: (data: any) => void;
+  modal: boolean;
+  singleData: any;
+};
 
-const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
-  const [textToCopy, setTextToCopy] = useState<string>("")
+const PurchasePlaneModal = ({ handleModal, modal, singleData }: IModal) => {
+ 
+  const [textToCopy, setTextToCopy] = useState<string>("");
   const handleCopy = (copy: string) => {
-    copyToClipboard(textToCopy)
-    setTextToCopy(copy)
-  }
-  const copy = "eeeee"
+    copyToClipboard(textToCopy);
+    setTextToCopy(copy);
+  };
+  const copy = "eeeee";
   return (
     <div className="w-full ">
       <div
@@ -27,7 +38,7 @@ const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
         onClick={handleModal}
       ></div>
       <div
-        className={`fixed bg-[#ffffff] md:w-6/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
+        className={`fixed bg-[#ffffff] md:w-6/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded mt-5  ${
           modal ? " opacity-100 z-[101]" : "opacity-0 -z-[102]"
         }`}
       >
@@ -42,7 +53,7 @@ const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
           <div className="px-5 pb-20 pt-8">
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Expiry</span>{" "}
-              <span className="text-[16px]">12 jun 2024</span>
+              <span className="text-[16px]">{singleData?.date}</span>
             </div>
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Order Id</span>{" "}
@@ -50,7 +61,7 @@ const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
             </div>
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Domain Name</span>{" "}
-              <span className="text-[16px]">231783892110</span>
+              <span className="text-[16px]">{singleData?.domain_name}</span>
             </div>
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Plan </span>{" "}
@@ -58,7 +69,7 @@ const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
             </div>
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Price </span>{" "}
-              <span className="text-[16px]"> 80$</span>
+              <span className="text-[16px]">${singleData?.package_price}</span>
             </div>
             <div className="flex justify-between text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">
@@ -86,7 +97,7 @@ const PurchasePlaneModal = ({ handleModal, modal }: IModal) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PurchasePlaneModal
+export default PurchasePlaneModal;

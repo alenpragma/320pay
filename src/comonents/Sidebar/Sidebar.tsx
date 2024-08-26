@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react"
-import { NavLink, useLocation } from "react-router-dom"
-import { images, mainNavItem, subNavItem } from "../.."
-import { MenuInterface } from "../../types/menuType"
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { images, mainNavItem, subNavItem } from "../..";
+import { MenuInterface } from "../../types/menuType";
+import { GoChevronDown } from "react-icons/go";
 
 interface SidebarProps {
-  sidebarOpen: boolean
-  setSidebarOpen: (arg: boolean) => void
+  sidebarOpen: boolean;
+  setSidebarOpen: (arg: boolean) => void;
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const location = useLocation()
-  const { pathname } = location
+  const location = useLocation();
+  const { pathname } = location;
 
-  const [mouseHover, setMouseHover] = useState<number | null>(null)
+  const [mouseHover, setMouseHover] = useState<number | null>(null);
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -122,6 +123,23 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <span> {item.item}</span>
                 </NavLink>
               ))}
+              <div
+                onMouseEnter={() => setMouseHover(10)}
+                onMouseLeave={() => setMouseHover(null)}
+                className="p-2 rounded-md font-semibold hover:bg-[#EFEBFE] hover:text-primary text-[#868B8F] text-[16px] duration-300 cursor-pointer flex items-center gap-3 justify-between"
+              >
+                <div className="flex items-center gap-3">
+                  <span>
+                    {mouseHover == 10 ? (
+                      <img src={images.settingsHover} alt="" />
+                    ) : (
+                      <img src={images.settings} alt="" />
+                    )}
+                  </span>
+                  <span> {"setting"}</span>
+                </div>
+                <GoChevronDown className="size-6" />
+              </div>
             </ul>
           </div>
           <div className="mt-5">
@@ -158,7 +176,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- Sidebar Menu --> */}
       </div>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

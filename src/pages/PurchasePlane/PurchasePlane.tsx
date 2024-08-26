@@ -1,43 +1,56 @@
-import { Key, useEffect, useState } from "react"
-import { tableData } from "../.."
-import TData from "../../comonents/Table/TData"
-import Pagination from "../../comonents/Pagination/Pagination"
-import axiosInstance from "../../utils/axiosConfig"
+import { Key, useEffect, useState } from "react";
+import { tableData } from "../..";
+import TData from "../../comonents/Table/TData";
+import Pagination from "../../comonents/Pagination/Pagination";
+import axiosInstance from "../../utils/axiosConfig";
+import PurchasePlaneModal, {
+  IPurchasPlane,
+} from "../../comonents/Modal/PurchasePlaneModal";
 // import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal"
 
 const PurchasePlane = () => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [modal, setModal] = useState(false)
-  const itemsPerPage = 10
-  const totalPages = Math.ceil(tableData.length / itemsPerPage)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [modal, setModal] = useState(false);
+  const [singleData, setSingleData] = useState();
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(tableData.length / itemsPerPage);
   // const indexOfLastItem = currentPage * itemsPerPage
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage
   // const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-  }
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
-  const [purchasePlane, setPurchasePlane] = useState<any>([])
+  const [purchasePlane, setPurchasePlane] = useState<any>([]);
 
   const getPurchasePlane = async () => {
-    const response = await axiosInstance.get("/client/package-purchase-history")
+    const response = await axiosInstance.get(
+      "/client/package-purchase-history"
+    );
     if (response?.data?.success == 200) {
-      setPurchasePlane(response?.data?.data)
+      setPurchasePlane(response?.data?.data);
     }
-  }
+  };
   useEffect(() => {
-    getPurchasePlane()
-  }, [])
-
-  const handleModal = () => {
-    setModal(!modal)
-  }
+    getPurchasePlane();
+  }, []);
+  const handleModal = (clientId: any) => {
+    setModal(!modal);
+    const purchasePlanSingleData = purchasePlane?.find(
+      (data: any) => data.id === clientId
+    );
+    setSingleData(purchasePlanSingleData);
+  };
   return (
     <>
-      {/* <PurchasePlaneModal handleModal={handleModal} modal={modal} /> */}
+      <PurchasePlaneModal
+        handleModal={handleModal}
+        modal={modal}
+        singleData={singleData}
+      />
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
           <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
@@ -90,7 +103,7 @@ const PurchasePlane = () => {
                     </TData>
                     <TData className="  px-6">
                       <button
-                        onClick={handleModal}
+                        onClick={() => handleModal(item.id)}
                         className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
                       >
                         View
@@ -110,7 +123,7 @@ const PurchasePlane = () => {
         handlePrevPage={handlePrevPage}
       />
     </>
-  )
-}
+  );
+};
 
-export default PurchasePlane
+export default PurchasePlane;

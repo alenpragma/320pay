@@ -1,9 +1,9 @@
-import { Key, useEffect, useState } from "react"
-import PaymenModal from "../../comonents/Modal/PaymentModal"
-import axiosInstance from "../../utils/axiosConfig"
-import PaymentData from "./PaymentData"
-import Skeleton from "react-loading-skeleton"
-import { toast } from "react-toastify"
+import { Key, useEffect, useState } from "react";
+import PaymenModal from "../../comonents/Modal/PaymentModal";
+import axiosInstance from "../../utils/axiosConfig";
+import PaymentData from "./PaymentData";
+import Skeleton from "react-loading-skeleton";
+import { toast } from "react-toastify";
 
 const Payment = () => {
   // const [currentPage, setCurrentPage] = useState([])
@@ -14,48 +14,51 @@ const Payment = () => {
   //   setIsToggled0(!isToggled0)
   // }
 
-  const [loading, setLoading] = useState(false)
-  const [modal, setModal] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const handleModal = () => {
-    setModal(!modal)
-  }
+    setModal(!modal);
+  };
 
-  const [tokenLoading, setTokenLoading] = useState<boolean>(false)
-  const [tokens, setTokens] = useState<any>([])
+  const [tokenLoading, setTokenLoading] = useState<boolean>(false);
+  const [tokens, setTokens] = useState<any>([]);
 
   const getDatas = async () => {
-    setTokenLoading(true)
-    const response = await axiosInstance.get("/client-tokens")
+    setTokenLoading(true);
+    const response = await axiosInstance.get("/client-tokens");
     if (response?.data?.data) {
-      setTokens(response?.data?.data)
+      setTokens(response?.data?.data);
     }
-    setTokenLoading(false)
-  }
+    setTokenLoading(false);
+  };
 
   useEffect(() => {
-    getDatas()
-  }, [])
+    getDatas();
+  }, []);
 
-  const handelUpdateStatus = async (id: string, status: any) => {
-    setLoading(true)
-    console.log(status)
-
+const handelUpdateStatus = async (id: string, status: any) => {
+  setLoading(true);
+  try {
     const updatedData = {
       id,
       status: status == 1 ? 0 : 1,
-    }
-    console.log(updatedData)
+    };
 
-    const response = await axiosInstance.post(
-      "/client-token/update",
-      updatedData
-    )
-    console.log(response.data.succeses)
-    if (response.data.succeses == 200) {
-      toast.success("Payment settings updated")
+    const response = await axiosInstance.post("/client-token/update", updatedData);
+
+    if (response.status === 200) {
+      toast("Payment settings updated");
+      await getDatas(); // Re-fetch specific data
     }
+  } catch (error) {
+    console.error("Failed to update payment settings:", error);
+    toast.error("Failed to update payment settings");
+  } finally {
+    setLoading(false);
   }
+};
+
 
   return (
     <>
@@ -105,7 +108,7 @@ const Payment = () => {
                         loading={loading}
                         token={token}
                       />
-                    )
+                    );
                   })}
                 </tbody>
               </table>
@@ -114,7 +117,7 @@ const Payment = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Payment
+export default Payment;

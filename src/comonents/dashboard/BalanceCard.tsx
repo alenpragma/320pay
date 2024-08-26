@@ -57,7 +57,7 @@ const BalanceCard = () => {
               spaceBetween: 10,
             },
             1024: {
-              slidesPerView: 3.5,
+              slidesPerView: 3,
               spaceBetween: 10,
             },
           }}

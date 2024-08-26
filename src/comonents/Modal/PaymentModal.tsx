@@ -49,7 +49,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
       setAvailableTokens(response?.data?.data)
     }
   }
-  console.log(availableTokens, "availableTokens")
+  // console.log(availableTokens, "availableTokens")
 
   useEffect(() => {
     getDatas()
