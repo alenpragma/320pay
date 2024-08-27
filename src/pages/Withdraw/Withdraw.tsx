@@ -36,7 +36,7 @@ export const network = [
 ];
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
-  network: z.string().optional(),
+  balance: z.string().optional(),
 });
 
 const Withdraw = () => {
@@ -92,7 +92,7 @@ const Withdraw = () => {
           resolver={zodResolver(validationSchema)}
           defaultValues={{
             currency: "",
-            network: "",
+            balance: "",
           }}
         >
           <div className="w-full mx-auto px-3 my-10">
@@ -108,12 +108,11 @@ const Withdraw = () => {
             </div>
             <div className="relative mb-8">
               <p className="font-semibold text-secondary mb-2">Amount</p>
-              <SelectField
-                name="network"
-                className=""
-                options={currencys}
-                placeholder="Please select an option"
-                onChange={handleCurrencyChange}
+              <InputField
+                name="amount"
+                type="number"
+                className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 px-4"
+                placeholder="Enter Your Amount"
               />
             </div>
             <div className="flex justify-center items-center">
@@ -122,7 +121,7 @@ const Withdraw = () => {
                   <Loading />
                 </button>
               ) : (
-                <SlideButton/>
+                <SlideButton />
               )}
             </div>
           </div>

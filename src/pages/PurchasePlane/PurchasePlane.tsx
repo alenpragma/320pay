@@ -6,6 +6,7 @@ import axiosInstance from "../../utils/axiosConfig";
 import PurchasePlaneModal, {
   IPurchasPlane,
 } from "../../comonents/Modal/PurchasePlaneModal";
+import Skeleton from "react-loading-skeleton";
 // import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal"
 
 const PurchasePlane = () => {
@@ -57,64 +58,70 @@ const PurchasePlane = () => {
             Add New Licenses
           </button>
         </div>
-        <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
-          <div className="overflow-x-auto w-full">
-            <table className=" border-collapse w-full">
-              <thead>
-                <tr className="bg-[#FAFAFA] text-secondary">
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Order Id
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap ">
-                    Plan
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Price
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Created
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Total Days
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Status
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {purchasePlane?.map((item: any, i: Key) => (
-                  <tr
-                    key={i}
-                    className="border-b border-[#E2E2E9] text-[#616365]"
-                  >
-                    <TData data={item.client_id} className="  px-6" />
-                    <TData data={item.package_name} className="  px-6" />
-                    <TData data={item.package_price} className="  px-6" />
-                    <TData data={item.created_at} className="  px-6" />
-                    <TData data="0" className="  px-6" />
-                    <TData className="px-6">
-                      <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-                        {item.status == 0 ? "Valid" : "Invalid"}
-                      </span>
-                    </TData>
-                    <TData className="  px-6">
-                      <button
-                        onClick={() => handleModal(item.id)}
-                        className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
-                      >
-                        View
-                      </button>
-                    </TData>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {purchasePlane.length == 0 ? (
+          <div className="mt-5">
+            <Skeleton height={35} count={7} />
           </div>
-        </div>
+        ) : (
+          <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
+            <div className="overflow-x-auto w-full">
+              <table className=" border-collapse w-full">
+                <thead>
+                  <tr className="bg-[#FAFAFA] text-secondary">
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Order Id
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap ">
+                      Plan
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Price
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Created
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Total Days
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Status
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white">
+                  {purchasePlane?.map((item: any, i: Key) => (
+                    <tr
+                      key={i}
+                      className="border-b border-[#E2E2E9] text-[#616365]"
+                    >
+                      <TData data={item.client_id} className="  px-6" />
+                      <TData data={item.package_name} className="  px-6" />
+                      <TData data={item.package_price} className="  px-6" />
+                      <TData data={item.created_at} className="  px-6" />
+                      <TData data="0" className="  px-6" />
+                      <TData className="px-6">
+                        <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
+                          {item.status == 0 ? "Valid" : "Invalid"}
+                        </span>
+                      </TData>
+                      <TData className="  px-6">
+                        <button
+                          onClick={() => handleModal(item.id)}
+                          className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
+                        >
+                          View
+                        </button>
+                      </TData>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
       <Pagination
         totalPages={totalPages}

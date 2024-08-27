@@ -88,90 +88,93 @@ export const walletHistory = [
 
 export const mainNavItem: MenuInterface[] = [
   {
+    id: 112,
     pathname: "/",
     item: "Dashboard",
     icon1: home,
     icon2: homeHover,
   },
   {
+    id: 113,
     pathname: "/start-here",
     item: "Start Here",
     icon1: lighting,
     icon2: lightingHover,
   },
   {
+    id: 114,
     pathname: "/deposit",
     item: "Deposit",
     icon1: deposit,
     icon2: depositHover,
   },
   {
+    id: 114,
     pathname: "/licenses",
     item: "Licenses",
     icon1: filelock,
     icon2: filelockHover,
   },
   {
+    id: 115,
     pathname: "/wallet",
     item: "Wallet",
-    icon1: wallet,
-    icon2: walletHover,
-  },
-  {
-    pathname: "/payment",
-    item: "Payment",
-    icon1: wallet,
-    icon2: walletHover,
-  },
-  {
-    pathname: "/withdraw",
-    item: "Withdraw",
     icon1: wallet,
     icon2: walletHover,
   },
 ];
 export const subNavItem: MenuInterface[] = [
   {
+    id: 221,
     pathname: "/purchase-plane",
     item: "Purchase Plane",
     icon1: layers,
     icon2: layerHover,
   },
-  // {
-  //   pathname: "/deposit-log",
-  //   item: "Deposit Log",
-  //   icon1: clock,
-  //   icon2: clockHover,
-  // },
-  // {
-  //   pathname: "/manage-server",
-  //   item: "Manage Server",
-  //   icon1: domain,
-  //   icon2: domainHover,
-  // },
   {
+    id: 223,
     pathname: "/referal",
     item: "Referal",
     icon1: gift,
     icon2: giftHover,
   },
   {
+    id: 224,
     pathname: "/transaction-history",
     item: "Transaction History",
     icon1: transaction,
     icon2: transactionHover,
   },
   {
+    id: 225,
     pathname: "/withdraw-history",
     item: "Withdraw History",
     icon1: withdrow,
     icon2: withdrowHover,
   },
   {
+    id: 225,
     pathname: "/raise-ticket",
     item: "Raise Ticket",
     icon1: smile,
     icon2: smileHover,
+  },
+];
+
+export const submenuItem: MenuInterface[] = [
+  {
+    id: 311,
+    pathname: "/payment",
+    item: "Payment",
+    icon1: withdrow,
+    icon2: withdrowHover,
+  },
+  {
+    id: 312,
+    pathname: "/withdraw",
+    item: "Withdraw",
+    icon1: withdrow,
+    icon2: withdrowHover,
   },
 ];
 export const dashboardCard: CadeInterface[] = [

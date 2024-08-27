@@ -1,21 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TData from "../../comonents/Table/TData";
+import { PuffLoader } from "react-spinners";
 
-const PaymentData = ({ handelUpdateStatus, loading, token }: any) => {
+const PaymentData = ({ handelUpdateStatus, loading, token, tokenId }: any) => {
+  console.log(token);
   const [isToggled, setIsToggled] = useState(false);
-  const [updateId, setUpdateId] = useState("");
 
-  // const handleToggl1 = () => {
-  //   setIsToggled1(!isToggled1)
-  // }
-  // const handleToggl2 = () => {
-  //   setIsToggled2(!isToggled2)
-  // }
-
-  const handleToggle0 = (id: any, status: string) => {
-    setUpdateId(id);
+  const handleToggle0 = (id: string, status: string) => {
     handelUpdateStatus(id, status);
-    // setIsToggled(!isToggled);
+    setIsToggled(!isToggled);
   };
   return (
     <>
@@ -23,7 +16,7 @@ const PaymentData = ({ handelUpdateStatus, loading, token }: any) => {
         <TData className="  px-6">
           <div className="flex items-center gap-3">
             <img className="w-10" src={token?.image} alt="" />
-            <span>{token?.token_name}</span>
+            <span>{token?.token_symbol}</span>
           </div>
         </TData>
 
@@ -42,66 +35,28 @@ const PaymentData = ({ handelUpdateStatus, loading, token }: any) => {
             {token?.status == 0 ? "Active" : "Deactive"}
           </button>
         </TData>
-        <TData>
-          {" "}
-          <div
-            className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-              token.status == 0 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
-            }`}
-            onClick={() => handleToggle0(token.id, token.status)}
-          >
-            <div
-              className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-                token.status !== 1 ? "translate-x-6" : ""
-              }`}
-            ></div>{" "}
-          </div>
-        </TData>
 
-        {/* <TData className="px-6">
-          {loading == false || updateId == token.id ? (
+        <TData className="px-6">
+          {loading == true && tokenId === token.id ? (
+            <PuffLoader size={40} />
+          ) : (
             <div
-              className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
+              className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer relative ${
                 token.status == 0 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
               }`}
               onClick={() => handleToggle0(token.id, token.status)}
             >
               <div
-                className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-                  token.status !== 1 ? "translate-x-6" : ""
+                className={`bg-white size-7 rounded-full shadow-md duration-300 absolute ${
+                  token.status == 0 ? "left-1" : "right-1"
                 }`}
               ></div>
             </div>
-          ) : (
-            "loading.."
           )}
-        </TData> */}
+        </TData>
       </tr>
     </>
   );
 };
 
 export default PaymentData;
-
-// <div
-// className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-//   token.status != 1 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
-// }`}
-// onClick={() => handleToggle0(token.id, token.status)}
-// >
-//    {loading && token.id == updateId ? (
-//   "loading"
-// ) : (
-//   <div
-//     className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-//       token.status == 1 ? "translate-x-6" : ""
-//     }`}
-//   ></div>
-// )}
-
-// <div
-//   className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-//     token.status == 1 ? "translate-x-6" : ""
-//   }`}
-// ></div>
-// </div>

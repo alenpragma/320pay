@@ -20,6 +20,7 @@ type IModal = {
 };
 
 const PurchasePlaneModal = ({ handleModal, modal, singleData }: IModal) => {
+  console.log(singleData);
  
   const [textToCopy, setTextToCopy] = useState<string>("");
   const handleCopy = (copy: string) => {
@@ -55,17 +56,17 @@ const PurchasePlaneModal = ({ handleModal, modal, singleData }: IModal) => {
               <span className="text-[18px] font-semibold">Expiry</span>{" "}
               <span className="text-[16px]">{singleData?.date}</span>
             </div>
-            <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
+            {/* <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Order Id</span>{" "}
-              <span className="text-[16px]">#76380</span>
-            </div>
+              <span className="text-[16px]"></span>
+            </div> */}
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Domain Name</span>{" "}
               <span className="text-[16px]">{singleData?.domain_name}</span>
             </div>
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Plan </span>{" "}
-              <span className="text-[16px]">1 Month</span>
+              <span className="text-[16px]">{singleData?.package_name}</span>
             </div>
             <div className="flex justify-between items-center text-secondary py-3 border-b border-b-[#E2E2E9]">
               <span className="text-[18px] font-semibold">Price </span>{" "}

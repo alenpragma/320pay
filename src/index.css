@@ -104,3 +104,20 @@
     height: 20px;
   }
 }
+
+
+
+/* input number input side icon desable */
+/* Hide the arrows in Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide the arrows in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* input number input side icon desable */

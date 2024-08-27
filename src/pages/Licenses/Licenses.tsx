@@ -96,7 +96,7 @@ const Licenses = () => {
                       <TData data={data.license_key} className="w-2/12 px-6" />
                       <TData className=" w-full px-6">
                         <div className=" w-full">
-                          {data.status == 1 ? (
+                          {data.status == 0 ? (
                             <button className="font-semibold text-[14px] w-[60px] text-green-500 bg-[#DCF3DE] rounded py-1   md:px-0 px-3">
                               Active
                             </button>

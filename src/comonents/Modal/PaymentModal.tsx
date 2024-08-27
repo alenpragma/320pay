@@ -58,13 +58,13 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.token_symbol,
     value: item.id,
+    image : item.image
   }))
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
       return token.id === value
     })
-
     setSelectedCurrency(selectedToken)
   }
 

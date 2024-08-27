@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { images, mainNavItem, subNavItem } from "../..";
+import { images, mainNavItem, submenuItem, subNavItem } from "../..";
 import { MenuInterface } from "../../types/menuType";
 import { GoChevronDown } from "react-icons/go";
 
@@ -11,10 +11,15 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const [submenu, setSubmenu] = useState(false);
   const location = useLocation();
   const { pathname } = location;
 
   const [mouseHover, setMouseHover] = useState<number | null>(null);
+  const handleSubmenu = () => {
+    setSubmenu(!submenu);
+  };
+
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -100,11 +105,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <nav className="mt-0 py-4 px-4 lg:mt-0 lg:px-6">
           <div>
             <ul className="mb-6 flex flex-col gap-1.5">
-              {mainNavItem.map((item: MenuInterface, i: number) => (
+              {mainNavItem.map((item: MenuInterface) => (
                 <NavLink
-                  key={i}
+                  key={item.id}
                   to={item.pathname}
-                  onMouseEnter={() => setMouseHover(i)}
+                  onMouseEnter={() => setMouseHover(item.id)}
                   onMouseLeave={() => setMouseHover(null)}
                   onClick={() => setSidebarOpen(!sidebarOpen)}
                   className={({ isActive }) =>
@@ -114,7 +119,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   }
                 >
                   <span>
-                    {mouseHover == i || item.pathname === pathname ? (
+                    {mouseHover == item.id || item.pathname === pathname ? (
                       <img src={item?.icon2} alt="" />
                     ) : (
                       <img src={item?.icon1} alt="" />
@@ -123,22 +128,56 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <span> {item.item}</span>
                 </NavLink>
               ))}
-              <div
-                onMouseEnter={() => setMouseHover(10)}
-                onMouseLeave={() => setMouseHover(null)}
-                className="p-2 rounded-md font-semibold hover:bg-[#EFEBFE] hover:text-primary text-[#868B8F] text-[16px] duration-300 cursor-pointer flex items-center gap-3 justify-between"
-              >
-                <div className="flex items-center gap-3">
-                  <span>
-                    {mouseHover == 10 ? (
-                      <img src={images.settingsHover} alt="" />
-                    ) : (
-                      <img src={images.settings} alt="" />
-                    )}
-                  </span>
-                  <span> {"setting"}</span>
+              <div>
+                <div
+                  onMouseEnter={() => setMouseHover(10)}
+                  onMouseLeave={() => setMouseHover(null)}
+                  className="p-2 rounded-md font-semibold hover:bg-[#EFEBFE] hover:text-primary text-[#868B8F] text-[16px] duration-300 cursor-pointer flex items-center gap-3 justify-between"
+                  onClick={handleSubmenu}
+                >
+                  <div className="flex items-center gap-3">
+                    <span>
+                      {mouseHover == 10 ? (
+                        <img src={images.settingsHover} alt="" />
+                      ) : (
+                        <img src={images.settings} alt="" />
+                      )}
+                    </span>
+                    <span> {"setting"}</span>
+                  </div>
+                  <GoChevronDown className="size-6" />
                 </div>
-                <GoChevronDown className="size-6" />
+                <div className="pl-4">
+                  {submenu ? (
+                    <>
+                      {submenuItem.map((item: MenuInterface) => (
+                        <NavLink
+                          key={item.id}
+                          to={item.pathname}
+                          onMouseEnter={() => setMouseHover(item.id)}
+                          onMouseLeave={() => setMouseHover(null)}
+                          onClick={() => setSidebarOpen(!sidebarOpen)}
+                          className={({ isActive }) =>
+                            isActive
+                              ? "p-2 rounded-md font-semibold  text-primary  hover:bg-[#EFEBFE] duration-300 cursor-pointer flex items-center gap-3 bg-[#EFEBFE]"
+                              : "p-2 rounded-md font-semibold hover:bg-[#EFEBFE] hover:text-primary text-[#868B8F] text-[16px] duration-300 cursor-pointer flex items-center gap-3"
+                          }
+                        >
+                          <span>
+                            {mouseHover == item.id || item.pathname === pathname ? (
+                              <img src={item?.icon2} alt="" />
+                            ) : (
+                              <img src={item?.icon1} alt="" />
+                            )}
+                          </span>
+                          <span> {item.item}</span>
+                        </NavLink>
+                      ))}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
             </ul>
           </div>
@@ -147,11 +186,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               Post Purchase Step
             </h4>
             <ul className="mb-6 mt-6 flex flex-col space-y-2">
-              {subNavItem.map((item: MenuInterface, i: number) => (
+              {subNavItem.map((item: MenuInterface) => (
                 <NavLink
-                  key={i}
+                  key={item.id}
                   to={item.pathname}
-                  onMouseEnter={() => setMouseHover(i)}
+                  onMouseEnter={() => setMouseHover(item.id)}
                   onMouseLeave={() => setMouseHover(null)}
                   onClick={() => setSidebarOpen(!sidebarOpen)}
                   className={({ isActive }) =>
@@ -161,7 +200,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   }
                 >
                   <span>
-                    {mouseHover == i + 6 || item.pathname === pathname ? (
+                    {mouseHover == item.id || item.pathname === pathname ? (
                       <img src={item?.icon2} alt="" />
                     ) : (
                       <img src={item?.icon1} alt="" />

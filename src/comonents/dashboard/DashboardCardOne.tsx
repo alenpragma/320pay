@@ -1,62 +1,62 @@
-import { FaRegCopy } from "react-icons/fa"
-import { images } from "../.."
-import { useEffect, useState } from "react"
-import { copyToClipboard } from "../../utils/Actions"
-import { useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
-import axiosInstance from "../../utils/axiosConfig"
-import Skeleton from "react-loading-skeleton"
+import { FaRegCopy } from "react-icons/fa";
+import { images } from "../..";
+import { useEffect, useState } from "react";
+import { copyToClipboard } from "../../utils/Actions";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosInstance from "../../utils/axiosConfig";
+import Skeleton from "react-loading-skeleton";
 
 const DashboardCardOne = ({ clientProfile }: any) => {
-  const [wallet, setWallet] = useState<any>("")
+  const [wallet, setWallet] = useState<any>("");
 
   const handleCopy = (copy: string) => {
-    copyToClipboard(copy)
-  }
-  const navigate = useNavigate()
+    copyToClipboard(copy);
+  };
+  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState<boolean>(false)
-  const [walletLoading, setWalletLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
+  const [walletLoading, setWalletLoading] = useState<boolean>(false);
 
   const getWallet = async () => {
     try {
-      setWalletLoading(true)
-      const response = await axiosInstance.get("/client-wallets")
+      setWalletLoading(true);
+      const response = await axiosInstance.get("/client-wallets");
       if (response?.data?.success === 200) {
-        setWallet(response?.data?.data)
+        setWallet(response?.data?.data);
       }
     } catch (error) {
-      console.error("Failed to fetch wallet data:", error)
+      console.error("Failed to fetch wallet data:", error);
     } finally {
-      setWalletLoading(false)
+      setWalletLoading(false);
     }
-  }
+  };
   useEffect(() => {
-    getWallet()
-  }, [])
+    getWallet();
+  }, []);
 
   const creteWallet = async () => {
     try {
-      setLoading(true)
-      const response = await axiosInstance.post("/client/create-address")
-      console.log(response)
+      setLoading(true);
+      const response = await axiosInstance.post("/client/create-address");
+      console.log(response);
 
       if (response?.data?.success == 200) {
-        getWallet()
+        getWallet();
         // setCreatedAddress(response?.data?.data)
-        toast.info(response?.data?.message)
-        navigate("/wallet")
-        return
+        toast.info(response?.data?.message);
+        navigate("/wallet");
+        return;
       }
       if (response?.data?.error == 400) {
-        return toast.error(response?.data?.message)
+        return toast.error(response?.data?.message);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
-      console.error("Error fetching data:", error)
+      setLoading(false);
+      console.error("Error fetching data:", error);
     }
-  }
+  };
 
   // const shortenAddress = (address: string) => {
   //   if (!address) return ""
@@ -176,6 +176,12 @@ const DashboardCardOne = ({ clientProfile }: any) => {
                         )} .........${wallet?.client_wallet_address?.slice(
                           -6
                         )}`}{" "}
+                        <FaRegCopy
+                          className="cursor-pointer"
+                          onClick={() =>
+                            handleCopy(wallet?.client_wallet_address)
+                          }
+                        />
                       </>
                     )}
                     {/* {shortenAddress(wallet?.client_wallet_address)}
@@ -195,7 +201,7 @@ const DashboardCardOne = ({ clientProfile }: any) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardCardOne
+export default DashboardCardOne;
