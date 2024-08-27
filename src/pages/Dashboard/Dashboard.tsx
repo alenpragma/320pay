@@ -6,8 +6,8 @@ import axiosInstance from "../../utils/axiosConfig"
 import BalanceCard from "../../comonents/dashboard/BalanceCard"
 
 const Dashboard = () => {
-  const [clientProfile, setClientProfile] = useState()
   const [clientWallets, setClientWallets] = useState<any>()
+  const [clientProfile, setClientProfile] = useState()
 
   const getData = async () => {
     const response = await axiosInstance.get("/client-profile")

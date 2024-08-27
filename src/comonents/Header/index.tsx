@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import DropdownUser from "./DropdownUser";
+import { CiSettings } from "react-icons/ci";
+import { useState } from "react";
 // import DarkModeSwitcher from "./DarkModeSwitcher"
 
 const Header = (props: {
@@ -7,6 +9,9 @@ const Header = (props: {
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
   const { pathname } = useLocation();
+  const [rotate, setRotate] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false);
+  const [visible, setVisible] = useState(false)
   const capital = (text: string) => {
     const cleneText = text.replace(/[\/-]/g, " ");
     if (!text) {
@@ -15,6 +20,11 @@ const Header = (props: {
     return cleneText;
   };
   const title = capital(pathname);
+  const handleModal = () => {
+    setModal(!modal);
+    setRotate(!rotate);
+    setVisible(!visible)
+  };
   return (
     <header className="sticky top-0 z-[5] flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -71,7 +81,13 @@ const Header = (props: {
         </h4>
 
         <div className="flex lg:ms-auto items-center gap-3 2xsm:gap-5">
-          <DropdownUser />
+          <CiSettings
+            className={`size-8 cursor-pointer transition-transform ${
+              rotate ? "-rotate-90" : ""
+            }`}
+            onClick={handleModal}
+          />
+        <DropdownUser modal={modal} handleRotate={handleModal} visible={visible} />
         </div>
       </div>
     </header>

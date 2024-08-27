@@ -1,23 +1,23 @@
-import React, { useState } from "react"
-import { MdContentCopy } from "react-icons/md"
-import HoverTableItem from "../../lib/HoverTableItem"
-import { copyToClipboard } from "../../utils/Actions"
-import TData from "../../comonents/Table/TData"
+import React, { useState } from "react";
+import { MdContentCopy } from "react-icons/md";
+import HoverTableItem from "../../lib/HoverTableItem";
+import { copyToClipboard } from "../../utils/Actions";
+import TData from "../../comonents/Table/TData";
 
-const TransactionRow = ({ data, selectValue, wallet_address }: any) => {
-  const [hoveredField, setHoveredField] = useState<string | null>(null)
+const TransactionRow = ({ data, selectValue, wallet }: any) => {
+  const [hoveredField, setHoveredField] = useState<string | null>(null);
 
   const handleCopy = (copy: any) => {
-    copyToClipboard(copy)
-  }
+    copyToClipboard(copy);
+  };
 
   const handleMouseEnter = (field: string) => {
-    setHoveredField(field)
-  }
+    setHoveredField(field);
+  };
 
   const handleMouseLeave = () => {
-    setHoveredField(null)
-  }
+    setHoveredField(null);
+  };
 
   return (
     <>
@@ -86,13 +86,21 @@ const TransactionRow = ({ data, selectValue, wallet_address }: any) => {
           </div>
         </TData>
         <TData className="px-6">
-          <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-            {data.to == wallet_address ? "In" : "Out"}
+          <span
+            className={`${
+              data?.to?.toLowerCase() === wallet?.toLowerCase()
+                ? " text-green-500 bg-[#DCF3DE] "
+                : " text-red-500 bg-[rgba(163,10,10,0.2)]"
+            } font-semibold text-[14px]  rounded px-5 py-1`}
+          >
+            <span className="w-20">
+              {data?.to?.toLowerCase() === wallet?.toLowerCase() ? "in" : "out"}
+            </span>
           </span>
         </TData>
       </tr>
     </>
-  )
-}
+  );
+};
 
-export default TransactionRow
+export default TransactionRow;

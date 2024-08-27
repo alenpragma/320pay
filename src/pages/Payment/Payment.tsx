@@ -1,70 +1,70 @@
-import { Key, useEffect, useState } from "react"
-import { images, tableData } from "../.."
-import TData from "../../comonents/Table/TData"
-import Pagination from "../../comonents/Pagination/Pagination"
-import PaymenModal from "../../comonents/Modal/PaymentModal"
-import { MdContentCopy } from "react-icons/md"
-import { copyToClipboard } from "../../utils/Actions"
-import HoverTableItem from "../../lib/HoverTableItem"
-import axiosInstance from "../../utils/axiosConfig"
+import { Key, useEffect, useState } from "react";
+import PaymenModal from "../../comonents/Modal/PaymentModal";
+import axiosInstance from "../../utils/axiosConfig";
+import PaymentData from "./PaymentData";
+import Skeleton from "react-loading-skeleton";
+import { toast } from "react-toastify";
 
 const Payment = () => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
-  const totalPages = Math.ceil(tableData.length / itemsPerPage)
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-  }
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
+  // const [currentPage, setCurrentPage] = useState([])
+  // const [isToggled0, setIsToggled0] = useState(false)
+  // const handleToggle0 = (id: string) => {
+  //   console.log(id, "iddddd")
 
-  const [isToggled0, setIsToggled0] = useState(false)
-  const [isToggled1, setIsToggled1] = useState(false)
-  const [isToggled2, setIsToggled2] = useState(false)
-  const [modal, setModal] = useState(false)
+  //   setIsToggled0(!isToggled0)
+  // }
 
-  const handleToggle0 = () => {
-    setIsToggled0(!isToggled0)
-  }
-  const handleToggl1 = () => {
-    setIsToggled1(!isToggled1)
-  }
-  const handleToggl2 = () => {
-    setIsToggled2(!isToggled2)
-  }
+  const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  console.log(modal);
+  const [tokenId, setTokenId] = useState<string>("");
   const handleModal = () => {
-    setModal(!modal)
-  }
+    setModal(!modal);
+  };
 
-  const handleCopy = (copy: any) => {
-    copyToClipboard(copy)
-  }
-
-  const history = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3BA"
-  const history1 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f332"
-  const history2 = "0x3cFbca23e190e8E29626aBd81cD9AD1C57c9f3fd"
-  const [historyData, setHistory] = useState("")
-  const handleTras = (history: any) => {
-    setHistory(history)
-  }
-
-  const [loading, setLoading] = useState<boolean>(false)
-  const [tokens, setTokens] = useState<any>([])
+  const [tokenLoading, setTokenLoading] = useState<boolean>(false);
+  const [tokens, setTokens] = useState<any>([]);
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/available-tokens")
+    setTokenLoading(true);
+    const response = await axiosInstance.get("/client-tokens");
     if (response?.data?.data) {
-      setTokens(response?.data?.data)
+      setTokens(response?.data?.data);
     }
-  }
+    setTokenLoading(false);
+  };
 
   useEffect(() => {
-    getDatas()
-  }, [])
+    getDatas();
+  }, []);
+
+  const handelUpdateStatus = async (id: any, status: string) => {
+    setTokenId(id);
+    setLoading(true);
+
+    try {
+      const updatedData = {
+        id,
+        status: status == "1" ? 0 : 1,
+      };
+
+      const response = await axiosInstance.post(
+        "/client-token/update",
+        updatedData
+      );
+
+      if (response.status === 200) {
+        // toast("Payment settings updated");
+        await getDatas();
+        setTokenId("");
+      }
+    } catch (error) {
+      console.error("Failed to update payment settings:", error);
+      toast.error("Failed to update payment settings");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -77,157 +77,178 @@ const Payment = () => {
             </h4>
             <button
               onClick={handleModal}
-              className="px-5 py-2 rounded-lg bg-primary text-white font-semibold"
+              className="px-5 py-2 rounded-lg bg-primary text-white font-semibold cursor-pointer"
             >
               Add New Currency
             </button>
           </div>
-          <div className="overflow-x-auto w-full mt-6">
-            <table className=" border-collapse w-full">
-              <thead>
-                <tr className="bg-[#FAFAFA] text-secondary">
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Currency
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap ">
-                    NetWork
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Status
-                  </th>
-                  <th className="py-2 px-6 text-start  whitespace-nowrap">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {tokens?.map((token: any, i: Key) => {
-                  return (
-                    <tr
-                      key={i}
-                      className="border-b border-[#E2E2E9] text-[#616365]"
-                    >
-                      <TData className="  px-6">
-                        <div className="flex items-center gap-3">
-                          <img className="w-10" src={token.image} alt="" />
-                          <span>USDT</span>
-                        </div>
-                      </TData>
 
-                      <TData className="px-3">
-                        <div className="relative">
-                          <div className="flex items-center">
-                            <span
-                              className="hover:bg-green-100 px-3 rounded"
-                              onMouseEnter={() => handleTras(history2)}
-                              onMouseLeave={() => handleTras(null)}
-                            >
-                              {history2.slice(0, 10)}
-                              .......
-                              {history.slice(-8)}
-                            </span>
-                            <MdContentCopy
-                              onClick={() => handleCopy(history2)}
-                              className="cursor-pointer rotate-180 size-5"
-                            />
-                          </div>
-                          {history2 == historyData ? (
-                            <HoverTableItem value={history2} />
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </TData>
-                      <TData className="  px-6">
-                        <button
-                          className={`font-semibold text-[14px] ${
-                            isToggled0 ? "text-[#4FC55B]" : "text-[#FF8109]"
-                          } bg-[#DCF3DE] rounded py-1 w-[100px]   md:px-0 px-3`}
-                        >
-                          {isToggled0 ? "Active" : "Deactive"}
-                        </button>
-                      </TData>
-
-                      <TData className="  px-6">
-                        <div
-                          className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-                            isToggled0 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
-                          }`}
-                          onClick={() => handleToggle0()}
-                        >
-                          <div
-                            className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-                              isToggled0 ? "translate-x-6" : ""
-                            }`}
-                          ></div>{" "}
-                        </div>
-                      </TData>
-                    </tr>
-                  )
-                })}
-
-                <tr className="border-b border-[#E2E2E9] text-[#616365]">
-                  <TData className="  px-6">
-                    <div className="flex items-center gap-3">
-                      <img src={images.usdt} alt="" />
-                      <span>USDT</span>
-                    </div>
-                  </TData>
-                  <TData className="px-3">
-                    <div className="relative">
-                      <div className="flex items-center">
-                        <span
-                          className="hover:bg-green-100 px-3 rounded"
-                          onMouseEnter={() => handleTras(history2)}
-                          onMouseLeave={() => handleTras(null)}
-                        >
-                          {history2.slice(0, 10)}
-                          .......
-                          {history.slice(-8)}
-                        </span>
-                        <MdContentCopy
-                          onClick={() => handleCopy(history2)}
-                          className="cursor-pointer rotate-180 size-5"
-                        />
-                      </div>
-                      {history2 == historyData ? (
-                        <HoverTableItem value={history2} />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </TData>
-                  <TData className="  px-6">
-                    <button
-                      className={`font-semibold text-[14px] ${
-                        isToggled2 ? "text-[#4FC55B]" : "text-[#FF8109]"
-                      } bg-[#DCF3DE] rounded py-1 w-[100px]   md:px-0 px-3`}
-                    >
-                      {isToggled2 ? "Active" : "Deactive"}
-                    </button>
-                  </TData>
-                  <TData className="  px-6">
-                    <div
-                      className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-                        isToggled2 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
-                      }`}
-                      onClick={() => handleToggl2()}
-                    >
-                      <div
-                        className={`bg-white w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out ${
-                          isToggled2 ? "translate-x-6" : ""
-                        }`}
-                      ></div>{" "}
-                    </div>
-                  </TData>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {tokens.length == 0 ? (
+            <div className="mt-5">
+              <Skeleton height={35} count={5} />
+            </div>
+          ) : (
+            <div className="overflow-x-auto w-full mt-6">
+              <table className=" border-collapse w-full">
+                <thead>
+                  <tr className="bg-[#FAFAFA] text-secondary">
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Currency
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap ">
+                      Network
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Status
+                    </th>
+                    <th className="py-2 px-6 text-start  whitespace-nowrap">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white">
+                  {tokens?.map((token: any, i: Key) => {
+                    return (
+                      <PaymentData
+                        key={i}
+                        handelUpdateStatus={handelUpdateStatus}
+                        loading={loading}
+                        token={token}
+                        tokenId={tokenId}
+                      />
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Payment
+export default Payment;
+
+// import { Key, useEffect, useState } from "react";
+// import PaymenModal from "../../comonents/Modal/PaymentModal";
+// import axiosInstance from "../../utils/axiosConfig";
+// import PaymentData from "./PaymentData";
+// import Skeleton from "react-loading-skeleton";
+// import { toast } from "react-toastify";
+
+// const Payment = () => {
+//   // const [currentPage, setCurrentPage] = useState([])
+//   // const [isToggled0, setIsToggled0] = useState(false)
+//   // const handleToggle0 = (id: string) => {
+//   //   console.log(id, "iddddd")
+
+//   //   setIsToggled0(!isToggled0)
+//   // }
+
+//   const [loading, setLoading] = useState(false);
+//   const [modal, setModal] = useState(false);
+
+//   const handleModal = () => {
+//     setModal(!modal);
+//   };
+
+//   const [tokenLoading, setTokenLoading] = useState<boolean>(false);
+//   const [tokens, setTokens] = useState<any>([]);
+
+//   const getDatas = async () => {
+//     setTokenLoading(true);
+//     const response = await axiosInstance.get("/client-tokens");
+//     if (response?.data?.data) {
+//       setTokens(response?.data?.data);
+//     }
+//     setTokenLoading(false);
+//   };
+
+//   useEffect(() => {
+//     getDatas();
+//   }, []);
+
+// const handelUpdateStatus = async (id: string, status: any) => {
+//   setLoading(true);
+//   try {
+//     const updatedData = {
+//       id,
+//       status: status == 1 ? 0 : 1,
+//     };
+
+//     const response = await axiosInstance.post("/client-token/update", updatedData);
+
+//     if (response.status === 200) {
+//       toast("Payment settings updated");
+//       await getDatas(); // Re-fetch specific data
+//     }
+//   } catch (error) {
+//     console.error("Failed to update payment settings:", error);
+//     toast.error("Failed to update payment settings");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+//   return (
+//     <>
+//       <PaymenModal renewModal={modal} handleRenewModal={handleModal} />
+//       <div className="md:p-6 px-3 pt-4">
+//         <div className=" rounded-xl border-2 border-[#E2E2E9] mt-4 p-4">
+//           <div className="flex justify-between items-center">
+//             <h4 className="text-secondary text-[20px] font-semibold">
+//               Payment Settings
+//             </h4>
+//             <button
+//               onClick={handleModal}
+//               className="px-5 py-2 rounded-lg bg-primary text-white font-semibold"
+//             >
+//               Add New Currency
+//             </button>
+//           </div>
+//           <div className="overflow-x-auto w-full mt-6">
+//             {tokenLoading ? (
+//               <div>
+//                 <Skeleton height={35} count={3} />
+//               </div>
+//             ) : (
+//               <table className=" border-collapse w-full">
+//                 <thead>
+//                   <tr className="bg-[#FAFAFA] text-secondary">
+//                     <th className="py-2 px-6 text-start  whitespace-nowrap">
+//                       Currency
+//                     </th>
+//                     <th className="py-2 px-6 text-start  whitespace-nowrap ">
+//                       Network
+//                     </th>
+//                     <th className="py-2 px-6 text-start  whitespace-nowrap">
+//                       Status
+//                     </th>
+//                     <th className="py-2 px-6 text-start  whitespace-nowrap">
+//                       Action
+//                     </th>
+//                   </tr>
+//                 </thead>
+//                 <tbody className="bg-white">
+//                   {tokens?.map((token: any, i: Key) => {
+//                     return (
+//                       <PaymentData
+//                         key={i}
+//                         handelUpdateStatus={handelUpdateStatus}
+//                         loading={loading}
+//                         token={token}
+//                       />
+//                     );
+//                   })}
+//                 </tbody>
+//               </table>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Payment;

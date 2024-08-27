@@ -1,46 +1,51 @@
-import { FaCopy } from "react-icons/fa"
-import { images } from "../.."
-import { useEffect, useState } from "react"
-import { copyToClipboard } from "../../utils/Actions"
-import { ethers } from "ethers"
-import axiosInstance from "../../utils/axiosConfig"
+import { FaCopy } from "react-icons/fa";
+import { images, loading } from "../..";
+import { useEffect, useState } from "react";
+import { copyToClipboard } from "../../utils/Actions";
+import { ethers } from "ethers";
+import axiosInstance from "../../utils/axiosConfig";
+import { PuffLoader } from "react-spinners";
 
 const Deposit = () => {
-  const [textToCopy, setTextToCopy] = useState<string | null>("")
   const handleCopy = (copy: string | null) => {
-    copyToClipboard(textToCopy)
-    setTextToCopy(copy)
-  }
-
-  const address = localStorage.getItem("address")
-  const privateKey = localStorage.getItem("privateKey")
-  //   const copy = "0x625336E4A6C4cCa43A08Ad4cE0852A668ad3a3fA";
+    copyToClipboard(copy);
+  };
 
   const createWallet = () => {
-    const wallet = ethers.Wallet.createRandom()
-    const address = wallet.address
-    const privateKey = wallet.privateKey
-    localStorage.setItem("address", address)
-    localStorage.setItem("privateKey", privateKey)
-    window.location.reload()
-  }
+    const wallet = ethers.Wallet.createRandom();
+    const address = wallet.address;
+    const privateKey = wallet.privateKey;
+    localStorage.setItem("address", address);
+    localStorage.setItem("privateKey", privateKey);
+    window.location.reload();
+  };
 
-  const [wallet, setWallet] = useState<any>({})
+  const [wallet, setWallet] = useState<any>({});
+  const [loading, setLoading] = useState(false);
 
   const getWallet = async () => {
-    const response = await axiosInstance.get("/client-wallets")
-    if (response?.data?.success) {
-      setWallet(response?.data?.data)
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get("/client-wallets");
+      if (response?.data?.success === 200) {
+        setWallet(response?.data?.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch wallet data:", error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
   useEffect(() => {
-    getWallet()
-  }, [])
+    getWallet();
+  }, []);
+
+  console.log(wallet?.client_wallet_address);
 
   return (
     <div className="md:p-8 pt-5">
       <div className="md:w-2/5 w-11/12 mx-auto ">
-        {address || privateKey ? (
+        {wallet ? (
           <div className="mt-5 border border-[#E2E2E9] rounded-2xl">
             <div className="py-2 bg-primary w-full rounded-t-2xl px-5">
               <span className="font-semibold text-white ">Wallet Address</span>
@@ -53,12 +58,20 @@ const Deposit = () => {
                 <p className="text-[14px]">Wallet Address</p>
                 <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
                   <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                    {`${wallet?.client_wallet_address?.slice(
-                      0,
-                      18
-                    )} .........${wallet?.client_wallet_address?.slice(
-                      -6
-                    )}`}{" "}
+                    {loading ? (
+                      <div className="w-full flex justify-center items-center">
+                        <PuffLoader size={30} />
+                      </div>
+                    ) : (
+                      <>
+                        {`${wallet?.client_wallet_address?.slice(
+                          0,
+                          18
+                        )} .........${wallet?.client_wallet_address?.slice(
+                          -6
+                        )}`}{" "}
+                      </>
+                    )}
                   </span>
                   <span
                     onClick={() => handleCopy(wallet?.client_wallet_address)}
@@ -80,7 +93,7 @@ const Deposit = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Deposit
+export default Deposit;

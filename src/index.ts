@@ -25,6 +25,8 @@ import transaction from "./assets/icon/navIcon/transactin.svg";
 import transactionHover from "./assets/icon/navIcon/transaction-hover.svg";
 import withdrow from "./assets/icon/navIcon/withdraw.svg";
 import withdrowHover from "./assets/icon/navIcon/withdraw-hover.svg";
+import settings from "./assets/icon/navIcon/settings.svg";
+import settingsHover from "./assets/icon/navIcon/settings-hover.svg";
 
 import file from "./assets/icon/dashboard/file.svg";
 import wallet2 from "./assets/icon/dashboard/wallet-2.svg";
@@ -44,10 +46,17 @@ import logo from "./assets/logos/logo.png";
 import tick from "./assets/icon/Starthere/tick.svg";
 
 import lottie from "./assets/lottie/loading.json";
+import loadingLottie from "./assets/lottie/loading-lottie.json";
 
 export const loading = lottie;
+export const loadingLotti = loadingLottie;
 
 import usdt from "./assets/icon/payment/usdt.svg";
+
+import bnb from "./assets/icon/dashboard/bnb.svg";
+import usdts from "./assets/icon/dashboard/usdt.svg";
+import musd from "./assets/icon/dashboard/musd.svg";
+import mind from "./assets/icon/dashboard/mind.svg";
 
 export const walletHistory = [
   {
@@ -79,84 +88,93 @@ export const walletHistory = [
 
 export const mainNavItem: MenuInterface[] = [
   {
+    id: 112,
     pathname: "/",
     item: "Dashboard",
     icon1: home,
     icon2: homeHover,
   },
   {
+    id: 113,
     pathname: "/start-here",
     item: "Start Here",
     icon1: lighting,
     icon2: lightingHover,
   },
   {
+    id: 114,
     pathname: "/deposit",
     item: "Deposit",
     icon1: deposit,
     icon2: depositHover,
   },
   {
+    id: 114,
     pathname: "/licenses",
     item: "Licenses",
     icon1: filelock,
     icon2: filelockHover,
   },
   {
+    id: 115,
     pathname: "/wallet",
     item: "Wallet",
-    icon1: wallet,
-    icon2: walletHover,
-  },
-  {
-    pathname: "/payment",
-    item: "Payment",
     icon1: wallet,
     icon2: walletHover,
   },
 ];
 export const subNavItem: MenuInterface[] = [
   {
+    id: 221,
     pathname: "/purchase-plane",
     item: "Purchase Plane",
     icon1: layers,
     icon2: layerHover,
   },
   {
-    pathname: "/deposit-log",
-    item: "Deposit Log",
-    icon1: clock,
-    icon2: clockHover,
-  },
-  {
-    pathname: "/manage-server",
-    item: "Manage Server",
-    icon1: domain,
-    icon2: domainHover,
-  },
-  {
+    id: 223,
     pathname: "/referal",
     item: "Referal",
     icon1: gift,
     icon2: giftHover,
   },
   {
-    pathname: "/transition-history",
-    item: "Transition History",
+    id: 224,
+    pathname: "/transaction-history",
+    item: "Transaction History",
     icon1: transaction,
     icon2: transactionHover,
   },
   {
+    id: 225,
     pathname: "/withdraw-history",
     item: "Withdraw History",
     icon1: withdrow,
     icon2: withdrowHover,
   },
   {
+    id: 225,
     pathname: "/raise-ticket",
     item: "Raise Ticket",
     icon1: smile,
     icon2: smileHover,
+  },
+];
+
+export const submenuItem: MenuInterface[] = [
+  {
+    id: 311,
+    pathname: "/payment",
+    item: "Payment",
+    icon1: withdrow,
+    icon2: withdrowHover,
+  },
+  {
+    id: 312,
+    pathname: "/withdraw",
+    item: "Withdraw",
+    icon1: withdrow,
+    icon2: withdrowHover,
   },
 ];
 export const dashboardCard: CadeInterface[] = [
@@ -303,4 +321,10 @@ export const images = {
   wallet2,
   tick,
   usdt,
+  usdts,
+  mind,
+  bnb,
+  musd,
+  settings,
+  settingsHover,
 };

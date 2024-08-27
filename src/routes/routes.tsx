@@ -14,6 +14,9 @@ import NotFound from "../pages/NotFound/NotFound"
 import ProtectRoute from "../comonents/ProtectRouter/ProtectRoute"
 import Payment from "../pages/Payment/Payment"
 import WithdrawHistory from "../pages/WithdrawHistory/WithdrawHistory"
+import Withdraw from "../pages/Withdraw/Withdraw"
+import ManageServer from "../pages/ManageServer/ManageSerever"
+import Otp from "../pages/OtpPage/Otp"
 
 const routes = createBrowserRouter([
   {
@@ -53,7 +56,7 @@ const routes = createBrowserRouter([
         element: <Licenses />,
       },
       {
-        path: "/transition-history",
+        path: "/transaction-history",
         element: <TransitionHistory />,
       },
       {
@@ -67,6 +70,14 @@ const routes = createBrowserRouter([
       {
         path: "/withdraw-history",
         element: <WithdrawHistory />,
+      },
+      {
+        path: "/withdraw",
+        element: <Withdraw />,
+      },
+      {
+        path: "/withdraw/otp",
+        element: <Otp />,
       },
     ],
   },

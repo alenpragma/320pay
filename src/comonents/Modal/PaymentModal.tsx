@@ -34,7 +34,7 @@ export const network = [
   { label: "OPTIMISM", value: "optimism" },
 ]
 export const validationSchema = z.object({
-  currency: z.string().min(1, "This field is required"),
+  currency: z.number().min(1, "This field is required"),
   network: z.string().optional(),
 })
 
@@ -45,27 +45,26 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
 
   const getDatas = async () => {
     const response = await axiosInstance.get("/client/available-tokens")
-
     if (response?.data?.data) {
       setAvailableTokens(response?.data?.data)
     }
   }
+  // console.log(availableTokens, "availableTokens")
 
   useEffect(() => {
     getDatas()
   }, [])
 
   const currencys = availableTokens?.map((item: any) => ({
-    id: item.id,
-    label: item?.rpc_chain,
-    value: item?.rpc_chain,
+    label: item?.token_symbol,
+    value: item.id,
+    image : item.image
   }))
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
       return token.id === value
     })
-
     setSelectedCurrency(selectedToken)
   }
 
@@ -78,7 +77,10 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
     const response = await axiosInstance.post("/client-token/store", data)
     console.log(response)
     if (response.data.success == 200) {
+      setLoading(false)
+
       toast.success("Successfuly added currency")
+      handleRenewModal()
     }
   }
 
@@ -125,6 +127,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                     options={currencys}
                     placeholder="Please select an option"
                     onChange={handleCurrencyChange}
+                    // value={'selectedCurrency'}
                   />
                 </div>
                 <div className="relative mb-8">
@@ -140,7 +143,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                       name="network"
                       type="text"
                       defaultValue={
-                        selectedCurrency && selectedCurrency?.token_name
+                        selectedCurrency && selectedCurrency?.rpc_chain
                       }
                       className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
                     />

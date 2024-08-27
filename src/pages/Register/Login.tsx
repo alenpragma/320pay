@@ -1,11 +1,11 @@
 import { FaLock, FaUser } from "react-icons/fa"
 import { images } from "../.."
-import { FieldValues, SubmitHandler } from "react-hook-form"
+import { SubmitHandler } from "react-hook-form"
 import Form from "../../comonents/Forms/Form"
 import InputField from "../../comonents/Forms/InputField"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FaRegEyeSlash } from "react-icons/fa"
 import { FaRegEye } from "react-icons/fa"
 import { useState } from "react"
@@ -20,32 +20,35 @@ export const validationSchema = z.object({
 })
 
 const Login = () => {
-  const location = useLocation()
+  // const location = useLocation()
   const navigate = useNavigate()
-  const from = location.state?.from?.pathname || "/"
+  // const from = location.state?.from?.pathname || "/"
   const [showPassword, setShowPassword] = useState<boolean | null>(true)
   const handleShowPassword = () => {
     setShowPassword(!showPassword)
   }
   const [loading, setLoading] = useState<boolean>(false)
-
   const formSubmit: SubmitHandler<any> = async (data) => {
+    // toast.error("kjkjhkh")
     try {
       setLoading(true)
       const response = await axiosInstance.post("/login", data)
-      toast.success(response?.data?.message)
-      console.log(response?.data?.token)
+      // console.log(response)
+
+      // toast.success(response?.datasage)
+      // console.log(response?.data?.token)
 
       if (response?.data?.success == 200) {
         setPaymentaToken(response?.data?.token)
+        toast.success("Successfully login")
         navigate("/")
-        return toast.info(response?.data?.message)
+        return
       }
-      if (response?.data?.error == 403) {
+      if (response?.data?.error != 200) {
         setPaymentaToken(response?.data?.token)
+        toast.error(response?.data?.message)
         navigate("/")
-
-        return toast.error(response?.data?.message)
+        return
       }
 
       setLoading(false)
