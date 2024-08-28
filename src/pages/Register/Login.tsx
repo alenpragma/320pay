@@ -1,62 +1,62 @@
-import { FaLock, FaUser } from "react-icons/fa"
-import { images } from "../.."
-import { SubmitHandler } from "react-hook-form"
-import Form from "../../comonents/Forms/Form"
-import InputField from "../../comonents/Forms/InputField"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Link, useNavigate } from "react-router-dom"
-import { FaRegEyeSlash } from "react-icons/fa"
-import { FaRegEye } from "react-icons/fa"
-import { useState } from "react"
-import axiosInstance from "../../utils/axiosConfig"
-import { toast } from "react-toastify"
-import { setPaymentaToken } from "../../hooks/handelAuthToken"
-import { PuffLoader } from "react-spinners"
+import { FaLock, FaUser } from "react-icons/fa";
+import { images } from "../..";
+import { SubmitHandler } from "react-hook-form";
+import Form from "../../comonents/Forms/Form";
+import InputField from "../../comonents/Forms/InputField";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
+import { useState } from "react";
+import axiosInstance from "../../utils/axiosConfig";
+import { toast } from "react-toastify";
+import { setPaymentaToken } from "../../hooks/handelAuthToken";
+import { PuffLoader } from "react-spinners";
 
 export const validationSchema = z.object({
   email: z.string().min(1, "This field is required."),
   password: z.string().min(1, "This field is required."),
-})
+});
 
 const Login = () => {
   // const location = useLocation()
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // const from = location.state?.from?.pathname || "/"
-  const [showPassword, setShowPassword] = useState<boolean | null>(true)
+  const [showPassword, setShowPassword] = useState<boolean | null>(true);
   const handleShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
-  const [loading, setLoading] = useState<boolean>(false)
+    setShowPassword(!showPassword);
+  };
+  const [loading, setLoading] = useState<boolean>(false);
   const formSubmit: SubmitHandler<any> = async (data) => {
     // toast.error("kjkjhkh")
     try {
-      setLoading(true)
-      const response = await axiosInstance.post("/login", data)
+      setLoading(true);
+      const response = await axiosInstance.post("/login", data);
       // console.log(response)
 
       // toast.success(response?.datasage)
       // console.log(response?.data?.token)
 
       if (response?.data?.success == 200) {
-        setPaymentaToken(response?.data?.token)
-        toast.success("Successfully login")
-        navigate("/")
-        return
+        setPaymentaToken(response?.data?.token);
+        toast.success("Successfully login");
+        navigate("/");
+        return;
       }
       if (response?.data?.error != 200) {
-        setPaymentaToken(response?.data?.token)
-        toast.error(response?.data?.message)
-        navigate("/")
-        return
+        setPaymentaToken(response?.data?.token);
+        toast.error(response?.data?.message);
+        navigate("/");
+        return;
       }
 
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
-      console.error("Error fetching data:", error)
+      setLoading(false);
+      console.error("Error fetching data:", error);
     }
-  }
+  };
 
   return (
     <div className="flex justify-between items-center w-full px-3 md:w-10/12 mx-auto h-screen overflex-y-auto">
@@ -65,11 +65,13 @@ const Login = () => {
       </div>
       <div className="flex-1">
         <div className="md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md md:w-3/4 w-full mx-auto">
-          <h4 className="text-primary text-[24px] font-semibold">
-            Web 320 Payment
+          <img className="w-32 h-10" src={images.logo} alt="" />
+          <h4 className="text-primary text-[24px] font-semibold my-2">
+            Welcome to 3TwentyPay!
           </h4>
           <p className="text-secondary font-semibold ">
-            Welcome To Web 320 Payment
+            Multichain EVM Wallet, Transaction & Balance Management, Super
+            Secure with Server Side solution integrate with your business today!
           </p>
           <Form
             onSubmit={formSubmit}
@@ -143,7 +145,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

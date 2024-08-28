@@ -81,7 +81,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="flex items-center justify-between gap-2 px-6 py-2 lg:py-2.5 pt-8">
         <NavLink to="/" className=" w-full">
           <h1 className="text-[24px] font-semibold text-black mx-auto w-fit">
-            <img src={images.logo} alt="" />
+            <img className="w-full h-10" src={images.logo} alt="" />
           </h1>
         </NavLink>
 

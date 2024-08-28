@@ -68,7 +68,7 @@ const Payment = () => {
 
   return (
     <>
-      <PaymenModal renewModal={modal} handleRenewModal={handleModal} />
+      <PaymenModal renewModal={modal} handleRenewModal={handleModal}/>
       <div className="md:p-6 px-3 pt-4">
         <div className=" rounded-xl border-2 border-[#E2E2E9] mt-4 p-4">
           <div className="flex justify-between items-center">

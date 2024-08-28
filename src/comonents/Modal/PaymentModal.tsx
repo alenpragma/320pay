@@ -78,7 +78,6 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
     console.log(response)
     if (response.data.success == 200) {
       setLoading(false)
-
       toast.success("Successfuly added currency")
       handleRenewModal()
     }

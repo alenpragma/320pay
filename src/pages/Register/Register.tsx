@@ -1,16 +1,16 @@
-import { FaLock, FaUser } from "react-icons/fa"
-import { MdEmail } from "react-icons/md"
-import { images } from "../.."
-import { FieldValues, SubmitHandler } from "react-hook-form"
-import Form from "../../comonents/Forms/Form"
-import InputField from "../../comonents/Forms/InputField"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "react-router-dom"
-import axiosInstance from "../../utils/axiosConfig"
-import { useState } from "react"
-import { BiPhone } from "react-icons/bi"
-import { setPaymentaToken } from "../../hooks/handelAuthToken"
+import { FaLock, FaUser } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { images } from "../..";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import Form from "../../comonents/Forms/Form";
+import InputField from "../../comonents/Forms/InputField";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import axiosInstance from "../../utils/axiosConfig";
+import { useState } from "react";
+import { BiPhone } from "react-icons/bi";
+import { setPaymentaToken } from "../../hooks/handelAuthToken";
 
 // const inputFieldSchema = z.object({
 //   username: z.string().min(1, "This field is required."),
@@ -27,51 +27,53 @@ const inputFieldSchema = z.object({
   password: z.string().min(1, "This field is required."),
   password_confirmation: z.string().min(1, "This field is required."),
   // checkUser: z.literal(true),
-})
+});
 // .refine((data) => data.password === data.password_confirmation, {
 //   path: ["password_confirmation"],
 //   message: "Passwords must match",
 // })
 
 const Register = () => {
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
 
   const formSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data)
+    console.log(data);
 
     try {
-      setLoading(true)
-      const response = await axiosInstance.post("/register", data)
+      setLoading(true);
+      const response = await axiosInstance.post("/register", data);
 
-      console.log(response)
+      console.log(response);
       if (response.data.status == 422) {
-        alert(response?.data?.message)
-        return
+        alert(response?.data?.message);
+        return;
       }
       if (response.data.status == 200) {
-        alert(response?.data?.message)
+        alert(response?.data?.message);
 
-        return
+        return;
       }
 
-      setPaymentaToken(response?.data?.token)
-      setLoading(false)
+      setPaymentaToken(response?.data?.token);
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
-      console.error("Error fetching data:", error)
+      setLoading(false);
+      console.error("Error fetching data:", error);
     }
-  }
+  };
   return (
     <div className="flex justify-between items-center md:w-10/12 px-3 w-full mx-auto h-screen overflow-y-auto">
       <div className="flex-1 md:block hidden">
         <img className="w-full h-auto" src={images.loginImage} alt="" />
       </div>
       <div className="flex-1">
-        <h4 className="text-primary text-[24px] font-semibold">
-          Web 320 Payment
+        <img className="w-32 h-10" src={images.logo} alt="" />
+        <h4 className="text-primary text-[24px] font-semibold my-2">
+          Welcome to 3TwentyPay!
         </h4>
         <p className="text-secondary font-semibold ">
-          Welcome To Web 320 Payment
+          Multichain EVM Wallet, Transaction & Balance Management, Super Secure
+          with Server Side solution integrate with your business today!
         </p>
         <Form
           onSubmit={formSubmit}
@@ -206,7 +208,7 @@ const Register = () => {
         </Form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
