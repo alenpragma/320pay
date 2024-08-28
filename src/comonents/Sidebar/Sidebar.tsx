@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { images, mainNavItem, submenuItem, subNavItem } from "../..";
 import { MenuInterface } from "../../types/menuType";
 import { GoChevronDown } from "react-icons/go";
+import { RxExit } from "react-icons/rx";
+import { removePaymentaToken } from "../../hooks/handelAuthToken";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -20,6 +22,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     setSubmenu(!submenu);
   };
 
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    removePaymentaToken();
+    navigate("/login");
+  };
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -138,9 +145,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <div className="flex items-center gap-3">
                     <span>
                       {mouseHover == 10 ? (
-                        <img src={images.settingsHover} alt="" />
+                        <img
+                          className="size-6"
+                          src={images.settingsHover}
+                          alt=""
+                        />
                       ) : (
-                        <img src={images.settings} alt="" />
+                        <img className="size-6" src={images.settings} alt="" />
                       )}
                     </span>
                     <span> {"setting"}</span>
@@ -164,10 +175,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           }
                         >
                           <span>
-                            {mouseHover == item.id || item.pathname === pathname ? (
-                              <img src={item?.icon2} alt="" />
+                            {mouseHover == item.id ||
+                            item.pathname === pathname ? (
+                              <img
+                                className="size-6"
+                                src={item?.icon2}
+                                alt=""
+                              />
                             ) : (
-                              <img src={item?.icon1} alt="" />
+                              <img
+                                className="size-6"
+                                src={item?.icon1}
+                                alt=""
+                              />
                             )}
                           </span>
                           <span> {item.item}</span>
@@ -201,14 +221,23 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   <span>
                     {mouseHover == item.id || item.pathname === pathname ? (
-                      <img src={item?.icon2} alt="" />
+                      <img className="size-6" src={item?.icon2} alt="" />
                     ) : (
-                      <img src={item?.icon1} alt="" />
+                      <img className="size-6" src={item?.icon1} alt="" />
                     )}
                   </span>
                   <span> {item.item}</span>
                 </NavLink>
               ))}
+              <div
+                className="p-2 rounded-md font-semibold hover:bg-[#EFEBFE] hover:text-primary text-[#868B8F] text-[16px] duration-300 cursor-pointer flex items-center gap-3 justify-between"
+                onClick={handleLogOut}
+              >
+                <div className="flex items-center gap-3">
+                  <RxExit className="size-6 rotate-180" />
+                  <span> {"Logout"}</span>
+                </div>
+              </div>
             </ul>
           </div>
         </nav>

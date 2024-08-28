@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import DropdownUser from "./DropdownUser";
+import DropdownUser, { UserOne } from "./DropdownUser";
 import { CiSettings } from "react-icons/ci";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axiosConfig";
 // import DarkModeSwitcher from "./DarkModeSwitcher"
 
 const Header = (props: {
@@ -11,7 +12,8 @@ const Header = (props: {
   const { pathname } = useLocation();
   const [rotate, setRotate] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
+  const [clientProfile, setClientProfile] = useState<any>();
   const capital = (text: string) => {
     const cleneText = text.replace(/[\/-]/g, " ");
     if (!text) {
@@ -23,8 +25,18 @@ const Header = (props: {
   const handleModal = () => {
     setModal(!modal);
     setRotate(!rotate);
-    setVisible(!visible)
+    setVisible(!visible);
   };
+
+  const getData = async () => {
+    const response = await axiosInstance.get("/client-profile");
+    if (response?.data?.success == 200) {
+      setClientProfile(response?.data?.profile);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <header className="sticky top-0 z-[5] flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -87,7 +99,19 @@ const Header = (props: {
             }`}
             onClick={handleModal}
           />
-        <DropdownUser modal={modal} handleRotate={handleModal} visible={visible} />
+          <img
+            className="size-12 rounded-full"
+            src={UserOne}
+            alt="user"
+            width={100}
+            height={100}
+          />
+          <DropdownUser
+            modal={modal}
+            handleRotate={handleModal}
+            visible={visible}
+            clientProfile={clientProfile}
+          />
         </div>
       </div>
     </header>

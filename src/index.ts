@@ -27,6 +27,11 @@ import withdrow from "./assets/icon/navIcon/withdraw.svg";
 import withdrowHover from "./assets/icon/navIcon/withdraw-hover.svg";
 import settings from "./assets/icon/navIcon/settings.svg";
 import settingsHover from "./assets/icon/navIcon/settings-hover.svg";
+import payment from "./assets/icon/navIcon/payment.svg";
+import paymentHover from "./assets/icon/navIcon/payment-hover.svg";
+import withdraw1 from "./assets/icon/navIcon/withdraw1.svg";
+import withdraw1Hover from "./assets/icon/navIcon/withdraw-hover1.svg";
+
 
 import file from "./assets/icon/dashboard/file.svg";
 import wallet2 from "./assets/icon/dashboard/wallet-2.svg";
@@ -132,13 +137,6 @@ export const subNavItem: MenuInterface[] = [
     icon2: layerHover,
   },
   {
-    id: 223,
-    pathname: "/referal",
-    item: "Referal",
-    icon1: gift,
-    icon2: giftHover,
-  },
-  {
     id: 224,
     pathname: "/transaction-history",
     item: "Transaction History",
@@ -166,15 +164,15 @@ export const submenuItem: MenuInterface[] = [
     id: 311,
     pathname: "/payment",
     item: "Payment",
-    icon1: withdrow,
-    icon2: withdrowHover,
+    icon1: payment,
+    icon2: paymentHover,
   },
   {
     id: 312,
     pathname: "/withdraw",
     item: "Withdraw",
-    icon1: withdrow,
-    icon2: withdrowHover,
+    icon1: withdraw1,
+    icon2: withdraw1Hover,
   },
 ];
 export const dashboardCard: CadeInterface[] = [
