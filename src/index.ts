@@ -63,6 +63,10 @@ import usdts from "./assets/icon/dashboard/usdt.svg";
 import musd from "./assets/icon/dashboard/musd.svg";
 import mind from "./assets/icon/dashboard/mind.svg";
 
+
+import rightArrow from "./assets/icon/withdraw/right-slide.svg";
+
+
 export const walletHistory = [
   {
     id: "012",
@@ -325,4 +329,5 @@ export const images = {
   musd,
   settings,
   settingsHover,
+  rightArrow
 };

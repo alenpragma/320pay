@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { images } from "../..";
 
 const SlideButton = () => {
   const [position, setPosition] = useState(0); // Initial position of the slider
@@ -62,33 +63,35 @@ const SlideButton = () => {
   };
 
   return (
+    <div
+      ref={containerRef}
+      className="relative h-14 bg-primary rounded-lg flex items-center w-full"
+    >
       <div
-        ref={containerRef}
-        className="relative h-14 bg-primary rounded-lg flex items-center w-full"
+        className={`absolute left-1 flex items-center justify-center size-12 bg-white rounded-lg cursor-pointer ${
+          isSliding ? "transition-transform duration-300 ease-out" : ""
+        }`}
+        style={{ transform: `translateX(${position}px)` }}
+        onMouseDown={handleMouseDown}
       >
-        <div
-          className={`absolute left-1 flex items-center justify-center size-12 bg-white rounded-lg cursor-pointer ${
-            isSliding ? "transition-transform duration-300 ease-out" : ""
-          }`}
-          style={{ transform: `translateX(${position}px)` }}
-          onMouseDown={handleMouseDown}
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            className="w-6 h-6 text-black"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10.293 15.707a1 1 0 010-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        <div className="text-center w-full text-secondary">
-          Slide This Arrow
-        </div>
+          <path
+            d="M13.4 5.8L19 11.4L13.4 17M5 5.8L10.6 11.4L5 17"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </div>
+      <div className="text-center w-full text-secondary">Slide This Arrow</div>
+    </div>
   );
 };
 

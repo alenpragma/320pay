@@ -10,7 +10,7 @@ import LoadLoading from "../Lottie/LoadLoading"
 import Skeleton from "react-loading-skeleton"
 
 const BalanceCard = () => {
-  const [wallets, setWallets] = useState<any>([{}, {}, {}, {}])
+  const [wallets, setWallets] = useState<any>([])
   const [loading, setLoading] = useState(false)
   const getWalletData = async () => {
     try {
