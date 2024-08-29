@@ -107,7 +107,7 @@ const StartHere = () => {
             </button>
           </Link>
         </div>
-        <div className="grid md:grid-cols-3 grid-cols-2 gap-3 mt-8">
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-3 mt-8">
           {loading ? (
             <>
               <Skeleton height={400} count={1} highlightColor="#F4F5F6" />

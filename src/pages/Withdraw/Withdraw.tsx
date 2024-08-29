@@ -131,15 +131,6 @@ const Withdraw = () => {
               />
             </div>
             <SlideButton />
-            {/* <div className="flex justify-center items-center">
-              {loading ? (
-                <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
-                  <Loading />
-                </button>
-              ) : (
-                <SlideButton />
-              )}
-            </div> */}
           </div>
         </Form>
       </div>

@@ -1,8 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import DropdownUser, { UserOne } from "./DropdownUser";
 import { CiSettings } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosConfig";
+import { images } from "../..";
 // import DarkModeSwitcher from "./DarkModeSwitcher"
 
 const Header = (props: {
@@ -91,6 +92,9 @@ const Header = (props: {
         <h4 className="text-[20px] font-semibold text-secondary capitalize md:block hidden">
           {pathname === "/" ? "Dashboard" : title}
         </h4>
+        <NavLink to="/" className="md:hidden block">
+          <img className="w-[100px] h-7" src={images.logo} alt="" />
+        </NavLink>
 
         <div className="flex lg:ms-auto items-center gap-3 2xsm:gap-5">
         <h4 className="font-semibold text-[16px]">{clientProfile?.name}</h4>
