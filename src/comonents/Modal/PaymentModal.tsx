@@ -15,24 +15,6 @@ type IModal = {
   renewModal: boolean
 }
 
-export const currency = [
-  { label: "USDT", value: "usdt" },
-  { label: "BNB", value: "bnb" },
-  { label: "MIND", value: "mind" },
-  { label: "MUSD", value: "musd" },
-  { label: "SHIV", value: "shiv" },
-  { label: "DAI", value: "dai" },
-  { label: "TRX", value: "trx" },
-]
-
-export const network = [
-  { label: "Binance(BEP20)", value: "binance" },
-  { label: "Ethereum(ERC20)", value: "ethereum" },
-  { label: "Polygon(MATIC)", value: "polygon" },
-  { label: "MIND SMART CHAIN((MIND20)", value: "polygon" },
-  { label: "ARBITRUM", value: "arbitrum" },
-  { label: "OPTIMISM", value: "optimism" },
-]
 export const validationSchema = z.object({
   currency: z.number().min(1, "This field is required"),
   network: z.string().optional(),
@@ -46,20 +28,49 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [selectedCurrency, setSelectedCurrency] = useState<any>()
   const [availableTokens, setAvailableTokens] = useState([])
+  const [rpcData, setRpcData] = useState([])
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/available-tokens")
-    if (response?.data?.data) {
-      setAvailableTokens(response?.data?.data)
+    const response = await axiosInstance.get("/client/rpc-urls")
+    if (response?.data?.chains) {
+      setAvailableTokens(response?.data?.chains)
     }
   }
-  // console.log(availableTokens, "availableTokens")
 
   useEffect(() => {
     getDatas()
   }, [])
 
+  const getRPCDatas = async (id: any) => {
+    console.log(id)
+
+    if (id) {
+      const response = await axiosInstance.get(
+        `/client/rpc-wise-tokens?chain_id=${id}`
+      )
+      console.log(response?.data)
+
+      if (response?.data?.tokens) {
+        setRpcData(response?.data?.tokens)
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (selectedCurrency) {
+      getRPCDatas(selectedCurrency?.id)
+    }
+  }, [selectedCurrency])
+
+  console.log(rpcData)
+
   const currencys = availableTokens?.map((item: any) => ({
+    label: item?.rpc_chain,
+    value: item.id,
+    image: item.image,
+  }))
+
+  const tokens = rpcData?.map((item: any) => ({
     label: item?.token_symbol,
     value: item.id,
     image: item.image,
@@ -122,10 +133,10 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
               <div className="md:w-10/12 w-full mx-auto">
                 <div className="relative mb-8">
                   <p className="font-semibold text-secondary mb-2">
-                    Choose Currency
+                    Choose Network
                   </p>
                   <SelectField
-                    name="currency"
+                    name="network"
                     className=""
                     options={currencys}
                     placeholder="Please select an option"
@@ -134,14 +145,16 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                   />
                 </div>
                 <div className="relative mb-8">
-                  <p className="font-semibold text-secondary mb-2">Network</p>
-                  {/* <SelectField
-                    name="network"
+                  <p className="font-semibold text-secondary mb-2">
+                    Choose Currency
+                  </p>
+                  <SelectField
+                    name="currency"
                     className=" "
-                    options={network}
+                    options={tokens}
                     placeholder="Please select an option"
-                  /> */}
-                  <div className="relative">
+                  />
+                  {/* <div className="relative">
                     <InputField
                       name="network"
                       type="text"
@@ -155,12 +168,10 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                       src={selectedCurrency?.image}
                       alt=""
                     />
-                  </div>
+                  </div> */}
                   {/* <SelectIcon /> */}
                 </div>
-                {/* <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
-                  Submit
-                </button> */}
+
                 <div className="flex justify-center items-center">
                   {loading ? (
                     <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
