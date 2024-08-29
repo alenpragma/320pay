@@ -1,64 +1,64 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import RightArrow from "../Lottie/RightArrow";
+import React, { useState, useEffect, useRef } from "react"
+import { useNavigate } from "react-router-dom"
+import RightArrow from "../Lottie/RightArrow"
 
 const SlideButton = () => {
-  const [position, setPosition] = useState(0);
-  const [isSliding, setIsSliding] = useState(false);
-  const [maxPosition, setMaxPosition] = useState(1);
+  const [position, setPosition] = useState(0) // Initial position of the slider
+  const [isSliding, setIsSliding] = useState(false)
+  const [maxPosition, setMaxPosition] = useState(1)
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const updateMaxPosition = () => {
       if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const buttonWidth = 48; 
-        setMaxPosition(containerWidth - buttonWidth - 10); 
+        const containerWidth = containerRef.current.offsetWidth
+        const buttonWidth = 48 // Width of the sliding button (adjust as needed)
+        setMaxPosition(containerWidth - buttonWidth - 10) // Adjust for padding/margins if necessary
       }
-    };
+    }
 
-    updateMaxPosition();
-    window.addEventListener("resize", updateMaxPosition);
+    updateMaxPosition()
+    window.addEventListener("resize", updateMaxPosition)
 
-    console.log("maxPosition", maxPosition);
+    console.log("maxPosition", maxPosition)
 
-    return () => window.removeEventListener("resize", updateMaxPosition);
-  }, []);
+    return () => window.removeEventListener("resize", updateMaxPosition)
+  }, [])
 
   useEffect(() => {
     if (position === maxPosition) {
-      setIsSliding(false);
+      setIsSliding(false) 
       setTimeout(() => {
-        navigate("/withdraw/preview");
-      }, 300);
+        navigate("/withdraw/preview") 
+      }, 300) 
     }
-  }, [position, maxPosition, navigate]);
+  }, [position, maxPosition, navigate])
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    const initialX = e.clientX;
+    const initialX = e.clientX
 
     const handleMouseMove = (e: MouseEvent) => {
       const newPosition = Math.min(
         maxPosition,
         Math.max(0, e.clientX - initialX + position)
-      );
-      setPosition(newPosition);
-    };
+      )
+      setPosition(newPosition)
+    }
 
     const handleMouseUp = () => {
       if (position < maxPosition) {
-        setIsSliding(true);
-        setPosition(0);
+        setIsSliding(true)
+        setPosition(0) // Reset position to 0 with a smooth transition
       }
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
+      window.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener("mouseup", handleMouseUp)
+    }
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-  };
+    window.addEventListener("mousemove", handleMouseMove)
+    window.addEventListener("mouseup", handleMouseUp)
+  }
 
   return (
     <div
@@ -93,7 +93,7 @@ const SlideButton = () => {
       </div>
       <div className="text-center w-full text-secondary">Slide This Arrow</div>
     </div>
-  );
-};
+  )
+}
 
-export default SlideButton;
+export default SlideButton

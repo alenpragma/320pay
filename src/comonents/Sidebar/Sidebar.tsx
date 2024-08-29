@@ -80,7 +80,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-2 lg:py-2.5 pt-8">
         <NavLink to="/" className=" w-full">
-          <img className="w-full h-10" src={images.logo} alt="" />
+          <img className="w-full h-14" src={images.logo} alt="" />
         </NavLink>
         <button
           // ref={trigger}
