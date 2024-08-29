@@ -1,89 +1,67 @@
-import { RxCross1 } from "react-icons/rx";
-import Form from "../Forms/Form";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import InputField from "../Forms/InputField";
-import axiosInstance from "../../utils/axiosConfig";
-import { toast } from "react-toastify";
-import { useState } from "react";
-
-// export const domainForm = [
-//   { id: 1 },
-//   { id: 2 },
-//   { id: 3 },
-//   { id: 4 },
-//   { id: 5 },
-//   { id: 6 },
-//   { id: 7 },
-//   { id: 8 },
-//   { id: 9 },
-//   { id: 10 },
-// ];
-
-type DomainForm = {
-  id: number;
-  name: string;
-};
-
-const initialDomainForm: DomainForm[] = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  name: `Domain Name ${i + 1}`,
-}));
+import { RxCross1 } from "react-icons/rx"
+import { useFieldArray, useForm } from "react-hook-form"
+import { toast } from "react-toastify"
+import axiosInstance from "../../utils/axiosConfig"
 
 type IModal = {
-  handleModal: () => void;
-  modal: boolean;
-  planId: string;
-};
-const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
-  const [domainForm, setDomainForm] = useState<DomainForm[]>(
-    initialDomainForm.slice(0, 1)
-  );
-  const [inputNumber, setInputNumber] = useState(1);
+  handleModal: () => void
+  modal: boolean
+  plan: any
+}
 
-  const handleSetInputNumber = () => {
-    if (inputNumber < initialDomainForm.length) {
-      setDomainForm((prev) => [...prev, initialDomainForm[inputNumber]]);
-      setInputNumber((prev) => prev + 1);
+interface FormValues {
+  items: { name: string }[]
+}
+
+const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
+  const { control, register, handleSubmit, reset } = useForm<FormValues>({
+    defaultValues: {
+      items: [{ name: "" }],
+    },
+  })
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "items",
+  })
+
+  const formSubmit = async (data: FormValues) => {
+    console.log(data)
+
+    const domainString = `${data?.items
+      .map((item: any) => item.name)
+      .join(", ")}`
+
+    const planData = {
+      package_id: plan.id,
+      domain_name: domainString,
     }
-  };
 
-  const handleDescendingInputNumber = (id: number) => {
-    setDomainForm((prev) => prev.filter((domain) => domain.id !== id));
-    setInputNumber((prev) => prev - 1);
-  };
-  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // const planData = {
-    //   package_id: planId,
-    //   domain_name: data.domainName,
-    // };
-    console.log(data);
+    try {
+      const response = await axiosInstance.post(
+        "/client/purchase-package",
+        planData
+      )
+      reset({ items: [{ name: "" }] })
 
-    // try {
-    //   const response = await axiosInstance.post(
-    //     "/client/purchase-package",
-    //     planData
-    //   );
-    //   console.log(response);
+      if (response?.data?.error == 400) {
+        toast.error(response?.data?.messsage)
+        return
+      }
 
-    //   if (response?.data?.error == 400) {
-    //     toast.error(response?.data?.messsage);
-    //     return;
-    //   }
+      if (response?.data?.success == 200) {
+        toast.success(response?.data?.message)
+        return
+      } else {
+        // Handle any other unexpected cases
+        toast.error("Unexpected response from the server")
+      }
+    } catch (error) {
+      console.error("Request failed:", error)
+      toast.error("Something went wrong. Please try again.")
+    }
+  }
 
-    //   if (response?.data?.success == 200) {
-    //     toast.success(response?.data?.message);
-    //     return;
-    //   } else {
-    //     // Handle any other unexpected cases
-    //     toast.error("Unexpected response from the server");
-    //   }
-    // } catch (error) {
-    //   console.error("Request failed:", error);
-    //   toast.error("Something went wrong. Please try again.");
-    // }
-  };
   return (
     <div className="w-full ">
       <div
@@ -92,7 +70,11 @@ const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
             ? " opacity-100 fixed bg-[#070707ac] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
             : "opacity-0-z-50"
         }`}
-        onClick={handleModal}
+        onClick={() => {
+          reset({ items: [{ name: "" }] })
+
+          handleModal()
+        }}
       ></div>
       <div
         className={`fixed bg-[#ffffff] md:w-2/5 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded overflow-y-auto ${
@@ -109,41 +91,38 @@ const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
           </div>
           <div className="p-5 overflow-auto max-h-[500px]">
             <div className="w-3/4 mx-auto overflow-auto">
-              <Form
-                onSubmit={formSubmit}
-                // resolver={zodResolver(validationSchema)}
-                defaultValues={{}}
-              >
+              <form onSubmit={handleSubmit(formSubmit)}>
                 <div className="my-5">
-                  {domainForm.map((domain) => (
-                    <div key={domain.id}>
+                  {fields.map((field, index) => (
+                    <div key={field.id}>
                       <div className="mb-5 space-y-1">
-                        <p className="start-here-label">{domain.name}</p>
+                        <h4>Domain Name {index + 1} </h4>
                         <div className="flex w-full gap-3 justify-between">
                           <div className="w-full">
-                            <InputField
-                              name={`domainName${domain.id}`}
-                              type="text"
+                            <input
+                              {...register(`items.${index}.name` as const, {
+                                required: true,
+                              })}
                               className="start-here-input-field"
-                              placeholder="Enter Your Domain Name"
+                              placeholder={`Item ${index + 1}`}
                             />
                           </div>
-                          <div
-                            className="start-here-icon"
-                            onClick={() =>
-                              handleDescendingInputNumber(domain.id)
-                            }
+
+                          <button
+                            disabled={index == 0}
+                            type="button"
+                            onClick={() => remove(index)}
                           >
-                            <RxCross1 />
-                          </div>
+                            Delete
+                          </button>
                         </div>
                       </div>
                     </div>
                   ))}
                   <button
                     className="bg-primary text-white rounded-lg px-4 py-1 mb-3"
-                    onClick={handleSetInputNumber}
-                    disabled={inputNumber >= initialDomainForm.length}
+                    onClick={() => append({ name: "" })}
+                    disabled={plan.no_of_domains == fields.length}
                   >
                     add new
                   </button>
@@ -151,13 +130,13 @@ const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
                     Submit
                   </button>
                 </div>
-              </Form>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StartHereModal;
+export default StartHereModal
