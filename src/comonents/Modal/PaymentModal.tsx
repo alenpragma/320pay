@@ -38,6 +38,10 @@ export const validationSchema = z.object({
   network: z.string().optional(),
 })
 
+export const validationSchemaDomain = z.object({
+  item: z.string().optional(),
+})
+
 const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [selectedCurrency, setSelectedCurrency] = useState<any>()
@@ -58,7 +62,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.token_symbol,
     value: item.id,
-    image : item.image
+    image: item.image,
   }))
 
   const handleCurrencyChange = (value: string) => {

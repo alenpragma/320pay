@@ -89,8 +89,6 @@
   padding: 4px !important;
 }
 
-
-
 .paginationButton,
 .pageButton a {
   width: 30px;
@@ -105,19 +103,29 @@
   }
 }
 
-
-
 /* input number input side icon desable */
 /* Hide the arrows in Chrome, Safari, Edge, Opera */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* Hide the arrows in Firefox */
 input[type="number"] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 /* input number input side icon desable */
+
+@layer components {
+  .start-here-input-field {
+    @apply w-full text-[14px] border border-[#E2E2E9] focus:outline text-[#444444] focus:outline-slate-500 rounded-md py-[2px] px-4;
+  }
+  .start-here-label {
+    @apply text-[#3e3e3e] font-semibold text-[14px];
+  }
+  .start-here-icon {
+    @apply hover:text-primary cursor-pointer border border-slate-300 p-1 w-fit rounded hover:bg-slate-200
+  }
+}

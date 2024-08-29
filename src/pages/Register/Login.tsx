@@ -24,6 +24,7 @@ const Login = () => {
   const navigate = useNavigate();
   // const from = location.state?.from?.pathname || "/"
   const [showPassword, setShowPassword] = useState<boolean | null>(true);
+  const [error, setError] = useState<string>("");
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -33,6 +34,7 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axiosInstance.post("/login", data);
+      console.log(response);
       // console.log(response)
 
       // toast.success(response?.datasage)
@@ -44,14 +46,14 @@ const Login = () => {
         navigate("/");
         return;
       }
-      if (response?.data?.error != 200) {
-        setPaymentaToken(response?.data?.token);
+      if (response?.data?.success != 200) {
+        // setPaymentaToken(response?.data?.token);
         toast.error(response?.data?.message);
-        navigate("/");
+        setLoading(false);
+
+        // navigate("/");
         return;
       }
-
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error("Error fetching data:", error);
@@ -125,6 +127,7 @@ const Login = () => {
                       className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
                     />
                   )}
+                  <p className="text-red-500 text-[12px]">{error}</p>
                 </div>
               </div>
               {loading ? (

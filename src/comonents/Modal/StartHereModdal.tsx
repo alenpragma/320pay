@@ -1,34 +1,48 @@
 import { RxCross1 } from "react-icons/rx"
-import Form from "../Forms/Form"
-import { FieldValues, SubmitHandler } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import InputField from "../Forms/InputField"
-import axiosInstance from "../../utils/axiosConfig"
+import { useFieldArray, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
+import axiosInstance from "../../utils/axiosConfig"
 
 type IModal = {
   handleModal: () => void
   modal: boolean
-  planId: string
+  plan: any
 }
-export const validationSchema = z.object({
-  domainName: z.string().min(1, "This field is required"),
-})
-const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
-  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+interface FormValues {
+  items: { name: string }[]
+}
+
+const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
+  const { control, register, handleSubmit, reset } = useForm<FormValues>({
+    defaultValues: {
+      items: [{ name: "" }],
+    },
+  })
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "items",
+  })
+
+  const formSubmit = async (data: FormValues) => {
+    console.log(data)
+
+    const domainString = `${data?.items
+      .map((item: any) => item.name)
+      .join(", ")}`
+
     const planData = {
-      package_id: planId,
-      domain_name: data.domainName,
+      package_id: plan.id,
+      domain_name: domainString,
     }
-    console.log(planData)
 
     try {
       const response = await axiosInstance.post(
         "/client/purchase-package",
         planData
       )
-      console.log(response)
+      reset({ items: [{ name: "" }] })
 
       if (response?.data?.error == 400) {
         toast.error(response?.data?.messsage)
@@ -47,18 +61,23 @@ const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
       toast.error("Something went wrong. Please try again.")
     }
   }
+
   return (
     <div className="w-full ">
       <div
         className={` ${
           modal
-            ? " opacity-100   fixed bg-[#070707ac] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
-            : "opacity-0    -z-50"
+            ? " opacity-100 fixed bg-[#070707ac] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
+            : "opacity-0-z-50"
         }`}
-        onClick={handleModal}
+        onClick={() => {
+          reset({ items: [{ name: "" }] })
+
+          handleModal()
+        }}
       ></div>
       <div
-        className={`fixed bg-[#ffffff] md:w-2/5 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
+        className={`fixed bg-[#ffffff] md:w-2/5 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded overflow-y-auto ${
           modal ? " opacity-100 z-[101]" : "opacity-0 -z-[102]"
         }`}
       >
@@ -70,36 +89,48 @@ const StartHereModal = ({ planId, handleModal, modal }: IModal) => {
               className="cursor-pointer hover:scale-105"
             />
           </div>
-          <div className="p-5">
-            <div className="w-3/4 mx-auto">
-              <Form
-                onSubmit={formSubmit}
-                resolver={zodResolver(validationSchema)}
-                defaultValues={{
-                  domainName: "",
-                }}
-              >
-                <div className="my-10">
-                  <div className="mb-10 space-y-3">
-                    <label
-                      htmlFor="name"
-                      className="text-[#3e3e3e] font-semibold text-[18px]"
-                    >
-                      Domain Name
-                    </label>
+          <div className="p-5 overflow-auto max-h-[500px] bg-[#fff]">
+            <div className="w-3/4 mx-auto overflow-auto">
+              <form onSubmit={handleSubmit(formSubmit)}>
+                <div className="my-5">
+                  {fields.map((field, index) => (
+                    <div key={field.id}>
+                      <div className="mb-5 space-y-1">
+                        <h4>Domain Name {index + 1} </h4>
+                        <div className="flex w-full gap-3 justify-between">
+                          <div className="w-full">
+                            <input
+                              {...register(`items.${index}.name` as const, {
+                                required: true,
+                              })}
+                              className="start-here-input-field"
+                              placeholder={`Item ${index + 1}`}
+                            />
+                          </div>
 
-                    <InputField
-                      name="domainName"
-                      type="text"
-                      className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 px-4"
-                      placeholder="Enter Your Domain Name"
-                    />
-                  </div>
+                          <button
+                            disabled={index == 0}
+                            type="button"
+                            onClick={() => remove(index)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    className="bg-primary text-white rounded-lg px-4 py-1 mb-3"
+                    onClick={() => append({ name: "" })}
+                    disabled={plan.no_of_domains == fields.length}
+                  >
+                    add new
+                  </button>
                   <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full focus:bg-red-500">
                     Submit
                   </button>
                 </div>
-              </Form>
+              </form>
             </div>
           </div>
         </div>

@@ -32,7 +32,7 @@ const Withdraw = () => {
   };
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/available-tokens");
+    const response = await axiosInstance.get("/client-tokens");
     if (response?.data?.data) {
       setAvailableTokens(response?.data?.data);
     }
@@ -57,7 +57,7 @@ const Withdraw = () => {
 
   return (
     <div className="w-full mt-5 px-3">
-      <div className=" md:w-[600px] mx-auto border border-slate-300 shadow-4 rounded-lg md:px-0">
+      <div className=" md:w-1/2 w-full mx-auto border border-slate-300 shadow-4 rounded-lg md:px-0">
         <h4 className="w-full bg-primary font-semibold text-[20px] text-white px-3 rounded-t-lg py-2">
           Withdraw
         </h4>
@@ -94,7 +94,7 @@ const Withdraw = () => {
                   defaultValue={
                     selectedCurrency?.rpc_chain
                       ? selectedCurrency?.rpc_chain
-                      : "Network address"
+                      : "Network"
                   }
                   className={`${
                     selectedCurrency?.rpc_chain
@@ -131,15 +131,6 @@ const Withdraw = () => {
               />
             </div>
             <SlideButton />
-            {/* <div className="flex justify-center items-center">
-              {loading ? (
-                <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
-                  <Loading />
-                </button>
-              ) : (
-                <SlideButton />
-              )}
-            </div> */}
           </div>
         </Form>
       </div>

@@ -52,9 +52,11 @@ import tick from "./assets/icon/Starthere/tick.svg";
 
 import lottie from "./assets/lottie/loading.json";
 import loadingLottie from "./assets/lottie/loading-lottie.json";
+import rightArrowAnimation from "./assets/lottie/right-arrow.json";
 
 export const loading = lottie;
 export const loadingLotti = loadingLottie;
+export const rightArrowA = rightArrowAnimation;
 
 import usdt from "./assets/icon/payment/usdt.svg";
 
@@ -62,6 +64,10 @@ import bnb from "./assets/icon/dashboard/bnb.svg";
 import usdts from "./assets/icon/dashboard/usdt.svg";
 import musd from "./assets/icon/dashboard/musd.svg";
 import mind from "./assets/icon/dashboard/mind.svg";
+
+
+import rightArrow from "./assets/icon/withdraw/right-slide.svg";
+
 
 export const walletHistory = [
   {
@@ -325,4 +331,5 @@ export const images = {
   musd,
   settings,
   settingsHover,
+  rightArrow
 };
