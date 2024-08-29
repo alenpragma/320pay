@@ -18,11 +18,13 @@ const Otp = () => {
   };
 
   return (
-    <div className="w-1/2 mx-auto mt-20 border border-slate-300 rounded-lg">
+    <div className="md:w-1/2 w-full mx-auto mt-20 border border-slate-300 rounded-lg">
       <h4 className="w-full bg-primary font-semibold text-[20px] text-white px-3 rounded-t-lg py-2">
         Withdraw
       </h4>
-      <p className="text-[14px] text-secondary  px-3 my-5">Enter The 4 Digit Code To Process <br /> Your Withdraw</p>
+      <p className="text-[14px] text-secondary  px-3 my-5">
+        Enter The 4 Digit Code To Process <br /> Your Withdraw
+      </p>
       <div className="my-10 px-3">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-2/3 mx-auto flex justify-around items-center">
@@ -71,12 +73,14 @@ const Otp = () => {
               />
             ))}
           </div>
-          <p className="text-[14px] text-secondary  px-3 my-10 text-right">I Didn’t Accept The Code Resend Code</p>
+          <p className="text-[14px] text-secondary  px-3 my-10 text-right">
+            I Didn’t Accept The Code Resend Code
+          </p>
           <button
             type="submit"
             className="py-2 bg-primary text-white rounded-md w-full"
           >
-            Submit
+            Confirm
           </button>
         </form>
       </div>

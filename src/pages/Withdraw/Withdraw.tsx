@@ -16,45 +16,19 @@ type IModal = {
   renewModal: boolean;
 };
 
-export const currency = [
-  { label: "USDT", value: "usdt" },
-  { label: "BNB", value: "bnb" },
-  { label: "MIND", value: "mind" },
-  { label: "MUSD", value: "musd" },
-  { label: "SHIV", value: "shiv" },
-  { label: "DAI", value: "dai" },
-  { label: "TRX", value: "trx" },
-];
-
-export const network = [
-  { label: "Binance(BEP20)", value: "binance" },
-  { label: "Ethereum(ERC20)", value: "ethereum" },
-  { label: "Polygon(MATIC)", value: "polygon" },
-  { label: "MIND SMART CHAIN((MIND20)", value: "polygon" },
-  { label: "ARBITRUM", value: "arbitrum" },
-  { label: "OPTIMISM", value: "optimism" },
-];
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
-  balance: z.string().optional(),
+  // network: z.string().min(1, "This field is required"),
+  wallet: z.string().min(1, "This field is required"),
+  amount: z.string().min(1, "This field is required"),
 });
 
 const Withdraw = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
   const [availableTokens, setAvailableTokens] = useState([]);
-
-  const formSubmit: SubmitHandler<FieldValues> = async () => {
-    setLoading(true);
-    const data = {
-      token_id: selectedCurrency.id,
-    };
-
-    const response = await axiosInstance.post("/client-token/store", data);
-    console.log(response);
-    if (response.data.success == 200) {
-      toast.success("Successfuly added currency");
-    }
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
   };
 
   const getDatas = async () => {
@@ -67,23 +41,23 @@ const Withdraw = () => {
   useEffect(() => {
     getDatas();
   }, []);
-  const currencys = availableTokens.map((item: any) => ({
-    id: item.id,
-    label: item?.rpc_chain,
-    value: item?.rpc_chain,
+  const currencys = availableTokens?.map((item: any) => ({
+    label: item?.token_symbol,
+    value: item.token_symbol,
+    image: item.image,
   }));
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
-      return token.id === value;
+      return token.token_symbol === value;
     });
 
     setSelectedCurrency(selectedToken);
   };
 
   return (
-    <div className="w-full mt-20">
-      <div className=" md:w-[600px] mx-auto border border-slate-300 shadow-4 rounded-lg md:px-0 px-3">
+    <div className="w-full mt-5 px-3">
+      <div className=" md:w-[600px] mx-auto border border-slate-300 shadow-4 rounded-lg md:px-0">
         <h4 className="w-full bg-primary font-semibold text-[20px] text-white px-3 rounded-t-lg py-2">
           Withdraw
         </h4>
@@ -92,18 +66,59 @@ const Withdraw = () => {
           resolver={zodResolver(validationSchema)}
           defaultValues={{
             currency: "",
-            balance: "",
+            wallet: "",
+            amount: "",
           }}
         >
           <div className="w-full mx-auto px-3 my-10">
             <div className="relative mb-8">
-              <p className="font-semibold text-secondary mb-2">Network</p>
+              <p className="font-semibold text-secondary mb-2">
+                Choose Currency
+              </p>
               <SelectField
-                name="network"
+                name="currency"
                 className=""
+                type="string"
                 options={currencys}
                 placeholder="Please select an option"
                 onChange={handleCurrencyChange}
+              />
+            </div>
+            <div className="relative mb-8">
+              <p className="font-semibold text-secondary mb-2">Network</p>
+              <div className="relative">
+                <InputField
+                  placeholder="Network"
+                  type="text"
+                  name="network"
+                  defaultValue={
+                    selectedCurrency?.rpc_chain
+                      ? selectedCurrency?.rpc_chain
+                      : "Network address"
+                  }
+                  className={`${
+                    selectedCurrency?.rpc_chain
+                      ? "text-black pl-10"
+                      : "text-secondary px-4"
+                  } w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pr-4`}
+                />
+
+                <img
+                  className="absolute w-6 top-1 my-auto left-2 text-slate-500 text-[20px] cursor-pointer"
+                  src={selectedCurrency?.image}
+                  alt=""
+                />
+              </div>
+            </div>
+            <div className="relative mb-8">
+              <p className="font-semibold text-secondary mb-2">
+                Wallet Address
+              </p>
+              <InputField
+                name="wallet"
+                type="text"
+                className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 px-4"
+                placeholder="Enter Your Wallet Address"
               />
             </div>
             <div className="relative mb-8">
@@ -115,7 +130,8 @@ const Withdraw = () => {
                 placeholder="Enter Your Amount"
               />
             </div>
-            <div className="flex justify-center items-center">
+            <SlideButton />
+            {/* <div className="flex justify-center items-center">
               {loading ? (
                 <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
                   <Loading />
@@ -123,7 +139,7 @@ const Withdraw = () => {
               ) : (
                 <SlideButton />
               )}
-            </div>
+            </div> */}
           </div>
         </Form>
       </div>

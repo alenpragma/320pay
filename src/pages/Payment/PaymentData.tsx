@@ -29,10 +29,10 @@ const PaymentData = ({ handelUpdateStatus, loading, token, tokenId }: any) => {
         <TData className="  px-6">
           <button
             className={`font-semibold text-[14px] ${
-              token?.status == 0 ? "text-[#4FC55B]" : "text-[#FF8109]"
+              token?.status == 1 ? "text-[#4FC55B]" : "text-[#FF8109]"
             } bg-[#DCF3DE] rounded py-1 w-[100px] md:px-0 px-3`}
           >
-            {token?.status == 0 ? "Active" : "Deactive"}
+            {token?.status == 1 ? "Active" : "Deactive"}
           </button>
         </TData>
 
@@ -42,7 +42,7 @@ const PaymentData = ({ handelUpdateStatus, loading, token, tokenId }: any) => {
           ) : (
             <div
               className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer relative ${
-                token.status == 0 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
+                token.status == 1 ? "bg-[#4FC55B]" : "bg-[#FF8109]"
               }`}
               onClick={() => handleToggle0(token.id, token.status)}
             >

@@ -70,7 +70,7 @@ import Select, { components } from "react-select";
 type TOption = {
   label: string;
   value: string;
-  image?: string; // Add image property
+  image?: string;
 };
 
 type TSelectProps = {
@@ -79,6 +79,7 @@ type TSelectProps = {
   options: TOption[];
   placeholder?: string;
   required?: boolean;
+  type?: string | undefined;
   onChange?: (value: string) => void;
 };
 
@@ -86,6 +87,7 @@ const SelectField = ({
   name,
   className,
   options,
+  type,
   placeholder,
   required,
   onChange,
@@ -116,6 +118,7 @@ const SelectField = ({
         <div className="flex flex-col">
           <Select
             {...field}
+            type={type}
             options={options}
             placeholder={placeholder}
             className={className}

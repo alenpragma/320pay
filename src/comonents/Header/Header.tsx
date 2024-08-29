@@ -93,14 +93,10 @@ const Header = (props: {
         </h4>
 
         <div className="flex lg:ms-auto items-center gap-3 2xsm:gap-5">
-          <CiSettings
-            className={`size-8 cursor-pointer transition-transform ${
-              rotate ? "-rotate-90" : ""
-            }`}
-            onClick={handleModal}
-          />
+        <h4 className="font-semibold text-[16px]">{clientProfile?.name}</h4>
           <img
-            className="size-12 rounded-full"
+            onClick={handleModal}
+            className="size-12 rounded-full cursor-pointer border border-primary hover:scale-105 duration-300"
             src={UserOne}
             alt="user"
             width={100}
