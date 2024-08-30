@@ -1,60 +1,52 @@
-import { RxCross1 } from "react-icons/rx";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosConfig";
-import { toast } from "react-toastify";
-import Form from "../../comonents/Forms/Form";
-import SelectField from "../../comonents/Forms/SelecetField";
-import InputField from "../../comonents/Forms/InputField";
-import Loading from "../../comonents/Lottie/Loading";
-import SlideButton from "../../comonents/SlideButton/SlideButton";
-
-type IModal = {
-  handleRenewModal: () => void;
-  renewModal: boolean;
-};
+import { RxCross1 } from "react-icons/rx"
+import { FieldValues, SubmitHandler } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { useEffect, useState } from "react"
+import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
+import Form from "../../comonents/Forms/Form"
+import SelectField from "../../comonents/Forms/SelecetField"
+import InputField from "../../comonents/Forms/InputField"
+import Loading from "../../comonents/Lottie/Loading"
+import SlideButton from "../../comonents/SlideButton/SlideButton"
 
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
   // network: z.string().min(1, "This field is required"),
   wallet: z.string().min(1, "This field is required"),
   amount: z.string().min(1, "This field is required"),
-});
+})
 
 const Withdraw = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [selectedCurrency, setSelectedCurrency] = useState<any>();
-  const [availableTokens, setAvailableTokens] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [selectedCurrency, setSelectedCurrency] = useState<any>()
+  const [availableTokens, setAvailableTokens] = useState([])
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-  };
-
+    console.log(data)
+  }
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client-tokens");
+    const response = await axiosInstance.get("/client-tokens")
     if (response?.data?.data) {
-      setAvailableTokens(response?.data?.data);
+      setAvailableTokens(response?.data?.data)
     }
-  };
-
+  }
   useEffect(() => {
-    getDatas();
-  }, []);
+    getDatas()
+  }, [])
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.token_symbol,
     value: item.token_symbol,
     image: item.image,
-  }));
+  }))
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
-      return token.token_symbol === value;
-    });
+      return token.token_symbol === value
+    })
 
-    setSelectedCurrency(selectedToken);
-  };
-
+    setSelectedCurrency(selectedToken)
+  }
   return (
     <div className="w-full mt-5 px-3">
       <div className=" md:w-1/2 w-full mx-auto border border-slate-300 shadow-4 rounded-lg md:px-0">
@@ -135,7 +127,7 @@ const Withdraw = () => {
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Withdraw;
+export default Withdraw
