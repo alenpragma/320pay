@@ -74,7 +74,9 @@ const Licenses = () => {
                     <th className="py-2 px-6 text-start">Expiry</th>
                     <th className="py-2 px-6 text-start">license key</th>
                     <th className="py-2 px-6 text-start">Status</th>
-                    <th className="py-2 px-6 w-[30px] text-start  rounded-r-xl">More</th>
+                    <th className="py-2 px-6 w-[30px] text-start  rounded-r-xl">
+                      More
+                    </th>
                   </tr>
                 </thead>
 
@@ -99,7 +101,7 @@ const Licenses = () => {
                       <TData className=" w-full px-6">
                         <div className=" w-full">
                           {data.status == 0 ? (
-                            <button className="font-semibold text-[14px] w-[60px] text-green-500 bg-[#DCF3DE] rounded py-1   md:px-0 px-3">
+                            <button className="font-semibold cursor-text text-[14px] w-[60px] text-green-500 bg-[#DCF3DE] rounded py-1   md:px-0 px-3">
                               Active
                             </button>
                           ) : (
@@ -112,18 +114,22 @@ const Licenses = () => {
                       <TData className="w-full px-7">
                         <div className="w-full">
                           {data.status == 1 ? (
-                            <button
-                              onClick={handleModal}
-                              className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
-                            >
-                              Details
-                            </button>
-                          ) : (
                             <Link to={"/start-here"}>
-                              <button className="font-semibold text-[14px] w-[60px] text-white bg-primary rounded   py-1   md:px-0 px-3">
-                                Renew
+                              <button
+                                onClick={handleModal}
+                                className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
+                              >
+                                Details
                               </button>
                             </Link>
+                          ) : (
+                            <button
+                              className={`font-semibold text-[14px] w-[60px] text-white bg-primary rounded   py-1   md:px-0 px-3 ${
+                                data.status == 0 ? "cursor-not-allowed opacity-80" : ""
+                              }`}
+                            >
+                              Renew
+                            </button>
                           )}
                         </div>
                       </TData>

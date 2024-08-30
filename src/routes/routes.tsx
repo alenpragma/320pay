@@ -18,6 +18,9 @@ import Withdraw from "../pages/Withdraw/Withdraw";
 import ManageServer from "../pages/ManageServer/ManageSerever";
 import Otp from "../pages/OtpPage/Otp";
 import Preview from "../pages/Preview/Preview";
+import ResetPassword from "../pages/ResetPassword/ResetPassword";
+import PasswordOtp from "../pages/ResetPassword/PasswordOtp";
+import SetNewPassword from "../pages/ResetPassword/SetNewPassword";
 
 const routes = createBrowserRouter([
   {
@@ -94,6 +97,18 @@ const routes = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/password-reset",
+    element: <ResetPassword />,
+  },
+  {
+    path: "/password-reset/password-otp",
+    element: <PasswordOtp />,
+  },
+  {
+    path: "/password-reset/password-otp/confirm-password",
+    element: <SetNewPassword />,
   },
 ]);
 

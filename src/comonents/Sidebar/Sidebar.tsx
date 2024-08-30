@@ -151,7 +151,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <img className="size-6" src={images.settings} alt="" />
                       )}
                     </span>
-                    <span> {"setting"}</span>
+                    <span> {"Setting"}</span>
                   </div>
                   <GoChevronDown className="size-6" />
                 </div>

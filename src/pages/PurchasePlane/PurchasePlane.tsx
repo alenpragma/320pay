@@ -1,32 +1,28 @@
 import { Key, useEffect, useState } from "react";
-import { tableData } from "../..";
 import TData from "../../comonents/Table/TData";
-import Pagination from "../../comonents/Pagination/Pagination";
 import axiosInstance from "../../utils/axiosConfig";
-import PurchasePlaneModal, {
-  IPurchasPlane,
-} from "../../comonents/Modal/PurchasePlaneModal";
+import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal";
 import Skeleton from "react-loading-skeleton";
-// import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal"
+
+type IPurchase = {
+  created_at: string;
+  id: string;
+};
+
+type IDate = {
+  days: string;
+  hours: string;
+  id: string;
+};
 
 const PurchasePlane = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [modal, setModal] = useState(false);
   const [singleData, setSingleData] = useState();
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(tableData.length / itemsPerPage);
-  // const indexOfLastItem = currentPage * itemsPerPage
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  // const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem)
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
 
   const [purchasePlane, setPurchasePlane] = useState<any>([]);
+  console.log(purchasePlane);
 
+  // *********** get purchase plan data
   const getPurchasePlane = async () => {
     const response = await axiosInstance.get(
       "/client/package-purchase-history"
@@ -38,6 +34,7 @@ const PurchasePlane = () => {
   useEffect(() => {
     getPurchasePlane();
   }, []);
+  //  --------- purchase plan modal show funciton
   const handleModal = (clientId: any) => {
     setModal(!modal);
     const purchasePlanSingleData = purchasePlane?.find(
@@ -45,6 +42,25 @@ const PurchasePlane = () => {
     );
     setSingleData(purchasePlanSingleData);
   };
+
+  const dateCount = () => {
+    return purchasePlane.map((purchase: IPurchase) => {
+      console.log(purchase);
+      const id = purchase.id;
+      const creatDate = new Date(purchase.created_at);
+      const currentDate = new Date();
+      const diffInMilliseconds = currentDate.getTime() - creatDate.getTime();
+      const hours = diffInMilliseconds / (1000 * 60 * 60);
+      const days = Math.floor(hours / 24);
+      const hour = Math.floor(hours % 24);
+      return {
+        id: id,
+        days: days,
+        hours: hour,
+      };
+    });
+  };
+  const date = dateCount();
   return (
     <>
       <PurchasePlaneModal
@@ -98,13 +114,20 @@ const PurchasePlane = () => {
                       className="border-b border-[#E2E2E9] text-[#616365]"
                     >
                       <TData data={item.client_id} className="  px-6" />
-                      <TData data={item.package_name} className="  px-6" />
-                      <TData data={item.package_price} className="  px-6" />
+                      <TData data={item.package_name} className="px-6" />
+                      <TData className="px-6">${item.package_price}</TData>
                       <TData data={item.created_at} className="  px-6" />
-                      <TData data="0" className="  px-6" />
+                      {date.map((d: IDate) => (
+                        <>
+                          {d.id == item.id && (
+                            <TData className="  px-6">{d.days}day-{d.hours}h</TData>
+                          )}
+                        </>
+                      ))}
+
                       <TData className="px-6">
                         <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-                          {item.status == 0 ? "Valid" : "Invalid"}
+                          {item.status == 0 ? "Valid" : "Expired"}
                         </span>
                       </TData>
                       <TData className="  px-6">
@@ -123,12 +146,12 @@ const PurchasePlane = () => {
           </div>
         )}
       </div>
-      <Pagination
+      {/* <Pagination
         totalPages={totalPages}
         handleNextPage={handleNextPage}
         currentPage={currentPage}
         handlePrevPage={handlePrevPage}
-      />
+      /> */}
     </>
   );
 };
