@@ -50,7 +50,7 @@ const Login = () => {
         // setPaymentaToken(response?.data?.token);
         toast.error(response?.data?.message);
         setLoading(false);
-
+        setError("Your password is incorrect or this account doesn’t exist");
         // navigate("/");
         return;
       }
@@ -96,7 +96,7 @@ const Login = () => {
                     name="email"
                     type="text"
                     className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                    placeholder="Enter your user name"
+                    placeholder="Enter Your Email"
                   />
                   <FaUser className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
                 </div>
@@ -127,9 +127,18 @@ const Login = () => {
                       className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
                     />
                   )}
-                  <p className="text-red-500 text-[12px]">{error}</p>
+                  <p className="text-red-500 text-[12px] mt-3">{error}</p>{" "}
                 </div>
               </div>
+              <div className="text-right">
+                <Link
+                  to="/password-reset"
+                  className="text-primary font-medium underline text-[14px]"
+                >
+                  Reset Password?
+                </Link>
+              </div>
+
               {loading ? (
                 <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
               ) : (
