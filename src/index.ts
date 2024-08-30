@@ -52,9 +52,11 @@ import tick from "./assets/icon/Starthere/tick.svg";
 
 import lottie from "./assets/lottie/loading.json";
 import loadingLottie from "./assets/lottie/loading-lottie.json";
+import rightArrowAnimation from "./assets/lottie/right-arrow.json";
 
 export const loading = lottie;
 export const loadingLotti = loadingLottie;
+export const rightArrowA = rightArrowAnimation;
 
 import usdt from "./assets/icon/payment/usdt.svg";
 

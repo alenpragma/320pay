@@ -89,7 +89,7 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
               className="cursor-pointer hover:scale-105"
             />
           </div>
-          <div className="p-5 overflow-auto max-h-[500px]">
+          <div className="p-5 overflow-auto max-h-[500px] bg-[#fff]">
             <div className="w-3/4 mx-auto overflow-auto">
               <form onSubmit={handleSubmit(formSubmit)}>
                 <div className="my-5">

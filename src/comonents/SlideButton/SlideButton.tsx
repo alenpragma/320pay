@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { images } from "../.."
+import RightArrow from "../Lottie/RightArrow"
 
 const SlideButton = () => {
   const [position, setPosition] = useState(0) // Initial position of the slider
@@ -10,7 +10,6 @@ const SlideButton = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
-  // Calculate the max position dynamically based on container width
   useEffect(() => {
     const updateMaxPosition = () => {
       if (containerRef.current) {
@@ -30,11 +29,10 @@ const SlideButton = () => {
 
   useEffect(() => {
     if (position === maxPosition) {
-      setIsSliding(false) // Stop sliding when reaching the max position
-      // Set a delay to navigate to the new route, allowing the transition to finish
+      setIsSliding(false) 
       setTimeout(() => {
-        navigate("/withdraw/preview") // Replace "/your-route" with your actual route
-      }, 300) // Match this duration with the CSS transition duration
+        navigate("/withdraw/preview") 
+      }, 300) 
     }
   }, [position, maxPosition, navigate])
 
@@ -65,8 +63,11 @@ const SlideButton = () => {
   return (
     <div
       ref={containerRef}
-      className="relative h-14 bg-primary rounded-lg flex items-center w-full"
+      className="relative h-14 bg-primary rounded-lg flex items-center w-1/2 mx-auto"
     >
+      <div className="absolute left-6">
+        <RightArrow />
+      </div>
       <div
         className={`absolute left-1 flex items-center justify-center size-12 bg-white rounded-lg cursor-pointer ${
           isSliding ? "transition-transform duration-300 ease-out" : ""
