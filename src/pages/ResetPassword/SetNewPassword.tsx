@@ -37,34 +37,29 @@ const SetNewPassword = () => {
     <div className="flex justify-center items-center h-screen">
       <div className="md:w-1/3 w-full mx-auto border border-slate-300 rounded-lg p-4">
         <div>
-          <h4 className="text-[32px] font-medium text-primary">
-            Confirm reset password
-          </h4>
+          <h4 className="text-[32px] font-medium text-[#1f1f1f]">Confirm reset password</h4>
         </div>
         <Form
           onSubmit={formSubmit}
           resolver={zodResolver(validationSchema)}
           defaultValues={{
-            email: "",
             password: "",
+            cornfirmPassword: "",
           }}
         >
           <div className="space-y-6 mt-8">
             <div className="space-y-3">
-              <label
-                htmlFor="password"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
+              <p className="text-[#3e3e3e] font-medium text-[16px]">
                 New Password
-              </label>
+              </p>
               <div className="relative">
                 <InputField
                   name="password"
                   type={showPassword ? "password" : "text"}
-                  className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
+                  className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-8 pr-4"
                   placeholder="password"
                 />
-                <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
+                <FaLock className="absolute top-2 my-auto left-2 text-slate-500 text-[18px]" />
                 {showPassword ? (
                   <FaRegEyeSlash
                     onClick={handleShowPassword}
@@ -80,31 +75,17 @@ const SetNewPassword = () => {
               </div>
             </div>
             <div className="space-y-3">
-              <label
-                htmlFor="password"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
+              <p className="text-[#3e3e3e] font-medium text-[16px]">
                 Confirm New Password
-              </label>
+              </p>
               <div className="relative">
                 <InputField
-                  name="confirmPassword"
+                  name="cornfirmPassword"
                   type={showPassword ? "password" : "text"}
-                  className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                  placeholder="Confirm password"
+                  className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-8 pr-4"
+                  placeholder="Confirm new password"
                 />
-                <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
-                {showPassword ? (
-                  <FaRegEyeSlash
-                    onClick={handleShowPassword}
-                    className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
-                  />
-                ) : (
-                  <FaRegEye
-                    onClick={handleShowPassword}
-                    className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
-                  />
-                )}
+                <FaLock className="absolute top-2 my-auto left-2 text-slate-500 text-[18px]" />
                 <p className="text-red-500 text-[12px] mt-3">{error}</p>{" "}
               </div>
             </div>
