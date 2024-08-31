@@ -109,7 +109,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
         onClick={handleRenewModal}
       ></div>
       <div
-        className={`fixed bg-[#ffffff] md:w-6/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
+        className={`fixed bg-[#ffffff] md:w-5/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
           renewModal ? " opacity-100 z-[101]" : "opacity-0 -z-[102]"
         }`}
       >

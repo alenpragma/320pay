@@ -1,16 +1,29 @@
-import { RxCross1 } from "react-icons/rx"
-import { useFieldArray, useForm } from "react-hook-form"
-import { toast } from "react-toastify"
-import axiosInstance from "../../utils/axiosConfig"
+import { RxCross1 } from "react-icons/rx";
+import {
+  FieldValues,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
+import { toast } from "react-toastify";
+import axiosInstance from "../../utils/axiosConfig";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import InputField from "../Forms/InputField";
+import Form from "../Forms/Form";
+
+export const validationSchema = z.object({
+  domain: z.string().min(1, "This field is required"),
+});
 
 type IModal = {
-  handleModal: () => void
-  modal: boolean
-  plan: any
-}
+  handleModal: () => void;
+  modal: boolean;
+  plan: any;
+};
 
 interface FormValues {
-  items: { name: string }[]
+  items: { name: string }[];
 }
 
 const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
@@ -18,66 +31,85 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
     defaultValues: {
       items: [{ name: "" }],
     },
-  })
+  });
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
-  })
+  });
 
-  const formSubmit = async (data: FormValues) => {
-    console.log(data)
+  // const formSubmit = async (data: FormValues) => {
+  //   console.log(data)
 
-    const domainString = `${data?.items
-      .map((item: any) => item.name)
-      .join(", ")}`
+  //   const domainString = `${data?.items
+  //     .map((item: any) => item.name)
+  //     .join(", ")}`
 
-    const planData = {
-      package_id: plan.id,
-      domain_name: domainString,
-    }
+  //   const planData = {
+  //     package_id: plan.id,
+  //     domain_name: domainString,
+  //   }
 
+  //   try {
+  //     const response = await axiosInstance.post(
+  //       "/client/purchase-package",
+  //       planData
+  //     )
+  //     reset({ items: [{ name: "" }] })
+
+  //     if (response?.data?.error == 400) {
+  //       toast.error(response?.data?.messsage)
+  //       return
+  //     }
+
+  //     if (response?.data?.success == 200) {
+  //       toast.success(response?.data?.message)
+  //       return
+  //     } else {
+  //       // Handle any other unexpected cases
+  //       toast.error("Unexpected response from the server")
+  //     }
+  //   } catch (error) {
+  //     console.error("Request failed:", error)
+  //     toast.error("Something went wrong. Please try again.")
+  //   }
+  // }
+
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const { domain } = data;
+    console.log(data);
     try {
       const response = await axiosInstance.post(
         "/client/purchase-package",
-        planData
-      )
-      reset({ items: [{ name: "" }] })
-
+        domain
+      );
+      console.log(response);
       if (response?.data?.error == 400) {
-        toast.error(response?.data?.messsage)
-        return
+        toast.error(response?.data?.messsage);
+        return;
       }
-
       if (response?.data?.success == 200) {
-        toast.success(response?.data?.message)
-        return
-      } else {
-        // Handle any other unexpected cases
-        toast.error("Unexpected response from the server")
+        toast.success(response?.data?.message);
+        return;
       }
     } catch (error) {
-      console.error("Request failed:", error)
-      toast.error("Something went wrong. Please try again.")
+      console.error("Request failed:", error);
+      toast.error("Something went wrong. Please try again.");
     }
-  }
+  };
 
   return (
     <div className="w-full ">
       <div
         className={` ${
           modal
-            ? " opacity-100 fixed bg-[#070707ac] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
-            : "opacity-0-z-50"
+            ? " opacity-100   fixed bg-[#07070745] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
+            : "opacity-0 -z-50"
         }`}
-        onClick={() => {
-          reset({ items: [{ name: "" }] })
-
-          handleModal()
-        }}
+        onClick={handleModal}
       ></div>
       <div
-        className={`fixed bg-[#ffffff] md:w-2/5 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded overflow-y-auto ${
+        className={`fixed bg-[#ffffff] md:w-5/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
           modal ? " opacity-100 z-[101]" : "opacity-0 -z-[102]"
         }`}
       >
@@ -89,54 +121,48 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
               className="cursor-pointer hover:scale-105"
             />
           </div>
-          <div className="p-5 overflow-auto max-h-[500px] bg-[#fff]">
-            <div className="w-3/4 mx-auto overflow-auto">
-              <form onSubmit={handleSubmit(formSubmit)}>
-                <div className="my-5">
-                  {fields.map((field, index) => (
-                    <div key={field.id}>
-                      <div className="mb-5 space-y-1">
-                        <h4>Domain Name {index + 1} </h4>
-                        <div className="flex w-full gap-3 justify-between">
-                          <div className="w-full">
-                            <input
-                              {...register(`items.${index}.name` as const, {
-                                required: true,
-                              })}
-                              className="start-here-input-field"
-                              placeholder={`Item ${index + 1}`}
-                            />
-                          </div>
+          <div className="px-5 md:pb-20 pb-8 pt-8">
+            <Form
+              onSubmit={formSubmit}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={{
+                domain: "",
+              }}
+            >
+              <div className="md:w-10/12 w-full mx-auto">
+                <div className="relative mb-8">
+                  <p className="font-semibold text-secondary mb-2">
+                    Domain Name
+                  </p>
+                  <InputField
+                    name="domain"
+                    type="text"
+                    className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 px-2"
+                    placeholder="Enter Your Domain Name"
+                  />
+                </div>
+                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
+                  Submit
+                </button>
 
-                          <button
-                            disabled={index == 0}
-                            type="button"
-                            onClick={() => remove(index)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    className="bg-primary text-white rounded-lg px-4 py-1 mb-3"
-                    onClick={() => append({ name: "" })}
-                    disabled={plan.no_of_domains == fields.length}
-                  >
-                    add new
+                {/* <div className="flex justify-center items-center">
+                {loading ? (
+                  <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
+                    <Loading />
                   </button>
-                  <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full focus:bg-red-500">
+                ) : (
+                  <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
                     Submit
                   </button>
-                </div>
-              </form>
-            </div>
+                )}
+              </div> */}
+              </div>
+            </Form>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StartHereModal
+export default StartHereModal;

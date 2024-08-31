@@ -14,7 +14,7 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
 
   return (
     <div
-      className={`w-[250px] h-fit rounded-3xl absolute -z-[7] transition-all duration-300 ease-in-out ${
+      className={`w-[250px] h-fit rounded-3xl absolute  bg-[#a4a4a4] -z-[7] transition-all duration-300 ease-in-out ${
         modal
           ? "top-16 right-5 opacity-100 translate-y-0"
           : "top-16 right-5 opacity-0 translate-y-[-20px] pointer-events-none"

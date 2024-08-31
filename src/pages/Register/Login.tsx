@@ -13,6 +13,8 @@ import axiosInstance from "../../utils/axiosConfig";
 import { toast } from "react-toastify";
 import { setPaymentaToken } from "../../hooks/handelAuthToken";
 import { PuffLoader } from "react-spinners";
+import Container from "../../comonents/Shared/Container";
+import Swal from "sweetalert2";
 
 export const validationSchema = z.object({
   email: z.string().min(1, "This field is required."),
@@ -42,13 +44,20 @@ const Login = () => {
 
       if (response?.data?.success == 200) {
         setPaymentaToken(response?.data?.token);
-        toast.success("Successfully login");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate("/");
         return;
       }
       if (response?.data?.success != 200) {
         // setPaymentaToken(response?.data?.token);
-        toast.error(response?.data?.message);
+        // toast.error(response?.data?.message);
+
         setLoading(false);
         setError("Your password is incorrect or this account doesn’t exist");
         // navigate("/");
@@ -56,107 +65,110 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
     }
   };
 
   return (
-    <div className="flex justify-between items-center w-full px-3 md:w-10/12 mx-auto h-screen overflex-y-auto">
-      <div className="flex-1 md:block hidden">
-        <img className="w-full h-auto" src={images.loginImage} alt="" />
-      </div>
-      <div className="flex-1">
-        <div className="md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md md:w-3/4 w-full mx-auto">
-          <img className="w-32 h-10" src={images.logo} alt="" />
-          <h4 className="text-primary text-[24px] font-semibold my-2">
-            Welcome to 3TwentyPay!
-          </h4>
-          <p className="text-secondary font-semibold ">
-            Multichain EVM Wallet, Transaction & Balance Management, Super
-            Secure with Server Side solution integrate with your business today!
-          </p>
-          <Form
-            onSubmit={formSubmit}
-            resolver={zodResolver(validationSchema)}
-            defaultValues={{
-              email: "",
-              password: "",
-            }}
-          >
-            <div className="space-y-6 mt-8">
-              <div className="space-y-3">
-                <label
-                  htmlFor="name"
-                  className="text-[#3e3e3e] font-semibold text-[18px]"
-                >
-                  email
-                </label>
-                <div className="relative">
-                  <InputField
-                    name="email"
-                    type="text"
-                    className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                    placeholder="Enter Your Email"
-                  />
-                  <FaUser className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
-                </div>
-              </div>
-              <div className="space-y-3">
-                <label
-                  htmlFor="password"
-                  className="text-[#3e3e3e] font-semibold text-[18px]"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <InputField
-                    name="password"
-                    type={showPassword ? "password" : "text"}
-                    className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                    placeholder="password"
-                  />
-                  <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
-                  {showPassword ? (
-                    <FaRegEyeSlash
-                      onClick={handleShowPassword}
-                      className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+    <Container>
+      <div className="flex justify-between items-center w-full px-3  h-screen overflex-y-auto">
+        <div className="flex-1 md:block hidden">
+          <img className="w-full h-auto" src={images.loginImage} alt="" />
+        </div>
+        <div className="flex-1">
+          <div className="md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md md:w-3/4 w-full mx-auto">
+            <img className="w-32 h-10" src={images.logo} alt="" />
+            <h4 className="text-primary text-[24px] font-semibold my-2">
+              Welcome to 3TwentyPay!
+            </h4>
+            <p className="text-secondary font-semibold ">
+              Multichain EVM Wallet, Transaction & Balance Management, Super
+              Secure with Server Side solution integrate with your business
+              today!
+            </p>
+            <Form
+              onSubmit={formSubmit}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={{
+                email: "",
+                password: "",
+              }}
+            >
+              <div className="space-y-6 mt-8">
+                <div className="space-y-3">
+                  <label
+                    htmlFor="name"
+                    className="text-[#3e3e3e] font-semibold text-[18px]"
+                  >
+                    email
+                  </label>
+                  <div className="relative">
+                    <InputField
+                      name="email"
+                      type="text"
+                      className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
+                      placeholder="Enter Your Email"
                     />
-                  ) : (
-                    <FaRegEye
-                      onClick={handleShowPassword}
-                      className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
-                    />
-                  )}
-                  <p className="text-red-500 text-[12px] mt-3">{error}</p>{" "}
+                    <FaUser className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
+                  </div>
                 </div>
-              </div>
-              <div className="text-right">
-                <Link
-                  to="/password-reset"
-                  className="text-primary font-medium underline text-[14px]"
-                >
-                  Reset Password?
-                </Link>
-              </div>
+                <div className="space-y-3">
+                  <label
+                    htmlFor="password"
+                    className="text-[#3e3e3e] font-semibold text-[18px]"
+                  >
+                    Password
+                  </label>
+                  <div className="relative">
+                    <InputField
+                      name="password"
+                      type={showPassword ? "password" : "text"}
+                      className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
+                      placeholder="password"
+                    />
+                    <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
+                    {showPassword ? (
+                      <FaRegEyeSlash
+                        onClick={handleShowPassword}
+                        className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+                      />
+                    ) : (
+                      <FaRegEye
+                        onClick={handleShowPassword}
+                        className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+                      />
+                    )}
+                    <p className="text-red-500 text-[12px] mt-3">{error}</p>{" "}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <Link
+                    to="/login/password-reset"
+                    className="text-primary font-medium underline text-[14px]"
+                  >
+                    Reset Password?
+                  </Link>
+                </div>
 
-              {loading ? (
-                <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
-              ) : (
-                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
-                  Login
-                </button>
-              )}
-              <p className="text-secondary text-[14px]">
-                Don't have an Account?{" "}
-                <Link to="/register" className="text-primary">
-                  Sign Up
-                </Link>
-              </p>
-            </div>
-          </Form>
+                {loading ? (
+                  <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
+                ) : (
+                  <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
+                    Login
+                  </button>
+                )}
+                <p className="text-secondary text-[14px]">
+                  Don't have an Account?{" "}
+                  <Link to="/register" className="text-primary">
+                    Sign Up
+                  </Link>
+                </p>
+              </div>
+            </Form>
+          </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
