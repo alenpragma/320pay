@@ -1,14 +1,11 @@
-import { RxCross1 } from "react-icons/rx"
 import { FieldValues, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useEffect, useState } from "react"
 import axiosInstance from "../../utils/axiosConfig"
-import { toast } from "react-toastify"
 import Form from "../../comonents/Forms/Form"
 import SelectField from "../../comonents/Forms/SelecetField"
 import InputField from "../../comonents/Forms/InputField"
-import Loading from "../../comonents/Lottie/Loading"
 import SlideButton from "../../comonents/SlideButton/SlideButton"
 
 export const validationSchema = z.object({
@@ -19,7 +16,7 @@ export const validationSchema = z.object({
 })
 
 const Withdraw = () => {
-  const [loading, setLoading] = useState<boolean>(false)
+  // const [loading, setLoading] = useState<boolean>(false)
   const [selectedCurrency, setSelectedCurrency] = useState<any>()
   const [availableTokens, setAvailableTokens] = useState([])
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
