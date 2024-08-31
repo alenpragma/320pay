@@ -21,6 +21,7 @@ import Preview from "../pages/Preview/Preview";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import PasswordOtp from "../pages/ResetPassword/PasswordOtp";
 import SetNewPassword from "../pages/ResetPassword/SetNewPassword";
+import LoginLayout from "../layouts/LoginLayout";
 
 const routes = createBrowserRouter([
   {
@@ -89,26 +90,31 @@ const routes = createBrowserRouter([
       },
     ],
   },
-
   {
-    path: "/login",
+    path: "login",
     element: <Login />,
   },
   {
-    path: "/register",
+    path: "register",
     element: <Register />,
   },
   {
-    path: "/password-reset",
-    element: <ResetPassword />,
-  },
-  {
-    path: "/password-reset/password-otp",
-    element: <PasswordOtp />,
-  },
-  {
-    path: "/password-reset/password-otp/confirm-password",
-    element: <SetNewPassword />,
+    path: "/login/password-reset",
+    element: <LoginLayout />,
+    children: [
+      {
+        path: "",
+        element: <ResetPassword />,
+      },
+      {
+        path: "password-otp",
+        element: <PasswordOtp />,
+      },
+      {
+        path: "password-otp/confirm-password",
+        element: <SetNewPassword />,
+      },
+    ],
   },
 ]);
 
