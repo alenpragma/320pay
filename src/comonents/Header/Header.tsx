@@ -1,6 +1,5 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import DropdownUser, { UserOne } from "./DropdownUser";
-import { CiSettings } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosConfig";
 import { images } from "../..";
@@ -15,6 +14,7 @@ const Header = (props: {
   const [modal, setModal] = useState<boolean>(false);
   const [visible, setVisible] = useState(false);
   const [clientProfile, setClientProfile] = useState<any>();
+
   const capital = (text: string) => {
     const cleneText = text.replace(/[\/-]/g, " ");
     if (!text) {
@@ -38,6 +38,13 @@ const Header = (props: {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    setModal(false);
+    setRotate(false);
+    setVisible(false);
+  }, [pathname]);
+
   return (
     <header className="sticky top-0 z-[5] flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">

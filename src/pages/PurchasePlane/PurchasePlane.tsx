@@ -19,16 +19,26 @@ const PurchasePlane = () => {
   const [modal, setModal] = useState(false);
   const [singleData, setSingleData] = useState();
 
+  const [loading, setLoading] = useState(false);
+  console.log(loading);
+
   const [purchasePlane, setPurchasePlane] = useState<any>([]);
   console.log(purchasePlane);
 
   // *********** get purchase plan data
   const getPurchasePlane = async () => {
-    const response = await axiosInstance.get(
-      "/client/package-purchase-history"
-    );
-    if (response?.data?.success == 200) {
-      setPurchasePlane(response?.data?.data);
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(
+        "/client/package-purchase-history"
+      );
+      if (response?.data?.success == 200) {
+        setPurchasePlane(response?.data?.data);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -74,76 +84,84 @@ const PurchasePlane = () => {
             Add New Licenses
           </button>
         </div>
-        {purchasePlane.length == 0 ? (
+        {loading ? (
           <div className="mt-5">
             <Skeleton height={35} count={7} />
           </div>
         ) : (
-          <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
-            <div className="overflow-x-auto w-full">
-              <table className=" border-collapse w-full">
-                <thead>
-                  <tr className="bg-[#FAFAFA] text-secondary">
-                    <th className="py-2 px-6 text-start  whitespace-nowrap">
-                      Order Id
-                    </th>
-                    <th className="py-2 px-6 text-start  whitespace-nowrap ">
-                      Plan
-                    </th>
-                    <th className="py-2 px-6 text-start  whitespace-nowrap">
-                      Price
-                    </th>
-                    <th className="py-2 px-6 text-start  whitespace-nowrap">
-                      Created
-                    </th>
-                    <th className="py-2 px-6 text-start  whitespace-nowrap">
-                      Total Days
-                    </th>
-                    <th className="py-2 px-6 text-start  whitespace-nowrap">
-                      Status
-                    </th>
-                    <th className="py-2 px-6 text-start  whitespace-nowrap">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white">
-                  {purchasePlane?.map((item: any, i: Key) => (
-                    <tr
-                      key={i}
-                      className="border-b border-[#E2E2E9] text-[#616365]"
-                    >
-                      <TData data={item.client_id} className="  px-6" />
-                      <TData data={item.package_name} className="px-6" />
-                      <TData className="px-6">${item.package_price}</TData>
-                      <TData data={item.created_at} className="  px-6" />
-                      {date.map((d: IDate) => (
-                        <>
-                          {d.id == item.id && (
-                            <TData className="  px-6">{d.days}day-{d.hours}h</TData>
-                          )}
-                        </>
-                      ))}
-
-                      <TData className="px-6">
-                        <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-                          {item.status == 0 ? "Valid" : "Expired"}
-                        </span>
-                      </TData>
-                      <TData className="  px-6">
-                        <button
-                          onClick={() => handleModal(item.id)}
-                          className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
+          <>
+            {purchasePlane.length !== 0 ? (
+              <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
+                <div className="overflow-x-auto w-full">
+                  <table className=" border-collapse w-full">
+                    <thead>
+                      <tr className="bg-[#FAFAFA] text-secondary">
+                        <th className="py-2 px-6 text-start  whitespace-nowrap">
+                          Order Id
+                        </th>
+                        <th className="py-2 px-6 text-start  whitespace-nowrap ">
+                          Plan
+                        </th>
+                        <th className="py-2 px-6 text-start  whitespace-nowrap">
+                          Price
+                        </th>
+                        <th className="py-2 px-6 text-start  whitespace-nowrap">
+                          Created
+                        </th>
+                        <th className="py-2 px-6 text-start  whitespace-nowrap">
+                          Total Days
+                        </th>
+                        <th className="py-2 px-6 text-start  whitespace-nowrap">
+                          Status
+                        </th>
+                        <th className="py-2 px-6 text-start  whitespace-nowrap">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white">
+                      {purchasePlane?.map((item: any, i: Key) => (
+                        <tr
+                          key={i}
+                          className="border-b border-[#E2E2E9] text-[#616365]"
                         >
-                          View
-                        </button>
-                      </TData>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                          <TData data={item.client_id} className="  px-6" />
+                          <TData data={item.package_name} className="px-6" />
+                          <TData className="px-6">${item.package_price}</TData>
+                          <TData data={item.created_at} className="  px-6" />
+                          {date.map((d: IDate) => (
+                            <>
+                              {d.id == item.id && (
+                                <TData className="  px-6">
+                                  {d.days}day-{d.hours}h
+                                </TData>
+                              )}
+                            </>
+                          ))}
+
+                          <TData className="px-6">
+                            <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
+                              {item.status == 0 ? "Valid" : "Expired"}
+                            </span>
+                          </TData>
+                          <TData className="  px-6">
+                            <button
+                              onClick={() => handleModal(item.id)}
+                              className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
+                            >
+                              View
+                            </button>
+                          </TData>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : (
+              "User hasn't any purchase plan"
+            )}
+          </>
         )}
       </div>
       {/* <Pagination
