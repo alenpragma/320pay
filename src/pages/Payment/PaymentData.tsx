@@ -3,7 +3,6 @@ import TData from "../../comonents/Table/TData";
 import { PuffLoader } from "react-spinners";
 
 const PaymentData = ({ handelUpdateStatus, loading, token, tokenId }: any) => {
-  console.log(token);
   const [isToggled, setIsToggled] = useState(false);
 
   const handleToggle0 = (id: string, status: string) => {

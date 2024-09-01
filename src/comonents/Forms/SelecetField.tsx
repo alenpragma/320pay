@@ -87,7 +87,7 @@ const SelectField = ({
   name,
   className,
   options,
-  type,
+  // type,
   placeholder,
   required,
   onChange,
@@ -118,7 +118,7 @@ const SelectField = ({
         <div className="flex flex-col">
           <Select
             {...field}
-            type={type}
+            // type={type}
             options={options}
             placeholder={placeholder}
             className={className}

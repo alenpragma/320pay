@@ -22,6 +22,7 @@ import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import PasswordOtp from "../pages/ResetPassword/PasswordOtp";
 import SetNewPassword from "../pages/ResetPassword/SetNewPassword";
 import LoginLayout from "../layouts/LoginLayout";
+import ChangePassword from "../pages/ChangePassword/ChangePassword";
 
 const routes = createBrowserRouter([
   {
@@ -65,7 +66,7 @@ const routes = createBrowserRouter([
         element: <TransitionHistory />,
       },
       {
-        path: "/purchase-plane",
+        path: "/purchase-plan",
         element: <PurchasePlane />,
       },
       {
@@ -87,6 +88,10 @@ const routes = createBrowserRouter([
       {
         path: "/withdraw/preview",
         element: <Preview />,
+      },
+      {
+        path: "/change-password",
+        element: <ChangePassword />,
       },
     ],
   },

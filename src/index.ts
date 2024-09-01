@@ -32,7 +32,6 @@ import paymentHover from "./assets/icon/navIcon/payment-hover.svg";
 import withdraw1 from "./assets/icon/navIcon/withdraw1.svg";
 import withdraw1Hover from "./assets/icon/navIcon/withdraw-hover1.svg";
 
-
 import file from "./assets/icon/dashboard/file.svg";
 import wallet2 from "./assets/icon/dashboard/wallet-2.svg";
 import profile from "./assets/icon/dashboard/profile.svg";
@@ -65,9 +64,7 @@ import usdts from "./assets/icon/dashboard/usdt.svg";
 import musd from "./assets/icon/dashboard/musd.svg";
 import mind from "./assets/icon/dashboard/mind.svg";
 
-
 import rightArrow from "./assets/icon/withdraw/right-slide.svg";
-
 
 export const walletHistory = [
   {
@@ -137,8 +134,8 @@ export const mainNavItem: MenuInterface[] = [
 export const subNavItem: MenuInterface[] = [
   {
     id: 221,
-    pathname: "/purchase-plane",
-    item: "Purchase Plane",
+    pathname: "/purchase-plan",
+    item: "Purchase Plan",
     icon1: layers,
     icon2: layerHover,
   },
@@ -157,7 +154,7 @@ export const subNavItem: MenuInterface[] = [
     icon2: withdrowHover,
   },
   {
-    id: 225,
+    id: 226,
     pathname: "/raise-ticket",
     item: "Raise Ticket",
     icon1: smile,
@@ -319,6 +316,9 @@ export const images = {
   homeHover,
   profile,
   trophy,
+  shield,
+  file,
+  ticket,
   qrCode,
   loginImage,
   logo,
@@ -331,5 +331,5 @@ export const images = {
   musd,
   settings,
   settingsHover,
-  rightArrow
+  rightArrow,
 };

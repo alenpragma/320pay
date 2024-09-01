@@ -113,23 +113,25 @@ const Licenses = () => {
                       </TData>
                       <TData className="w-full px-7">
                         <div className="w-full">
-                          {data.status == 1 ? (
+                          {data.status == 0 ? (
+                            <button
+                              onClick={handleModal}
+                              className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
+                            >
+                              Details
+                            </button>
+                          ) : (
                             <Link to={"/start-here"}>
                               <button
-                                onClick={handleModal}
-                                className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
+                                className={`font-semibold text-[14px] w-[60px] text-white bg-primary rounded   py-1   md:px-0 px-3 ${
+                                  data.status == 0
+                                    ? "cursor-not-allowed opacity-80"
+                                    : ""
+                                }`}
                               >
-                                Details
+                                Renew
                               </button>
                             </Link>
-                          ) : (
-                            <button
-                              className={`font-semibold text-[14px] w-[60px] text-white bg-primary rounded   py-1   md:px-0 px-3 ${
-                                data.status == 0 ? "cursor-not-allowed opacity-80" : ""
-                              }`}
-                            >
-                              Renew
-                            </button>
                           )}
                         </div>
                       </TData>

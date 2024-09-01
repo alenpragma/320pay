@@ -6,6 +6,7 @@ import { MenuInterface } from "../../types/menuType";
 import { GoChevronDown } from "react-icons/go";
 import { RxExit } from "react-icons/rx";
 import { removePaymentaToken } from "../../hooks/handelAuthToken";
+import Swal from "sweetalert2";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -24,9 +25,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const navigate = useNavigate();
   const handleLogOut = () => {
-    removePaymentaToken();
-    navigate("/login");
+    Swal.fire({
+      text: "Are you sure you want to logout?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removePaymentaToken();
+        navigate("/login");
+      }
+    });
   };
+  
+  
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -111,7 +124,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               {mainNavItem.map((item: MenuInterface) => (
                 <NavLink
-                  key={item.id}
+                  key={item.item}
                   to={item.pathname}
                   onMouseEnter={() => setMouseHover(item.id)}
                   onMouseLeave={() => setMouseHover(null)}
@@ -205,7 +218,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 mt-6 flex flex-col space-y-2">
               {subNavItem.map((item: MenuInterface) => (
                 <NavLink
-                  key={item.id}
+                  key={item.pathname}
                   to={item.pathname}
                   onMouseEnter={() => setMouseHover(item.id)}
                   onMouseLeave={() => setMouseHover(null)}

@@ -31,7 +31,7 @@ const SlideButton = () => {
     if (position === maxPosition) {
       setIsSliding(false) 
       setTimeout(() => {
-        navigate("/withdraw/preview") 
+        navigate("/withdraw/preview")
       }, 300) 
     }
   }, [position, maxPosition, navigate])
@@ -50,12 +50,11 @@ const SlideButton = () => {
     const handleMouseUp = () => {
       if (position < maxPosition) {
         setIsSliding(true)
-        setPosition(0) // Reset position to 0 with a smooth transition
+        setPosition(0)
       }
       window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("mouseup", handleMouseUp)
     }
-
     window.addEventListener("mousemove", handleMouseMove)
     window.addEventListener("mouseup", handleMouseUp)
   }
