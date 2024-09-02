@@ -129,3 +129,28 @@ input[type="number"] {
     @apply hover:text-primary cursor-pointer border border-slate-300 p-1 w-fit rounded hover:bg-slate-200
   }
 }
+
+
+
+
+
+/* swal modal editing */
+
+.custom-swal-modal {
+  width: 500px; /* Set the width you want */
+  height: auto; /* Set the height if needed */
+  max-width: 90%; /* Ensure it’s responsive */
+  padding: 20px; /* Optional padding */
+}
+
+@media (max-width: 768px) {
+  .custom-swal-modal {
+    width: 70%; /* Adjust for smaller screens */
+  }
+}
+
+@media (min-width: 768px) {
+  .custom-swal-modal {
+    width: 320px; /* Adjust for larger screens */
+  }
+}

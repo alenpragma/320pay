@@ -44,13 +44,7 @@ const Login = () => {
 
       if (response?.data?.success == 200) {
         setPaymentaToken(response?.data?.token);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        toast.success("login successfull")
         navigate("/");
         return;
       }
@@ -146,7 +140,7 @@ const Login = () => {
                     to="/login/password-reset"
                     className="text-primary font-medium underline text-[14px]"
                   >
-                    Reset Password?
+                    Forgot Password?
                   </Link>
                 </div>
 
