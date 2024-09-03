@@ -31,6 +31,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Logout",
+      customClass: {
+        popup: "custom-swal-modal",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         removePaymentaToken();

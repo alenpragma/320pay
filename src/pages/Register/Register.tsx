@@ -1,64 +1,51 @@
 import { FaLock, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { images } from "../..";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Form from "../../comonents/Forms/Form";
 import InputField from "../../comonents/Forms/InputField";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosConfig";
 import { useState } from "react";
 import { BiPhone } from "react-icons/bi";
 import { setPaymentaToken } from "../../hooks/handelAuthToken";
-
-// const inputFieldSchema = z.object({
-//   username: z.string().min(1, "This field is required."),
-//   email: z.string().email("This field is required."),
-//   password: z.string().min(1, "This field is required."),
-//   password_confirmation: z.string().min(1, "This field is required."),
-//   checkUser: z.literal(true),
-// });
+import { PuffLoader } from "react-spinners";
 
 const inputFieldSchema = z.object({
   name: z.string().min(1, "This field is required."),
-  email: z.string().email("This field is required."),
-  phone: z.string().min(10, "This field is required."),
+  email: z.string().email("Invalid email address."),
+  phone: z.string().refine((val) => val.length >= 10, {
+    message: "Phone number must be at least 10 digits long.",
+  }),
   password: z.string().min(1, "This field is required."),
   password_confirmation: z.string().min(1, "This field is required."),
-  // checkUser: z.literal(true),
 });
-// .refine((data) => data.password === data.password_confirmation, {
-//   path: ["password_confirmation"],
-//   message: "Passwords must match",
-// })
 
 const Register = () => {
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  console.log(error);
   const formSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data);
-
+    setLoading(true);
+    const { password, password_confirmation } = data;
+    if (password !== password_confirmation) {
+      setError(
+        "password and confirm-password aren't matching. please check again"
+      );
+    }
     try {
-      setLoading(true);
       const response = await axiosInstance.post("/register", data);
-
-      console.log(response);
-      if (response.data.status == 422) {
-        alert(response?.data?.message);
-        return;
+      if(response){
+        navigate('/register/register-otp')
       }
-      if (response.data.status == 200) {
-        alert(response?.data?.message);
-
-        return;
-      }
-
-      setPaymentaToken(response?.data?.token);
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -79,20 +66,16 @@ const Register = () => {
           onSubmit={formSubmit}
           resolver={zodResolver(inputFieldSchema)}
           defaultValues={{
-            username: "",
+            name: "",
             email: "",
+            phone: "",
             password: "",
             password_confirmation: "",
           }}
         >
           <div className="space-y-6 mt-8">
             <div className="space-y-1 ">
-              <label
-                htmlFor="name"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
-                name
-              </label>
+              <p className="text-[#3e3e3e] font-semibold text-[15px]">Name</p>
               <div className="relative">
                 <InputField
                   name="name"
@@ -105,12 +88,7 @@ const Register = () => {
             </div>
 
             <div className="space-y-1 ">
-              <label
-                htmlFor="email"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
-                Your E-mail
-              </label>
+              <p className="text-[#3e3e3e] font-semibold text-[15px]">Email</p>
               <div className="relative">
                 <InputField
                   name="email"
@@ -123,16 +101,11 @@ const Register = () => {
             </div>
 
             <div className="space-y-1 ">
-              <label
-                htmlFor="phone"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
-                phone
-              </label>
+              <p className="text-[#3e3e3e] font-semibold text-[15px]">Phone</p>
               <div className="relative">
                 <InputField
                   name="phone"
-                  type="phone"
+                  type="number"
                   className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
                   placeholder="Enter Your Phone"
                 />
@@ -141,12 +114,9 @@ const Register = () => {
             </div>
 
             <div className="space-y-1 ">
-              <label
-                htmlFor="password"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
+              <p className="text-[#3e3e3e] font-semibold text-[15px]">
                 Password
-              </label>
+              </p>
               <div className="relative">
                 <InputField
                   name="password"
@@ -158,12 +128,9 @@ const Register = () => {
               </div>
             </div>
             <div className="space-y-1 ">
-              <label
-                htmlFor="password"
-                className="text-[#3e3e3e] font-semibold text-[18px]"
-              >
-                confirm Password
-              </label>
+              <p className="text-[#3e3e3e] font-semibold text-[15px]">
+                Confirm Password
+              </p>
               <div className="relative">
                 <InputField
                   name="password_confirmation"
@@ -173,30 +140,27 @@ const Register = () => {
                 />
                 <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
               </div>
+              {error ? (
+                <p className="text-[10px] text-red-500 mt-2">
+                  Warning: {error}
+                </p>
+              ) : (
+                ""
+              )}
             </div>
             <div className="space-y-3">
-              {/* <div className="flex items-center gap-5 mt-8 relative">
-                <InputField
-                  name="checkUser"
-                  type="checkbox"
-                  className="size-5"
-                />
-                <p>
-                  I Agree To All{" "}
-                  <span className="text-primary cursor-pointer">
-                    Terms & Condition
-                  </span>
-                </p>
-              </div> */}
-              {loading == false ? (
-                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full focus:bg-[#251756] transition duration-100">
-                  Sign Up
-                </button>
-              ) : (
-                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full focus:bg-[#251756] transition duration-100">
-                  loading
-                </button>
-              )}
+              <div className="w-full mt-6 border border-slate-300 rounded-lg bg-blue-100">
+                {loading ? (
+                  <div className="w-full">
+                    <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
+                  </div>
+                ) : (
+                  <button className="px-5 py-3 rounded-lg bg-primary text-white font-semibold w-full">
+                    sign Up
+                  </button>
+                )}
+              </div>
+
               <p>
                 You Have Al ready a account{" "}
                 <Link to="/login" className="text-primary">
