@@ -28,9 +28,9 @@ const routes = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectRoute>
+      // <ProtectRoute>
         <App />
-      </ProtectRoute>
+      // </ProtectRoute>
     ),
     children: [
       {
@@ -104,7 +104,7 @@ const routes = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "register/register-otp",
+    path: "/register/register-otp",
     element: <RegisterOtp />,
   },
   {

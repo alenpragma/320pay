@@ -12,6 +12,7 @@ import { useState } from "react";
 import { BiPhone } from "react-icons/bi";
 import { setPaymentaToken } from "../../hooks/handelAuthToken";
 import { PuffLoader } from "react-spinners";
+import Swal from "sweetalert2";
 
 const inputFieldSchema = z.object({
   name: z.string().min(1, "This field is required."),
@@ -38,8 +39,20 @@ const Register = () => {
     }
     try {
       const response = await axiosInstance.post("/register", data);
-      if(response){
-        navigate('/register/register-otp')
+      console.log(response);
+      if (response?.data?.status === 200) {
+        Swal.fire({
+          icon: "success",
+          text: `User registered successfully. Please check your email for verification.`,
+        });
+        navigate("/register/register-otp");
+        setPaymentaToken(response?.data?.token);
+      }
+      if (response?.data?.status !== 200) {
+        Swal.fire({
+          icon: "error",
+          text: `Your email or phone is allready set`,
+        });
       }
     } catch (error) {
       setLoading(false);

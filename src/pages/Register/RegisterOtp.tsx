@@ -1,91 +1,171 @@
 import { useForm, Controller } from "react-hook-form";
+import Container from "../../comonents/Shared/Container";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axiosConfig";
+import { PuffLoader } from "react-spinners";
+import Swal from "sweetalert2";
+// import { useNavigate } from "react-router-dom";
 
 interface OTPFormInputs {
   otp: string[];
 }
 
-const RegisterOtp = () => {
+const PasswordOtp = () => {
   const { control, handleSubmit } = useForm<OTPFormInputs>({
     defaultValues: {
-      otp: ["", "", "", ""],
+      otp: ["", "", "", "", "", ""],
     },
   });
+  const [loading, setLoading] = useState(false);
+  //   const navigate = useNavigate();
 
-  const onSubmit = (data: OTPFormInputs) => {
+  const onSubmit = async (data: OTPFormInputs) => {
     const otp = data.otp.join("");
-    console.log("Entered OTP:", otp);
-    // Handle OTP submission logic here
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/verified", { otp: otp });
+      console.log(response);
+      //   if (response?.data?.status === 200) {
+      //     Swal.fire({
+      //       icon: "success",
+      //       text: `Validation Successfully`,
+      //     });
+      //     // navigate("/register/register-otp");
+      //   }
+      //   if (response?.data?.status !== 200) {
+      //     Swal.fire({
+      //       icon: "error",
+      //       text: `OTP validation Faile, Please try again`,
+      //     });
+      //   }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return (
-    <div className="md:w-1/2 w-full mx-auto mt-20 border border-slate-300 rounded-lg">
-      <h4 className="w-full bg-primary font-semibold text-[20px] text-white px-3 rounded-t-lg py-2">
-        SignUp Confirmation
-      </h4>
-      <p className="text-[14px] text-secondary  px-3 my-5">
-        Enter The 4 Digit Code To Process <br /> Your Withdraw
-      </p>
-      <div className="my-10 px-3">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="w-2/3 mx-auto flex justify-around items-center">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <Controller
-                key={index}
-                name={`otp.${index}`}
-                control={control}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="tel"
-                    maxLength={1}
-                    className="w-12 h-12 text-center border rounded-md"
-                    onChange={(e) => {
-                      const target = e.target as HTMLInputElement;
-                      const value = target.value;
+  const handleResendOtp = async () => {
+    const response = await axiosInstance.get("/send-otp");
+    console.log(response);
+  };
 
-                      // Allow only digits
-                      if (/^\d$/.test(value)) {
-                        field.onChange(value);
-                        if (index < 3) {
-                          const nextSibling =
-                            target.nextElementSibling as HTMLInputElement | null;
-                          nextSibling?.focus();
-                        }
-                      } else {
-                        // Prevent non-digit input
-                        target.value = field.value;
-                      }
-                    }}
-                    onInput={(e) => {
-                      const target = e.target as HTMLInputElement;
-                      if (
-                        target.value.length > 0 &&
-                        index < 3 &&
-                        /^\d$/.test(target.value)
-                      ) {
-                        const nextSibling =
-                          target.nextElementSibling as HTMLInputElement | null;
-                        nextSibling?.focus();
-                      }
-                    }}
-                  />
-                )}
-              />
-            ))}
+  //   const [isDisabled, setIsDisabled] = useState(false);
+  //   const [timer, setTimer] = useState<number | null>(null);
+  //   const handleResendOtp = async () => {
+  //     if (!isDisabled) {
+  //       const response = await axiosInstance.get("/send-otp");
+  //       console.log(response);
+  //       setIsDisabled(true);
+  //       setTimer(
+  //         window.setTimeout(() => {
+  //           setIsDisabled(false);
+  //         }, 3000)
+  //       );
+  //     }
+  //   };
+  //   useEffect(() => {
+  //     return () => {
+  //       if (timer !== null) {
+  //         clearTimeout(timer);
+  //       }
+  //     };
+  //   }, [timer]);
+
+  return (
+    <Container>
+      <div className="flex justify-center items-center h-screen">
+        <div className="md:w-1/3 w-full mx-auto border border-slate-300 rounded-lg p-3">
+          <div className="text-start space-y-3">
+            <h4 className="text-[32px] font-medium border-b border-slate-300 pb-3 text-[#1f1f1f]">
+              Registration Validation
+            </h4>
+            <p className="text-secondary">
+              {" "}
+              A verification code has been sent to your email. Please check your
+              inbox to proceed.
+            </p>
           </div>
-          <p className="text-[14px] text-secondary  px-3 my-10 text-right">
-            I Didn’t Accept The Code Resend Code
-          </p>
-          <button
-            type="submit"
-            className="py-2 bg-primary text-white rounded-md w-full"
-          >
-            Confirm
-          </button>
-        </form>
+          <div className="my-10 px-3">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="w-full mx-auto flex justify-around items-center gap-3">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <Controller
+                    key={index}
+                    name={`otp.${index}`}
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        {...field}
+                        type="tel"
+                        maxLength={1}
+                        className="w-12 h-12 text-center border rounded-md"
+                        onChange={(e) => {
+                          const target = e.target as HTMLInputElement;
+                          const value = target.value;
+
+                          // Allow only digits
+                          if (/^\d$/.test(value) || value === "") {
+                            field.onChange(value);
+                          }
+
+                          // Handle backspace
+                          if (value === "" && index > 0) {
+                            const previousSibling =
+                              target.previousElementSibling as HTMLInputElement | null;
+                            previousSibling?.focus();
+                          }
+
+                          // Move to the next input on valid input
+                          if (/^\d$/.test(value) && index < 5) {
+                            const nextSibling =
+                              target.nextElementSibling as HTMLInputElement | null;
+                            nextSibling?.focus();
+                          }
+                        }}
+                      />
+                    )}
+                  />
+                ))}
+              </div>
+              <p
+                className="text-[14px] px-3 my-10 text-right cursor-pointer hover:text-red-500"
+                onClick={() => handleResendOtp()}
+              >
+                Resend Code?
+              </p>
+              {/* <div className="w-full flex justify-end mt-6 py-3">
+                {isDisabled ? (
+                  <div className="w-fit">
+                    <PuffLoader className="mx-auto" color="#36d7b7" size={30} />
+                  </div>
+                ) : (
+                  <p
+                    className="text-[14px] px-3 my-10 text-right cursor-pointer "
+                    onClick={handleResendOtp}
+                  >
+                    Resend Code?
+                  </p>
+                )}
+              </div> */}
+              <div className="w-1/2 mx-auto mt-6 border border-slate-300 rounded-lg bg-blue-100">
+                {loading ? (
+                  <div className="w-full">
+                    <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
+                  </div>
+                ) : (
+                  <button className="px-5 py-3 rounded-lg bg-primary text-white font-semibold w-full">
+                    sign Up
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
-export default RegisterOtp;
+export default PasswordOtp;
