@@ -1,6 +1,5 @@
 export const getPaymentaToken = () => {
   const token = localStorage.getItem("paymentaToken")
-
   return token
 }
 

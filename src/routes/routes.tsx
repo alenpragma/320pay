@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import StartHere from "../pages/StartHere/StartHere";
 import Deposit from "../pages/Deposit/Deposit";
@@ -23,10 +23,15 @@ import SetNewPassword from "../pages/ResetPassword/SetNewPassword";
 import LoginLayout from "../layouts/LoginLayout";
 import ChangePassword from "../pages/ChangePassword/ChangePassword";
 import RegisterOtp from "../pages/Register/RegisterOtp";
+import RegisterLayout from "../layouts/RegisterLayout";
 
 const routes = createBrowserRouter([
   {
     path: "/",
+    element: <Navigate to="/dashboard" replace />,
+  },
+  {
+    path: "/dashboard",
     element: (
       <ProtectRoute>
         <App />
@@ -42,55 +47,55 @@ const routes = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/start-here",
+        path: "start-here",
         element: <StartHere />,
       },
       {
-        path: "/deposit",
+        path: "deposit",
         element: <Deposit />,
       },
       {
-        path: "/wallet",
+        path: "wallet",
         element: <Wallet />,
       },
       {
-        path: "/payment",
+        path: "payment",
         element: <Payment />,
       },
       {
-        path: "/licenses",
+        path: "licenses",
         element: <Licenses />,
       },
       {
-        path: "/transaction-history",
+        path: "transaction-history",
         element: <TransitionHistory />,
       },
       {
-        path: "/purchase-plan",
+        path: "purchase-plan",
         element: <PurchasePlane />,
       },
       {
-        path: "/deposit-log",
+        path: "deposit-log",
         element: <DepositLog />,
       },
       {
-        path: "/withdraw-history",
+        path: "withdraw-history",
         element: <WithdrawHistory />,
       },
       {
-        path: "/withdraw",
+        path: "withdraw",
         element: <Withdraw />,
       },
       {
-        path: "/withdraw/preview/otp",
+        path: "withdraw/preview/otp",
         element: <Otp />,
       },
       {
-        path: "/withdraw/preview",
+        path: "withdraw/preview",
         element: <Preview />,
       },
       {
-        path: "/change-password",
+        path: "change-password",
         element: <ChangePassword />,
       },
     ],
@@ -99,13 +104,20 @@ const routes = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
+
   {
     path: "register",
-    element: <Register />,
-  },
-  {
-    path: "register/register-otp",
-    element: <RegisterOtp />,
+    element: <RegisterLayout />,
+    children: [
+      {
+        path: "",
+        element: <Register />,
+      },
+      {
+        path: "register-otp",
+        element: <RegisterOtp />,
+      },
+    ],
   },
   {
     path: "/login/password-reset",
