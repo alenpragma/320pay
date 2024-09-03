@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosConfig";
 import { PuffLoader } from "react-spinners";
 import Swal from "sweetalert2";
-// import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface OTPFormInputs {
   otp: string[];
@@ -17,27 +18,28 @@ const PasswordOtp = () => {
     },
   });
   const [loading, setLoading] = useState(false);
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: OTPFormInputs) => {
     const otp = data.otp.join("");
+
     setLoading(true);
     try {
       const response = await axiosInstance.post("/verified", { otp: otp });
-      console.log(response);
-      //   if (response?.data?.status === 200) {
-      //     Swal.fire({
-      //       icon: "success",
-      //       text: `Validation Successfully`,
-      //     });
-      //     // navigate("/register/register-otp");
-      //   }
-      //   if (response?.data?.status !== 200) {
-      //     Swal.fire({
-      //       icon: "error",
-      //       text: `OTP validation Faile, Please try again`,
-      //     });
-      //   }
+
+      if (response?.data?.success === true) {
+        Swal.fire({
+          icon: "success",
+          text: `Validation Successfully`,
+        });
+        navigate("/");
+      }
+      if (response?.data?.success === false) {
+        Swal.fire({
+          icon: "error",
+          text: `OTP validation Failed, Please try again`,
+        });
+      }
     } catch (error) {
       setLoading(false);
       console.error("Error fetching data:", error);
@@ -48,6 +50,10 @@ const PasswordOtp = () => {
 
   const handleResendOtp = async () => {
     const response = await axiosInstance.get("/send-otp");
+    console.log(response);
+    if (response?.data?.success === 200) {
+      toast("email validation code send");
+    }
     console.log(response);
   };
 
