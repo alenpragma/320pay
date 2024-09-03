@@ -15,7 +15,6 @@ import ProtectRoute from "../comonents/ProtectRouter/ProtectRoute";
 import Payment from "../pages/Payment/Payment";
 import WithdrawHistory from "../pages/WithdrawHistory/WithdrawHistory";
 import Withdraw from "../pages/Withdraw/Withdraw";
-import ManageServer from "../pages/ManageServer/ManageSerever";
 import Otp from "../pages/OtpPage/Otp";
 import Preview from "../pages/Preview/Preview";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
@@ -23,6 +22,7 @@ import PasswordOtp from "../pages/ResetPassword/PasswordOtp";
 import SetNewPassword from "../pages/ResetPassword/SetNewPassword";
 import LoginLayout from "../layouts/LoginLayout";
 import ChangePassword from "../pages/ChangePassword/ChangePassword";
+import RegisterOtp from "../pages/Register/RegisterOtp";
 
 const routes = createBrowserRouter([
   {
@@ -102,6 +102,10 @@ const routes = createBrowserRouter([
   {
     path: "register",
     element: <Register />,
+  },
+  {
+    path: "register/register-otp",
+    element: <RegisterOtp />,
   },
   {
     path: "/login/password-reset",
