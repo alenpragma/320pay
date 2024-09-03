@@ -1,29 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { images, mainNavItem, submenuItem, subNavItem } from "../..";
-import { MenuInterface } from "../../types/menuType";
-import { GoChevronDown } from "react-icons/go";
-import { RxExit } from "react-icons/rx";
-import { removePaymentaToken } from "../../hooks/handelAuthToken";
-import Swal from "sweetalert2";
+import { useEffect, useState } from "react"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
+import { images, mainNavItem, submenuItem, subNavItem } from "../.."
+import { MenuInterface } from "../../types/menuType"
+import { GoChevronDown } from "react-icons/go"
+import { RxExit } from "react-icons/rx"
+import { removePaymentaToken } from "../../hooks/handelAuthToken"
+import Swal from "sweetalert2"
 
 interface SidebarProps {
-  sidebarOpen: boolean;
-  setSidebarOpen: (arg: boolean) => void;
+  sidebarOpen: boolean
+  setSidebarOpen: (arg: boolean) => void
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const [submenu, setSubmenu] = useState(false);
-  const location = useLocation();
-  const { pathname } = location;
+  const [submenu, setSubmenu] = useState(false)
+  const location = useLocation()
+  const { pathname } = location
 
-  const [mouseHover, setMouseHover] = useState<number | null>(null);
+  const [mouseHover, setMouseHover] = useState<number | null>(null)
   const handleSubmenu = () => {
-    setSubmenu(!submenu);
-  };
+    setSubmenu(!submenu)
+  }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const handleLogOut = () => {
     Swal.fire({
       text: "Are you sure you want to logout?",
@@ -36,13 +36,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        removePaymentaToken();
-        navigate("/login");
+        removePaymentaToken()
+        navigate("/login")
       }
-    });
-  };
-  
-  
+    })
+  }
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -95,7 +93,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-2 lg:py-2.5 pt-8">
-        <NavLink to="/" className=" w-full">
+        <NavLink to="/dashboard" className=" w-full">
           <img className="w-full h-14" src={images.logo} alt="" />
         </NavLink>
         <button
@@ -257,7 +255,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- Sidebar Menu --> */}
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
