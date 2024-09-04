@@ -26,21 +26,23 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const navigate = useNavigate()
   const handleLogOut = () => {
     Swal.fire({
-      text: "Are you sure you want to logout?",
+      text: "Are you sure to logout?",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Logout",
+      cancelButtonText: "Cancel", 
       customClass: {
-        popup: "custom-swal-modal",
+        popup: "custom-swal-modal", 
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        removePaymentaToken()
-        navigate("/login")
+        removePaymentaToken();
+        navigate("/login");
       }
-    })
-  }
+    });
+  };
+  
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);

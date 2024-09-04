@@ -1,8 +1,8 @@
 import { Key, useEffect, useState } from "react";
 import { tableData } from "../..";
-import TData from "../../comonents/Table/TData";
-import Modal from "../../comonents/Modal/Modal";
-import Pagination from "../../comonents/Pagination/Pagination";
+import TData from "../../Components/Table/TData";
+import Modal from "../../Components/Modal/Modal";
+import Pagination from "../../Components/Pagination/Pagination";
 import axiosInstance from "../../utils/axiosConfig";
 import { formatToLocalDate } from "../../hooks/formatDate";
 import { Link } from "react-router-dom";

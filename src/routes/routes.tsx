@@ -11,7 +11,7 @@ import Register from "../pages/Register/Register";
 import Wallet from "../pages/Wallet/WalletPage";
 import TransitionHistory from "../pages/TransitionHistory/TransitionHistory";
 import NotFound from "../pages/NotFound/NotFound";
-import ProtectRoute from "../comonents/ProtectRouter/ProtectRoute";
+import ProtectRoute from "../Components/ProtectRouter/ProtectRoute";
 import Payment from "../pages/Payment/Payment";
 import WithdrawHistory from "../pages/WithdrawHistory/WithdrawHistory";
 import Withdraw from "../pages/Withdraw/Withdraw";
@@ -120,7 +120,7 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/login/password-reset",
+    path: "password-reset",
     element: <LoginLayout />,
     children: [
       {

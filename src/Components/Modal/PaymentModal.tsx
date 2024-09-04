@@ -1,88 +1,88 @@
-import { RxCross1 } from "react-icons/rx";
-import Form from "../Forms/Form";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import SelectField from "../Forms/SelecetField";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useEffect, useState } from "react";
-import Loading from "../Lottie/Loading";
-import axiosInstance from "../../utils/axiosConfig";
-import InputField from "../Forms/InputField";
-import { toast } from "react-toastify";
+import { RxCross1 } from "react-icons/rx"
+import Form from "../Forms/Form"
+import { FieldValues, SubmitHandler } from "react-hook-form"
+import SelectField from "../Forms/SelecetField"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { useEffect, useState } from "react"
+import Loading from "../Lottie/Loading"
+import axiosInstance from "../../utils/axiosConfig"
 
 type IModal = {
-  handleRenewModal: () => void;
-  renewModal: boolean;
-};
+  handleRenewModal: () => void
+  renewModal: boolean
+}
 
-// export const validationSchema = z.object({
-//   currency: z.string().min(1, "This field is required"),
-//   network: z.string().optional(),
-// });
+export const validationSchema = z.object({
+  currency: z.number().min(1, "This field is required"),
+  network: z.number().optional(),
+})
 
-export const validationSchemaDomain = z.object({
-  item: z.string().optional(),
-});
+// export const validationSchemaDomain = z.object({
+//   item: z.string().optional(),
+// })
 
 const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [selectedCurrency, setSelectedCurrency] = useState<any>();
-  const [availableTokens, setAvailableTokens] = useState([]);
-  const [rpcData, setRpcData] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [selectedCurrency, setSelectedCurrency] = useState<any>()
+  const [availableTokens, setAvailableTokens] = useState([])
+  const [rpcData, setRpcData] = useState([])
 
   console.log(availableTokens);
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/rpc-urls");
+    const response = await axiosInstance.get("/client/rpc-urls")
     if (response?.data?.chains) {
-      setAvailableTokens(response?.data?.chains);
+      setAvailableTokens(response?.data?.chains)
     }
-  };
+  }
 
   useEffect(() => {
-    getDatas();
-  }, []);
+    getDatas()
+  }, [])
 
   const getRPCDatas = async (id: any) => {
     if (id) {
       const response = await axiosInstance.get(
         `/client/rpc-wise-tokens?chain_id=${id}`
-      );
-      console.log(response?.data);
+      )
+      console.log(response?.data)
 
       if (response?.data?.tokens) {
-        setRpcData(response?.data?.tokens);
+        setRpcData(response?.data?.tokens)
       }
     }
-  };
+  }
 
   useEffect(() => {
     if (selectedCurrency) {
-      getRPCDatas(selectedCurrency?.id);
+      getRPCDatas(selectedCurrency?.id)
     }
-  }, [selectedCurrency]);
+  }, [selectedCurrency])
 
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.rpc_chain,
     value: item.id,
     image: item.image,
-  }));
+  }))
 
   const tokens = rpcData?.map((item: any) => ({
     label: item?.token_symbol,
     value: item.id,
     image: item.image,
-  }));
+  }))
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
-      return token.id === value;
-    });
-    setSelectedCurrency(selectedToken);
-  };
+      return token.id === value
+    })
+    setSelectedCurrency(selectedToken)
+  }
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    console.log(data)
+    handleRenewModal()
+    return
     // setLoading(true);
     // const data = {
     //   token_id: selectedCurrency.id,
@@ -94,7 +94,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
     //   toast.success("Successfuly added currency");
     //   handleRenewModal();
     // }
-  };
+  }
 
   return (
     <div className="w-full ">
@@ -122,11 +122,11 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
           <div className="px-5 md:pb-20 pb-8 pt-8">
             <Form
               onSubmit={formSubmit}
-              // resolver={zodResolver(validationSchema)}
-              // defaultValues={{
-              //   currency: "",
-              //   network: "",
-              // }}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={{
+                currency: undefined,
+                network: undefined,
+              }}
             >
               <div className="md:w-10/12 w-full mx-auto">
                 <div className="relative mb-8">
@@ -190,7 +190,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PaymenModal;
+export default PaymenModal

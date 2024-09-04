@@ -143,6 +143,15 @@ input[type="number"] {
   padding: 20px; /* Optional padding */
 }
 
+
+.custom-swal-modal .swal2-actions {
+  flex-direction: row-reverse; /* Reverse the order of the buttons */
+}
+.custom-swal-modal .swal2-cancel {
+  padding : 10px 30px;
+}
+
+
 @media (max-width: 768px) {
   .custom-swal-modal {
     width: 70%; /* Adjust for smaller screens */
@@ -151,6 +160,6 @@ input[type="number"] {
 
 @media (min-width: 768px) {
   .custom-swal-modal {
-    width: 320px; /* Adjust for larger screens */
+    width: 400px; /* Adjust for larger screens */
   }
 }

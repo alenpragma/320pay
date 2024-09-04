@@ -10,13 +10,14 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
   const navigate = useNavigate();
   const handleLogOut = () => {
     Swal.fire({
-      text: "Are you sure you want to logout?",
+      text: "Are you sure to logout?",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Logout",
+      cancelButtonText: "Cancel", 
       customClass: {
-        popup: "custom-swal-modal",
+        popup: "custom-swal-modal", 
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -25,6 +26,7 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
       }
     });
   };
+  
 
   return (
     <div
@@ -48,7 +50,7 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
             User Id : {clientProfile?.client_secret_id}
           </p>
           <div className="text-[14px] py-2 hover:border-b border-b-slate-600 duration-300 hover:text-primary ">
-            <Link to="change-password">
+            <Link to="/dashboard/change-password">
               <p>Edit profile</p>
             </Link>
           </div>

@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import Container from "../../comonents/Shared/Container";
+import Container from "../../Components/Shared/Container";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axiosConfig";
 import { PuffLoader } from "react-spinners";

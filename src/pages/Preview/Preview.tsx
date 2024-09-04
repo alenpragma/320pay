@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Loading from "../../comonents/Lottie/Loading";
+import Loading from "../../Components/Lottie/Loading";
 
 const Preview = () => {
   return (

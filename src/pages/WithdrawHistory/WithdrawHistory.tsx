@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { images, tableData, walletHistory } from "../..";
-import TData from "../../comonents/Table/TData";
+import TData from "../../Components/Table/TData";
 import { FaCopy } from "react-icons/fa";
-import PaymenModal from "../../comonents/Modal/PaymentModal";
+import PaymenModal from "../../Components/Modal/PaymentModal";
 import { copyToClipboard } from "../../utils/Actions";
 import HoverTableItem from "../../lib/HoverTableItem";
 import { MdContentCopy } from "react-icons/md";

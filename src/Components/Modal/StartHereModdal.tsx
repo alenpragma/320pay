@@ -1,29 +1,29 @@
-import { RxCross1 } from "react-icons/rx";
+import { RxCross1 } from "react-icons/rx"
 import {
   FieldValues,
   SubmitHandler,
   useFieldArray,
   useForm,
-} from "react-hook-form";
-import { toast } from "react-toastify";
-import axiosInstance from "../../utils/axiosConfig";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import InputField from "../Forms/InputField";
-import Form from "../Forms/Form";
+} from "react-hook-form"
+import { toast } from "react-toastify"
+import axiosInstance from "../../utils/axiosConfig"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import InputField from "../Forms/InputField"
+import Form from "../Forms/Form"
 
 export const validationSchema = z.object({
   domain: z.string().min(1, "This field is required"),
-});
+})
 
 type IModal = {
-  handleModal: () => void;
-  modal: boolean;
-  plan: any;
-};
+  handleModal: () => void
+  modal: boolean
+  plan: any
+}
 
 interface FormValues {
-  items: { name: string }[];
+  items: { name: string }[]
 }
 
 const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
@@ -31,12 +31,12 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
     defaultValues: {
       items: [{ name: "" }],
     },
-  });
+  })
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
-  });
+  })
 
   // const formSubmit = async (data: FormValues) => {
   //   console.log(data)
@@ -76,27 +76,34 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
   // }
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const { domain } = data;
-    console.log(data);
+    const { domain } = data
+
+    const planData = {
+      package_id: plan.id,
+      domain_name: domain,
+    }
+
     try {
       const response = await axiosInstance.post(
         "/client/purchase-package",
-        domain
-      );
-      console.log(response);
-      if (response?.data?.error == 400) {
-        toast.error(response?.data?.messsage);
-        return;
+        planData
+      )
+      console.log(response)
+      if (response?.data?.error != 200) {
+        toast.error(response?.data?.messsage)
+        return
       }
       if (response?.data?.success == 200) {
-        toast.success(response?.data?.message);
-        return;
+        toast.success(response?.data?.message)
+        return
       }
     } catch (error) {
-      console.error("Request failed:", error);
-      toast.error("Something went wrong. Please try again.");
+      console.log(error)
+
+      // console.error("Request failed:", error)
+      toast.error("Something went wrong. Please try again.")
     }
-  };
+  }
 
   return (
     <div className="w-full ">
@@ -162,7 +169,7 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StartHereModal;
+export default StartHereModal
