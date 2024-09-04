@@ -1,87 +1,88 @@
-import { Key, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import StartHereModal from "../../comonents/Modal/StartHereModdal";
-import { images } from "../..";
-import axiosInstance from "../../utils/axiosConfig";
-import Skeleton from "react-loading-skeleton";
+import { Key, useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import StartHereModal from "../../comonents/Modal/StartHereModdal"
+import { images } from "../.."
+import axiosInstance from "../../utils/axiosConfig"
+import Skeleton from "react-loading-skeleton"
 
 type IPackage = {
-  id: number;
-  package_name: string;
-  short_description: string;
-  savings: string | null;
-  no_of_domains: string;
-  package_price: string;
-  duration: string;
-  description: string;
-  status: string;
-  is_deleted: string;
-  created_at: string;
-  updated_at: string;
-};
+  id: number
+  package_name: string
+  short_description: string
+  savings: string | null
+  no_of_domains: string
+  package_price: string
+  duration: string
+  description: string
+  status: string
+  is_deleted: string
+  created_at: string
+  updated_at: string
+}
 
 const StartHere = () => {
-  const [modal, setModal] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [balLoading, setBalLoading] = useState<boolean>(false);
-  const [plan, setPlan] = useState<any>("");
-  const [packages, setPackages] = useState<any>([]);
+  const [modal, setModal] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [balLoading, setBalLoading] = useState<boolean>(false)
+  const [plan, setPlan] = useState<any>("")
+  const [packages, setPackages] = useState<any>([])
 
-  const [usdtBalance, setUsdtBalance] = useState<any>([]);
+  const [usdtBalance, setUsdtBalance] = useState<any>([])
   const getBalance = async () => {
-    setBalLoading(true);
+    setBalLoading(true)
     try {
-      const response = await axiosInstance.get("/client-tokens");
+      const response = await axiosInstance.get("/client-tokens")
       if (response?.data?.success === 200) {
         const usdt = response?.data?.data.find(
           (us: any) => us.token_name == "USDT"
-        );
-        setUsdtBalance(usdt.balance);
-        setBalLoading(false);
+        )
+        setUsdtBalance(usdt.balance)
+        setBalLoading(false)
       }
     } catch (error) {
-      console.error("Failed to fetch wallet data:", error);
+      console.error("Failed to fetch wallet data:", error)
     } finally {
+      setBalLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
     getBalance()
-  }, []);
+  }, [])
 
   const getDatas = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const response = await axiosInstance.get("/client/packages");
+      const response = await axiosInstance.get("/client/packages")
       if (response?.data?.packages) {
-        setLoading(false);
-        setPackages(response?.data?.packages);
+        setLoading(false)
+        setPackages(response?.data?.packages)
       }
     } catch (error) {
-      setLoading(false);
-      console.log(error);
+      setLoading(false)
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    getDatas();
-  }, []);
+    getDatas()
+  }, [])
 
   const handleModal = (data?: any) => {
-    setPlan(data);
-    setModal(!modal);
-  };
+    setPlan(data)
+    setModal(!modal)
+  }
 
-  const [clientWallets, setClientWallets] = useState<any>();
+  const [clientWallets, setClientWallets] = useState<any>()
   const getWalletData = async () => {
-    const response = await axiosInstance.get("/client-wallets");
+    const response = await axiosInstance.get("/client-wallets")
     if (response?.data?.success == 200) {
-      setClientWallets(response?.data?.data);
+      setClientWallets(response?.data?.data)
     }
-  };
+  }
   useEffect(() => {
-    getWalletData();
-  }, []);
+    getWalletData()
+  }, [])
   // console.log(clientWallets)
 
   // const [usdtBalance, setUsdtBalance] = useState<any>();
@@ -118,7 +119,7 @@ const StartHere = () => {
           <h5>
             <span className="text-secondary text-[14px]"> Balance:</span>{" "}
             <span className="text-black font-bold">
-          {balLoading ? "" : <>${usdtBalance}</>}
+              {balLoading ? "" : <>${usdtBalance}</>}
             </span>
           </h5>
           <Link to="/deposit">
@@ -173,7 +174,7 @@ const StartHere = () => {
                           <img className="size-5" src={images?.tick} alt="" />
                           <span>{desc}</span>
                         </li>
-                      );
+                      )
                     })}
                   </ul>
                   <button
@@ -189,7 +190,7 @@ const StartHere = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default StartHere;
+export default StartHere

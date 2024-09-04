@@ -1,67 +1,67 @@
-import { FaLock, FaUser } from "react-icons/fa";
-import { images } from "../..";
-import { SubmitHandler } from "react-hook-form";
-import Form from "../../comonents/Forms/Form";
-import InputField from "../../comonents/Forms/InputField";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
-import { FaRegEyeSlash } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa";
-import { useState } from "react";
-import axiosInstance from "../../utils/axiosConfig";
-import { toast } from "react-toastify";
-import { setPaymentaToken } from "../../hooks/handelAuthToken";
-import { PuffLoader } from "react-spinners";
-import Container from "../../comonents/Shared/Container";
-import Swal from "sweetalert2";
+import { FaLock, FaUser } from "react-icons/fa"
+import { images } from "../.."
+import { SubmitHandler } from "react-hook-form"
+import Form from "../../comonents/Forms/Form"
+import InputField from "../../comonents/Forms/InputField"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Link, useNavigate } from "react-router-dom"
+import { FaRegEyeSlash } from "react-icons/fa"
+import { FaRegEye } from "react-icons/fa"
+import { useState } from "react"
+import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
+import { setPaymentaToken } from "../../hooks/handelAuthToken"
+import { PuffLoader } from "react-spinners"
+import Container from "../../comonents/Shared/Container"
+// import Swal from "sweetalert2"
 
 export const validationSchema = z.object({
   email: z.string().min(1, "This field is required."),
   password: z.string().min(1, "This field is required."),
-});
+})
 
 const Login = () => {
   // const location = useLocation()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // const from = location.state?.from?.pathname || "/"
-  const [showPassword, setShowPassword] = useState<boolean | null>(true);
-  const [error, setError] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean | null>(true)
+  const [error, setError] = useState<string>("")
   const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  const [loading, setLoading] = useState<boolean>(false);
+    setShowPassword(!showPassword)
+  }
+  const [loading, setLoading] = useState<boolean>(false)
   const formSubmit: SubmitHandler<any> = async (data) => {
     // toast.error("kjkjhkh")
     try {
-      setLoading(true);
-      const response = await axiosInstance.post("/login", data);
-      console.log(response);
+      setLoading(true)
+      const response = await axiosInstance.post("/login", data)
+      console.log(response)
       // console.log(response)
 
       // toast.success(response?.datasage)
       // console.log(response?.data?.token)
 
       if (response?.data?.success == 200) {
-        setPaymentaToken(response?.data?.token);
+        setPaymentaToken(response?.data?.token)
         toast.success("login successfull")
-        navigate("/");
-        return;
+        navigate("/")
+        return
       }
       if (response?.data?.success != 200) {
         // setPaymentaToken(response?.data?.token);
         // toast.error(response?.data?.message);
 
-        setLoading(false);
-        setError("Your password is incorrect or this account doesn’t exist");
+        setLoading(false)
+        setError("Your password is incorrect or this account doesn’t exist")
         // navigate("/");
-        return;
+        return
       }
     } catch (error) {
-      setLoading(false);
+      setLoading(false)
       // console.error("Error fetching data:", error);
     }
-  };
+  }
 
   return (
     <Container>
@@ -163,7 +163,7 @@ const Login = () => {
         </div>
       </div>
     </Container>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
