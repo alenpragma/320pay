@@ -7,6 +7,7 @@ import { GoChevronDown } from "react-icons/go"
 import { RxExit } from "react-icons/rx"
 import { removePaymentaToken } from "../../hooks/handelAuthToken"
 import Swal from "sweetalert2"
+import { handleLogOut } from "../../Actions/LogoutActions"
 
 interface SidebarProps {
   sidebarOpen: boolean
@@ -24,23 +25,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   }
 
   const navigate = useNavigate()
-  const handleLogOut = () => {
-    Swal.fire({
-      text: "Are you sure to logout?",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Logout",
-      cancelButtonText: "Cancel", 
-      customClass: {
-        popup: "custom-swal-modal", 
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        removePaymentaToken();
-        navigate("/login");
-      }
-    });
+  const logOutHandler = () => {
+    handleLogOut(navigate, removePaymentaToken);
   };
   
 
@@ -244,7 +230,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               ))}
               <div
                 className="p-2 rounded-md font-semibold hover:bg-[#EFEBFE] hover:text-primary text-[#868B8F] text-[16px] duration-300 cursor-pointer flex items-center gap-3 justify-between"
-                onClick={handleLogOut}
+                onClick={logOutHandler}
               >
                 <div className="flex items-center gap-3">
                   <RxExit className="size-6 rotate-180" />

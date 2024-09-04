@@ -1,102 +1,116 @@
-import { RxCross1 } from "react-icons/rx"
-import Form from "../Forms/Form"
-import { FieldValues, SubmitHandler } from "react-hook-form"
-import SelectField from "../Forms/SelecetField"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { useEffect, useState } from "react"
-import Loading from "../Lottie/Loading"
-import axiosInstance from "../../utils/axiosConfig"
-import { toast } from "react-toastify"
+import { RxCross1 } from "react-icons/rx";
+import Form from "../Forms/Form";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import SelectField from "../Forms/SelecetField";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useEffect, useState } from "react";
+import Loading from "../Lottie/Loading";
+import axiosInstance from "../../utils/axiosConfig";
+import { toast } from "react-toastify";
+import LoaingAnimation from "../Loading/LoaingAnimation";
+import LoadingButton from "../Loading/LoadingButton";
 
 export const validationSchema = z.object({
   network: z.string().min(1, "select any network"),
   currency: z.string().min(1, "select any network"),
-})
+});
 
-const PaymentModal2 = ({ handleModal }: any) => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [selectedCurrency, setSelectedCurrency] = useState<any>()
-  const [availableTokens, setAvailableTokens] = useState([])
-  const [rpcData, setRpcData] = useState([])
+const PaymentModal2 = ({ handleModal, modal }: any) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedCurrency, setSelectedCurrency] = useState<any>();
+  const [availableTokens, setAvailableTokens] = useState([]);
+  const [rpcData, setRpcData] = useState([]);
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/rpc-urls")
+    const response = await axiosInstance.get("/client/rpc-urls");
     if (response?.data?.chains) {
-      setAvailableTokens(response?.data?.chains)
+      setAvailableTokens(response?.data?.chains);
     }
-  }
+  };
 
   useEffect(() => {
-    getDatas()
-  }, [])
+    getDatas();
+  }, []);
 
   const getRPCDatas = async (id: any) => {
     if (id) {
       const response = await axiosInstance.get(
         `/client/rpc-wise-tokens?chain_id=${id}`
-      )
+      );
 
       if (response?.data?.tokens) {
-        setRpcData(response?.data?.tokens)
+        setRpcData(response?.data?.tokens);
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (selectedCurrency) {
-      getRPCDatas(selectedCurrency?.id)
+      getRPCDatas(selectedCurrency?.id);
     }
-  }, [selectedCurrency])
+  }, [selectedCurrency]);
 
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.rpc_chain,
     value: item?.id?.toString(),
     image: item.image,
-  }))
+  }));
 
   const tokens = rpcData?.map((item: any) => ({
     label: item?.token_symbol,
     value: item?.id?.toString(),
     image: item.image,
-  }))
+  }));
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
-      return token.id == value
-    })
-    setSelectedCurrency(selectedToken)
-  }
+      return token.id == value;
+    });
+    setSelectedCurrency(selectedToken);
+  };
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     const tokenData = {
       token_id: data.network,
-    }
-    setLoading(true)
+    };
+    setLoading(true);
     try {
       const response = await axiosInstance.post(
         "/client-token/store",
         tokenData
-      )
-      console.log(response.data)
+      );
+      console.log(response.data);
 
       if (response.data.success == 200) {
-        setLoading(false)
-        toast.success("Successfuly added currency")
+        setLoading(false);
+        toast.success("Successfuly added currency");
       }
       if (response.data.success != 200) {
-        setLoading(false)
-        toast.error(response?.data?.message)
+        setLoading(false);
+        toast.error(response?.data?.message);
       }
-      handleModal(false)
+      handleModal(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
-    <div className="fixed left-0 top-0 z-9 flex h-full min-h-screen w-full items-center justify-center  py-5">
-      <div className="bg-white w-[70%]">
+    <div className="w-full">
+      <div
+        className={` ${
+          modal
+            ? " opacity-100 fixed bg-[#07070745] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
+            : "opacity-0 -z-50"
+        }`}
+        onClick={() => handleModal(false)}
+      ></div>
+      <div
+        className={`fixed bg-[#ffffff] md:w-5/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-0 rounded  ${
+          modal ? " opacity-100 z-[101]" : "opacity-0 -z-[102]"
+        }`}
+      >
         <div className="w-full h-full rounded">
           <div className="w-full py-3 px-5 bg-primary text-white font-semibold text-[20px] flex justify-between items-center rounded-t">
             <h4> Add New Currency</h4>
@@ -105,7 +119,7 @@ const PaymentModal2 = ({ handleModal }: any) => {
               className="cursor-pointer hover:scale-105"
             />
           </div>
-          <div className="px-5 md:pb-20 pb-8 pt-8">
+          <div className="px-5 pb-10 pt-8">
             <Form
               onSubmit={formSubmit}
               resolver={zodResolver(validationSchema)}
@@ -159,15 +173,11 @@ const PaymentModal2 = ({ handleModal }: any) => {
                   {/* <SelectIcon /> */}
                 </div>
 
-                <div className="flex justify-center items-center">
+                <div className="w-full mt-6 border border-slate-300 rounded-lg">
                   {loading ? (
-                    <button className="px-5 rounded-md bg-[#d6cdf893] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
-                      <Loading />
-                    </button>
+                    <LoaingAnimation size={30} color="#36d7b7" />
                   ) : (
-                    <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
-                      Submit
-                    </button>
+                    <LoadingButton className="w-full">Submit</LoadingButton>
                   )}
                 </div>
               </div>
@@ -176,7 +186,7 @@ const PaymentModal2 = ({ handleModal }: any) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PaymentModal2
+export default PaymentModal2;

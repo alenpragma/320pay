@@ -1,11 +1,9 @@
-// import { useNavigate } from "react-router-dom";
-import { removePaymentaToken } from "../hooks/handelAuthToken";
+// src/utils/authUtils.ts
 import Swal from "sweetalert2";
 
-export const handleLogOut = () => {
-//   const navigate = useNavigate();
+export const handleLogOut = (navigate: (a: string) => void, removePaymentToken: () => void) => {
   Swal.fire({
-    text: "Are you sure to logout?",
+    text: "Are you sure you want to logout?",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
@@ -16,8 +14,8 @@ export const handleLogOut = () => {
     },
   }).then((result) => {
     if (result.isConfirmed) {
-      removePaymentaToken();
-    //   navigate("/login");
+      removePaymentToken();
+      navigate("/login");
     }
   });
 };
