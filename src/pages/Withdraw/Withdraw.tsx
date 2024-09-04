@@ -119,7 +119,7 @@ const Withdraw = () => {
                 placeholder="Enter Your Amount"
               />
             </div>
-            <SlideButton />
+            <SlideButton onSubmit={formSubmit} />
           </div>
         </Form>
       </div>
