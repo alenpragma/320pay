@@ -11,6 +11,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import InputField from "../Forms/InputField"
 import Form from "../Forms/Form"
+import LoaingAnimation from "../Loading/LoaingAnimation"
+import LoadingButton from "../Loading/LoadingButton"
+import { useState } from "react"
 
 export const validationSchema = z.object({
   domain: z.string().min(1, "This field is required"),
@@ -27,6 +30,7 @@ interface FormValues {
 }
 
 const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
+  const [loading, setLoading] = useState<boolean>(false)
   const { control, register, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
       items: [{ name: "" }],
@@ -77,7 +81,7 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     const { domain } = data
-
+    setLoading(true)
     const planData = {
       package_id: plan.id,
       domain_name: domain,
@@ -88,7 +92,6 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
         "/client/purchase-package",
         planData
       )
-      console.log(response)
       if (response?.data?.error != 200) {
         toast.error(response?.data?.messsage)
         return
@@ -102,6 +105,8 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
 
       // console.error("Request failed:", error)
       toast.error("Something went wrong. Please try again.")
+    }finally{
+      setLoading(false)
     }
   }
 
@@ -148,21 +153,14 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
                     placeholder="Enter Your Domain Name"
                   />
                 </div>
-                <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
-                  Submit
-                </button>
-
-                {/* <div className="flex justify-center items-center">
-                {loading ? (
-                  <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
-                    <Loading />
-                  </button>
-                ) : (
-                  <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
-                    Submit
-                  </button>
-                )}
-              </div> */}
+          
+                <div className="w-full mt-6 border border-slate-300 rounded-lg">
+                  {loading ? (
+                    <LoaingAnimation size={30} color="#36d7b7" />
+                  ) : (
+                    <LoadingButton className="w-full">Submit</LoadingButton>
+                  )}
+                </div>
               </div>
             </Form>
           </div>

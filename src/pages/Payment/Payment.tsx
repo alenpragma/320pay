@@ -125,7 +125,7 @@ const Payment = () => {
           )}
         </div>
       </div>
-      {modal && <PaymentModal2 handleModal={handleModal} />}
+      {modal && <PaymentModal2 handleModal={handleModal} modal={modal}/>}
     </>
   )
 }
