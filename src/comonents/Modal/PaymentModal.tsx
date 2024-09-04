@@ -15,10 +15,10 @@ type IModal = {
   renewModal: boolean;
 };
 
-export const validationSchema = z.object({
-  currency: z.string().min(1, "This field is required"),
-  network: z.string().optional(),
-});
+// export const validationSchema = z.object({
+//   currency: z.string().min(1, "This field is required"),
+//   network: z.string().optional(),
+// });
 
 export const validationSchemaDomain = z.object({
   item: z.string().optional(),
@@ -29,6 +29,8 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
   const [availableTokens, setAvailableTokens] = useState([]);
   const [rpcData, setRpcData] = useState([]);
+
+  console.log(availableTokens);
 
   const getDatas = async () => {
     const response = await axiosInstance.get("/client/rpc-urls");
@@ -120,11 +122,11 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
           <div className="px-5 md:pb-20 pb-8 pt-8">
             <Form
               onSubmit={formSubmit}
-              resolver={zodResolver(validationSchema)}
-              defaultValues={{
-                currency: "",
-                network: "",
-              }}
+              // resolver={zodResolver(validationSchema)}
+              // defaultValues={{
+              //   currency: "",
+              //   network: "",
+              // }}
             >
               <div className="md:w-10/12 w-full mx-auto">
                 <div className="relative mb-8">
@@ -139,7 +141,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                     onChange={handleCurrencyChange}
                     type="string"
 
-                    // value={'selectedCurrency'}
+                  
                   />
                 </div>
                 <div className="relative mb-8">

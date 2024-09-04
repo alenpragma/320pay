@@ -52,7 +52,7 @@ const Licenses = () => {
       {/* <Renew handleRenewModal={handleRenewModal} renewModal={renewModal} /> */}
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
-          <Link to={"/start-here"}>
+          <Link to={"/dashboard/start-here"}>
             <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
               Add New Licenses
             </button>

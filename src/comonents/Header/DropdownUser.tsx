@@ -1,12 +1,30 @@
 import { removePaymentaToken } from "../../hooks/handelAuthToken";
 import { Link, useNavigate } from "react-router-dom";
+import { RxExit } from "react-icons/rx";
+import Swal from "sweetalert2";
 
 export const UserOne =
   "https://media.licdn.com/dms/image/D4E03AQFrmDuWUxQoMg/profile-displayphoto-shrink_200_200/0/1715645354619?e=2147483647&v=beta&t=_WBVcQpyigwPLI-efv18uQQ3eV_hhzU5DcUlIHl77HA";
 
 const DropdownUser = ({ modal, clientProfile }: any) => {
   const navigate = useNavigate();
-
+  const handleLogOut = () => {
+    Swal.fire({
+      text: "Are you sure you want to logout?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout",
+      customClass: {
+        popup: "custom-swal-modal",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removePaymentaToken();
+        navigate("/login");
+      }
+    });
+  };
 
   return (
     <div
@@ -30,9 +48,14 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
             User Id : {clientProfile?.client_secret_id}
           </p>
           <div className="text-[14px] py-2 hover:border-b border-b-slate-600 duration-300 hover:text-primary ">
-          <Link to="change-password">
-            <p>Settings</p>
-          </Link>
+            <Link to="change-password">
+              <p>Edit profile</p>
+            </Link>
+          </div>
+          <div className="text-[14px] py-2  duration-300 hover:text-primary cursor-pointer">
+            <p className="flex items-center gap-2" onClick={handleLogOut}>
+              Logout <RxExit />
+            </p>
           </div>
         </div>
       </div>

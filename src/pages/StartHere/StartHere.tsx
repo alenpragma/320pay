@@ -121,7 +121,7 @@ const StartHere = () => {
           {balLoading ? "" : <>${usdtBalance}</>}
             </span>
           </h5>
-          <Link to="/deposit">
+          <Link to="/dashboard/deposit">
             <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
               Deposit Now
             </button>
