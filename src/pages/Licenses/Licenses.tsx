@@ -9,46 +9,47 @@ import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 
 const Licenses = () => {
-  const [modal, setModal] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false)
   // const [renewModal, setRenewModal] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [data, setData] = useState()
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(tableData.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+
+  const totalPages = Math.ceil(tableData?.length / itemsPerPage)
+
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+  }
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+  }
 
   const handleModal = () => {
-    setModal(!modal);
-  };
-  // const handleRenewModal = () => {
-  //   setRenewModal(!renewModal)
-  // }
+    setModal(!modal)
+  }
+  const handelDetailsModal = (data: any) => {
+    setData(data)
+  }
 
-  const [licenses, setLicenses] = useState<any>([]);
+  const [licenses, setLicenses] = useState<any>([])
 
   const getLicenses = async () => {
-    setLoading(true);
-    const response = await axiosInstance.get(
-      "/client/license-purchase-history"
-    );
+    setLoading(true)
+    const response = await axiosInstance.get("/client/license-purchase-history")
     if (response?.data?.success == 200) {
-      setLicenses(response?.data?.data);
+      setLicenses(response?.data?.data)
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
   useEffect(() => {
-    getLicenses();
-  }, []);
+    getLicenses()
+  }, [])
 
   return (
     <>
-      <Modal handleModal={handleModal} modal={modal} />
+      <Modal data={data} handleModal={handleModal} modal={modal} />
       {/* <Renew handleRenewModal={handleRenewModal} renewModal={renewModal} /> */}
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
@@ -115,7 +116,10 @@ const Licenses = () => {
                         <div className="w-full">
                           {data.status == 0 ? (
                             <button
-                              onClick={handleModal}
+                              onClick={() => {
+                                handleModal()
+                                handelDetailsModal(data)
+                              }}
                               className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
                             >
                               Details
@@ -150,7 +154,7 @@ const Licenses = () => {
         handlePrevPage={handlePrevPage}
       />
     </>
-  );
-};
+  )
+}
 
-export default Licenses;
+export default Licenses

@@ -7,15 +7,12 @@ import { z } from "zod"
 import { useEffect, useState } from "react"
 import Loading from "../Lottie/Loading"
 import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
 
 export const validationSchema = z.object({
-  currency: z.number().min(1, "This field is required"),
-  network: z.number().optional(),
+  network: z.string().min(1, "select any network"),
+  currency: z.string().min(1, "select any network"),
 })
-
-// export const validationSchemaDomain = z.object({
-//   item: z.string().optional(),
-// })
 
 const PaymentModal2 = ({ handleModal }: any) => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -39,7 +36,6 @@ const PaymentModal2 = ({ handleModal }: any) => {
       const response = await axiosInstance.get(
         `/client/rpc-wise-tokens?chain_id=${id}`
       )
-      console.log(response?.data)
 
       if (response?.data?.tokens) {
         setRpcData(response?.data?.tokens)
@@ -55,53 +51,57 @@ const PaymentModal2 = ({ handleModal }: any) => {
 
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.rpc_chain,
-    value: item.id,
+    value: item?.id?.toString(),
     image: item.image,
   }))
 
   const tokens = rpcData?.map((item: any) => ({
     label: item?.token_symbol,
-    value: item.id,
+    value: item?.id?.toString(),
     image: item.image,
   }))
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
-      return token.id === value
+      return token.id == value
     })
     setSelectedCurrency(selectedToken)
   }
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
-    return
-    // setLoading(true);
-    // const data = {
-    //   token_id: selectedCurrency.id,
-    // };
+    const tokenData = {
+      token_id: data.network,
+    }
+    setLoading(true)
+    try {
+      const response = await axiosInstance.post(
+        "/client-token/store",
+        tokenData
+      )
+      console.log(response.data)
 
-    // const response = await axiosInstance.post("/client-token/store", data);
-    // if (response.data.success == 200) {
-    //   setLoading(false);
-    //   toast.success("Successfuly added currency");
-    //   handleRenewModal();
-    // }
+      if (response.data.success == 200) {
+        setLoading(false)
+        toast.success("Successfuly added currency")
+      }
+      if (response.data.success != 200) {
+        setLoading(false)
+        toast.error(response?.data?.message)
+      }
+      handleModal(false)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
-    <div className="w-full ">
-      <div onClick={() => handleModal(false)}></div>
-      <div
-      // className={`fixed bg-[#ffffff] md:w-5/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
-      //   renewModal(false) ? " opacity-100 z-[101]" : "opacity-0 -z-[102]"
-      // }`
-      // }
-      >
+    <div className="fixed left-0 top-0 z-9 flex h-full min-h-screen w-full items-center justify-center  py-5">
+      <div className="bg-white w-[70%]">
         <div className="w-full h-full rounded">
           <div className="w-full py-3 px-5 bg-primary text-white font-semibold text-[20px] flex justify-between items-center rounded-t">
             <h4> Add New Currency</h4>
             <RxCross1
-              // onClick={handleRenewModal}
+              onClick={() => handleModal(false)}
               className="cursor-pointer hover:scale-105"
             />
           </div>
@@ -110,8 +110,8 @@ const PaymentModal2 = ({ handleModal }: any) => {
               onSubmit={formSubmit}
               resolver={zodResolver(validationSchema)}
               defaultValues={{
-                currency: undefined,
-                network: undefined,
+                currency: "",
+                network: "",
               }}
             >
               <div className="md:w-10/12 w-full mx-auto">
@@ -121,7 +121,6 @@ const PaymentModal2 = ({ handleModal }: any) => {
                   </p>
                   <SelectField
                     name="network"
-                    className=""
                     options={currencys}
                     placeholder="Please select an option"
                     onChange={handleCurrencyChange}
@@ -136,10 +135,11 @@ const PaymentModal2 = ({ handleModal }: any) => {
                   </p>
                   <SelectField
                     name="currency"
-                    className=""
                     options={tokens}
+                    onChange={handleCurrencyChange}
                     placeholder="Please select an option"
                     type="string"
+                    required
                   />
                   {/* <div className="relative">
                     <InputField
@@ -161,7 +161,7 @@ const PaymentModal2 = ({ handleModal }: any) => {
 
                 <div className="flex justify-center items-center">
                   {loading ? (
-                    <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
+                    <button className="px-5 rounded-md bg-[#d6cdf893] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
                       <Loading />
                     </button>
                   ) : (

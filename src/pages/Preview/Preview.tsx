@@ -1,7 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Loading from "../../Components/Lottie/Loading";
 
 const Preview = () => {
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const data = queryParams.get("data")
+  console.log(data)
+
   return (
     <div className="md:w-1/2 w-full mx-auto mt-20 rounded-lg px-3">
       <h4 className="text-center text-secondary font-medium text-[18px]">
@@ -37,12 +42,12 @@ const Preview = () => {
           </h6>
         </div>
       </div>
-      <Link to="/withdraw/preview/otp">
-      <button className="px-5 py-2 mt-5 w-full rounded-lg bg-primary text-white font-semibold">
-        Submit
-      </button>
+      <Link to="/dashboard/withdraw/preview/otp">
+        <button className="px-5 py-2 mt-5 w-full rounded-lg bg-primary text-white font-semibold">
+          Submit
+        </button>
       </Link>
- 
+
       {/* <div className="flex justify-center items-center">
                   {loading ? (
                     <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
@@ -55,7 +60,7 @@ const Preview = () => {
                   )}
                 </div> */}
     </div>
-  );
-};
+  )
+}
 
-export default Preview;
+export default Preview
