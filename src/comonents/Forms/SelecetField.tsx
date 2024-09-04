@@ -62,26 +62,24 @@
 
 // export default SelectField;
 
-
-
-import { Controller, useFormContext } from "react-hook-form";
-import Select, { components } from "react-select";
+import { Controller, useFormContext } from "react-hook-form"
+import Select, { components } from "react-select"
 
 type TOption = {
-  label: string;
-  value: string;
-  image?: string;
-};
+  label: string
+  value: string
+  image?: string
+}
 
 type TSelectProps = {
-  name: string;
-  className?: string;
-  options: TOption[];
-  placeholder?: string;
-  required?: boolean;
-  type?: string | undefined;
-  onChange?: (value: string) => void;
-};
+  name: string
+  className?: string
+  options: TOption[]
+  placeholder?: string
+  required?: boolean
+  type?: string | undefined
+  onChange?: (value: string) => void
+}
 
 const SelectField = ({
   name,
@@ -92,7 +90,7 @@ const SelectField = ({
   required,
   onChange,
 }: TSelectProps) => {
-  const { control } = useFormContext();
+  const { control } = useFormContext()
 
   // Custom Option component to show the image and label
   const CustomOption = (props: any) => (
@@ -108,7 +106,7 @@ const SelectField = ({
         {props.data.label}
       </div>
     </components.Option>
-  );
+  )
 
   return (
     <Controller
@@ -127,9 +125,9 @@ const SelectField = ({
               options.find((option) => option.value === field.value) || null
             }
             onChange={(option) => {
-              field.onChange(option?.value);
+              field.onChange(option?.value)
               if (onChange) {
-                onChange(option?.value || ""); // Call the parent onChange
+                onChange(option?.value || "") // Call the parent onChange
               }
             }}
             onBlur={field.onBlur}
@@ -141,7 +139,7 @@ const SelectField = ({
         </div>
       )}
     />
-  );
-};
+  )
+}
 
-export default SelectField;
+export default SelectField
