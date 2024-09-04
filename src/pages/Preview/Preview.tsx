@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import Loading from "../../Components/Lottie/Loading";
+import { Link, useLocation } from "react-router-dom"
+import Loading from "../../Components/Lottie/Loading"
 
 const Preview = () => {
   const location = useLocation()

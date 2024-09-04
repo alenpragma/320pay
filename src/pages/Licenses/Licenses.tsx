@@ -1,12 +1,12 @@
-import { Key, useEffect, useState } from "react";
-import { tableData } from "../..";
-import TData from "../../Components/Table/TData";
-import Modal from "../../Components/Modal/Modal";
-import Pagination from "../../Components/Pagination/Pagination";
-import axiosInstance from "../../utils/axiosConfig";
-import { formatToLocalDate } from "../../hooks/formatDate";
-import { Link } from "react-router-dom";
-import Skeleton from "react-loading-skeleton";
+import { Key, useEffect, useState } from "react"
+import { tableData } from "../.."
+import TData from "../../Components/Table/TData"
+import Modal from "../../Components/Modal/Modal"
+import Pagination from "../../Components/Pagination/Pagination"
+import axiosInstance from "../../utils/axiosConfig"
+import { formatToLocalDate } from "../../hooks/formatDate"
+import { Link } from "react-router-dom"
+import Skeleton from "react-loading-skeleton"
 
 const Licenses = () => {
   const [modal, setModal] = useState<boolean>(false)

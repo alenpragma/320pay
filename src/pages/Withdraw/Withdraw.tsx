@@ -6,8 +6,6 @@ import axiosInstance from "../../utils/axiosConfig"
 import Form from "../../Components/Forms/Form"
 import SelectField from "../../Components/Forms/SelecetField"
 import InputField from "../../Components/Forms/InputField"
-import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
 
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
