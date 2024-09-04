@@ -69,7 +69,7 @@ const InputField = ({
     <Controller
       control={control}
       name={name}
-      defaultValue={defaultValue} // Ensure defaultValue is passed here
+      defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
         <div className={`${type === "checkbox" ? "flex flex-col" : ""}`}>
           <input
