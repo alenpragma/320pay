@@ -1,12 +1,12 @@
-import { Key, useEffect, useState } from "react";
-import { tableData } from "../..";
-import Pagination from "../../Components/Pagination/Pagination";
-import Select, { SingleValue } from "react-select";
-import axiosInstance from "../../utils/axiosConfig";
-import TransactionRow from "./TransactionRow";
-import { ITokenData, ITransaction } from "../../types/web3";
-import Loading from "../../Components/Lottie/Loading";
-import Skeleton from "react-loading-skeleton";
+import { Key, useEffect, useState } from "react"
+import { tableData } from "../.."
+import Pagination from "../../Components/Pagination/Pagination"
+import Select, { SingleValue } from "react-select"
+import axiosInstance from "../../utils/axiosConfig"
+import TransactionRow from "./TransactionRow"
+import { ITokenData, ITransaction } from "../../types/web3"
+import Loading from "../../Components/Lottie/Loading"
+import Skeleton from "react-loading-skeleton"
 
 // const options = [
 //   { value: "bnb", label: "BNB" },
@@ -15,98 +15,98 @@ import Skeleton from "react-loading-skeleton";
 // ]
 
 type OptionType = {
-  id: number;
-  label: string;
-  value: string;
-};
+  id: number
+  label: string
+  value: string
+}
 const TransitionHistory = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  console.log(loading);
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const [selectValue, setSelectValue] = useState("");
-  const [tokenSymbol, setTokenSymbol] = useState<ITokenData[]>([]);
-  const [walletHistory, setWalletHistory] = useState<ITransaction[]>([]);
+  const [selectValue, setSelectValue] = useState("")
+  const [tokenSymbol, setTokenSymbol] = useState<ITokenData[]>([])
+  const [walletHistory, setWalletHistory] = useState<ITransaction[]>([])
   //
 
   const getDatas = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const response = await axiosInstance.get("/client-tokens");
+      const response = await axiosInstance.get("/client-tokens")
       if (response?.data?.data) {
-        setTokenSymbol(response?.data?.data);
-        setSelectValue(response?.data?.data[0]?.token_symbol);
+        setTokenSymbol(response?.data?.data)
+        setSelectValue(response?.data?.data[0]?.token_symbol)
       }
     } catch (err) {
+      console.log(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    getDatas();
-  }, []);
+    getDatas()
+  }, [])
 
-  let options;
+  let options
   if (tokenSymbol) {
     options = tokenSymbol?.map((item: ITokenData) => ({
       id: item.id,
       label: item?.token_symbol,
       value: item?.token_symbol,
-    }));
+    }))
   }
 
   const getTransactions = async (value: string) => {
     if (value) {
-      setWalletHistory([]);
-      setLoading(true);
+      setWalletHistory([])
+      setLoading(true)
       try {
         const response = await axiosInstance.get(
           `client/transactions?token_symbol=${value}`
-        );
+        )
         if (response?.data.data.status === 0) {
-          console.log("Data not found");
+          console.log("Data not found")
         }
         if (
           response?.data.success === 200 &&
           Array.isArray(response?.data.data)
         ) {
-          setWalletHistory(response?.data.data);
+          setWalletHistory(response?.data.data)
         }
-        setLoading(false);
+        setLoading(false)
       } catch (error) {
-        setLoading(false);
-        console.error("Error fetching transactions:", error);
+        setLoading(false)
+        console.error("Error fetching transactions:", error)
       }
     }
-  };
+  }
 
   useEffect(() => {
     if (selectValue && tokenSymbol) {
-      getTransactions(selectValue);
+      getTransactions(selectValue)
     }
-  }, [selectValue, tokenSymbol]);
+  }, [selectValue, tokenSymbol])
 
   const handleChange = (newValue: SingleValue<OptionType>) => {
     if (newValue) {
-      setSelectValue(newValue.label);
-      getTransactions(newValue.label);
+      setSelectValue(newValue.label)
+      getTransactions(newValue.label)
     }
-  };
-  const [wallet, setWallet] = useState<any>("");
+  }
+  const [wallet, setWallet] = useState<any>("")
 
   const getWallet = async () => {
     try {
-      const response = await axiosInstance.get("/client-wallets");
+      const response = await axiosInstance.get("/client-wallets")
       if (response?.data?.success === 200) {
-        setWallet(response?.data?.data);
+        setWallet(response?.data?.data)
       }
     } catch (error) {
-      console.error("Failed to fetch wallet data:", error);
+      console.error("Failed to fetch wallet data:", error)
     }
-  };
+  }
   useEffect(() => {
-    getWallet();
-  }, []);
+    getWallet()
+  }, [])
 
   return (
     <>
@@ -173,7 +173,7 @@ const TransitionHistory = () => {
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default TransitionHistory;
+export default TransitionHistory

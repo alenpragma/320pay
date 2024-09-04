@@ -6,6 +6,7 @@ import axiosInstance from "../../utils/axiosConfig"
 import Form from "../../Components/Forms/Form"
 import SelectField from "../../Components/Forms/SelecetField"
 import InputField from "../../Components/Forms/InputField"
+import { useNavigate } from "react-router-dom"
 
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
@@ -25,20 +26,10 @@ const Withdraw = () => {
       amount: data.amount,
       wallet_address: data.wallet,
       token_id: data.currency,
+      network: selectedCurrency.rpc_chain,
     }
-    navigate("/dashboard/withdraw/preview?data=datas")
-    return
-    const withdrowResponse = await axiosInstance.post(
-      "/client/withdraw",
-      withdrawData
-    )
-    console.log(withdrowResponse)
-    if (withdrowResponse?.data.success == 200) {
-      toast.success(withdrowResponse?.data?.msg)
-    }
-    if (withdrowResponse?.data?.error) {
-      toast.success(withdrowResponse?.data?.msg)
-    }
+
+    navigate("/dashboard/withdraw/preview", { state: { withdrawData } })
   }
   const getDatas = async () => {
     const response = await axiosInstance.get("/client-tokens")

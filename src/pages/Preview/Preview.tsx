@@ -1,11 +1,43 @@
-import { Link, useLocation } from "react-router-dom"
-import Loading from "../../Components/Lottie/Loading"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
+import LoadLoading from "../../Components/Lottie/LoadLoading"
 
 const Preview = () => {
+  const navigate = useNavigate()
   const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  const data = queryParams.get("data")
-  console.log(data)
+  const [loading, setLoading] = useState(false)
+  const { withdrawData } = location.state || {}
+  console.log(withdrawData)
+
+  const confirmWithdrow = async () => {
+    const confirmData = {
+      amount: withdrawData.amount,
+      token_id: withdrawData.token_id,
+      wallet_address: withdrawData.wallet_address,
+    }
+    setLoading(true)
+    const withdrowResponse = await axiosInstance.post(
+      "/client/withdraw",
+      confirmData
+    )
+    console.log(withdrowResponse, "client/withdraw")
+
+    if (withdrowResponse?.data.success == 200) {
+      setLoading(false)
+      toast.success(withdrowResponse?.data?.msg)
+      const { ...confirmationResponsData } = withdrowResponse.data
+
+      navigate("/dashboard/withdraw/preview/otp", {
+        state: { confirmationResponsData },
+      })
+    }
+    if (withdrowResponse?.data?.error) {
+      toast.error(withdrowResponse?.data?.messsage)
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="md:w-1/2 w-full mx-auto mt-20 rounded-lg px-3">
@@ -14,25 +46,27 @@ const Preview = () => {
       </h4>
       <div className="text-center mt-4">
         <p className="text-[14px] text-black">Received Amount</p>
-        <h4 className="text-[24px] font-semibold  leading-6">99 USDT</h4>
+        <h4 className="text-[24px] font-semibold  leading-6">
+          {withdrawData?.amount} USDT
+        </h4>
       </div>
       <div className="space-y-6 mt-10">
         <div className="flex items-center justify-between">
           <h6 className="text-secondary text-[14px]">Network</h6>
           <h6 className="bg-primary rounded-lg text-[14px] px-2 text-white py-[2px] w-fit">
-            BNB Smart Chain(BEP20)
+            {withdrawData?.network || " "}
           </h6>
         </div>
         <div className="flex items-center justify-between">
           <h6 className="text-secondary text-[14px]">Address</h6>
           <h6 className=" text-[14px] px-2 text-secondary py-[2px] w-fit">
-            0xa67c70a17d48e1f570796732139a078c8c8d1b73
+            {withdrawData?.wallet_address || 0}
           </h6>
         </div>
         <div className="flex items-center justify-between">
           <h6 className="text-secondary text-[14px]">Withdrawal Amount</h6>
           <h6 className=" text-[14px] px-2 text-secondary py-[2px] w-fit">
-            $100
+            ${withdrawData?.amount || 0}
           </h6>
         </div>
         <div className="flex items-center justify-between">
@@ -42,23 +76,16 @@ const Preview = () => {
           </h6>
         </div>
       </div>
-      <Link to="/dashboard/withdraw/preview/otp">
-        <button className="px-5 py-2 mt-5 w-full rounded-lg bg-primary text-white font-semibold">
-          Submit
+      {loading ? (
+        <LoadLoading />
+      ) : (
+        <button
+          onClick={() => confirmWithdrow()}
+          className="px-5 py-2 mt-5 w-full rounded-lg bg-primary text-white font-semibold"
+        >
+          Confirm
         </button>
-      </Link>
-
-      {/* <div className="flex justify-center items-center">
-                  {loading ? (
-                    <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
-                      <Loading />
-                    </button>
-                  ) : (
-                    <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
-                      Submit
-                    </button>
-                  )}
-                </div> */}
+      )}
     </div>
   )
 }

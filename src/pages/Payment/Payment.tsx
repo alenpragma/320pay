@@ -1,9 +1,9 @@
 import { Key, useEffect, useState } from "react"
-import PaymenModal from "../../Components/Modal/PaymentModal"
 import axiosInstance from "../../utils/axiosConfig"
 import PaymentData from "./PaymentData"
 import Skeleton from "react-loading-skeleton"
 import PaymentModal2 from "../../Components/Modal/PaymentModal2"
+import { toast } from "react-toastify"
 
 const Payment = () => {
   const [tokenLoading, setTokenLoading] = useState<boolean>(false)
