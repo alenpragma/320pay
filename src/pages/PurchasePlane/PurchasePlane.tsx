@@ -1,7 +1,7 @@
 import { Key, useEffect, useState } from "react"
-import TData from "../../comonents/Table/TData"
+import TData from "../../Components/Table/TData"
 import axiosInstance from "../../utils/axiosConfig"
-import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal"
+import PurchasePlaneModal from "../../Components/Modal/PurchasePlaneModal"
 import Skeleton from "react-loading-skeleton"
 import { formatToLocalDate } from "../../hooks/formatDate"
 

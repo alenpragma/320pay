@@ -28,6 +28,8 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [availableTokens, setAvailableTokens] = useState([])
   const [rpcData, setRpcData] = useState([])
 
+  console.log(availableTokens);
+
   const getDatas = async () => {
     const response = await axiosInstance.get("/client/rpc-urls")
     if (response?.data?.chains) {
@@ -139,7 +141,7 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                     onChange={handleCurrencyChange}
                     type="string"
 
-                    // value={'selectedCurrency'}
+                  
                   />
                 </div>
                 <div className="relative mb-8">

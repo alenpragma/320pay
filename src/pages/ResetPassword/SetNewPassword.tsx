@@ -1,8 +1,8 @@
 import { FaLock, FaUser } from "react-icons/fa";
 import { images } from "../..";
 import { SubmitHandler } from "react-hook-form";
-import Form from "../../comonents/Forms/Form";
-import InputField from "../../comonents/Forms/InputField";
+import Form from "../../Components/Forms/Form";
+import InputField from "../../Components/Forms/InputField";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";

@@ -1,13 +1,16 @@
-import { SubmitHandler } from "react-hook-form";
-import Form from "../../comonents/Forms/Form";
-import InputField from "../../comonents/Forms/InputField";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import Form from "../../Components/Forms/Form";
+import InputField from "../../Components/Forms/InputField";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CiMail } from "react-icons/ci";
-import Container from "../../comonents/Shared/Container";
+import Container from "../../Components/Shared/Container";
+import axiosInstance from "../../utils/axiosConfig";
+import { PuffLoader } from "react-spinners";
+import Swal from "sweetalert2";
 
 export const validationSchema = z.object({
   email: z.string().min(1, "This field is required."),
@@ -15,8 +18,24 @@ export const validationSchema = z.object({
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const formSubmit: SubmitHandler<any> = async (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/forgot-password", data);
+      console.log(response);
+      if (response?.status === 200) {
+        localStorage.setItem("userEmail", data.email);
+        navigate("/password-reset/password-otp");
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: `User not found`,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,10 +51,9 @@ const ResetPassword = () => {
               resolver={zodResolver(validationSchema)}
               defaultValues={{
                 email: "",
-                password: "",
               }}
             >
-              <div className=" mt-8">
+              <div className="mt-8 space-y-8">
                 <div className="space-y-2 my-5">
                   <p className="text-[#3e3e3e] font-medium text-[16px]">
                     Email
@@ -53,12 +71,16 @@ const ResetPassword = () => {
                 <p className="mb-4 left-9 text-[14px]">
                   We’ll send a verification code to this email.
                 </p>
-                <Link to="/login/password-reset/password-otp" className="mt-5">
+                {loading ? (
+                  <div className="border border-slate-300 rounded-xl">
+                    <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
+                  </div>
+                ) : (
                   <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-full">
-                    Next
+                    Send Email
                   </button>
-                </Link>
-                <Link to="/login" className="mt-5">
+                )}
+                <Link to="/" className="mt-5">
                   <button className="px-5 py-3 rounded-xl text-secondary hover:text-black hover:underline font-semibold w-full">
                     Back
                   </button>

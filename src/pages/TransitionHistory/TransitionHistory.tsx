@@ -1,11 +1,11 @@
 import { Key, useEffect, useState } from "react";
 import { tableData } from "../..";
-import Pagination from "../../comonents/Pagination/Pagination";
+import Pagination from "../../Components/Pagination/Pagination";
 import Select, { SingleValue } from "react-select";
 import axiosInstance from "../../utils/axiosConfig";
 import TransactionRow from "./TransactionRow";
 import { ITokenData, ITransaction } from "../../types/web3";
-import Loading from "../../comonents/Lottie/Loading";
+import Loading from "../../Components/Lottie/Loading";
 import Skeleton from "react-loading-skeleton";
 
 // const options = [

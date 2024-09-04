@@ -3,11 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useEffect, useState } from "react"
 import axiosInstance from "../../utils/axiosConfig"
-import Form from "../../comonents/Forms/Form"
-import SelectField from "../../comonents/Forms/SelecetField"
-import InputField from "../../comonents/Forms/InputField"
-import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import Form from "../../Components/Forms/Form"
+import SelectField from "../../Components/Forms/SelecetField"
+import InputField from "../../Components/Forms/InputField"
 
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),

@@ -1,6 +1,6 @@
 import { Key, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import StartHereModal from "../../comonents/Modal/StartHereModdal"
+import StartHereModal from "../../Components/Modal/StartHereModdal"
 import { images } from "../.."
 import axiosInstance from "../../utils/axiosConfig"
 import Skeleton from "react-loading-skeleton"
@@ -122,7 +122,7 @@ const StartHere = () => {
               {balLoading ? "" : <>${usdtBalance}</>}
             </span>
           </h5>
-          <Link to="/deposit">
+          <Link to="/dashboard/deposit">
             <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
               Deposit Now
             </button>

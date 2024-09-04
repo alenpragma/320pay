@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import DashboardCardOne from "../../comonents/dashboard/DashboardCardOne"
-import DashboardCardTwo from "../../comonents/dashboard/DashboardCardTwo"
-import DashboardTable from "../../comonents/dashboard/DashboardTable"
+import DashboardCardOne from "../../Components/dashboard/DashboardCardOne"
+import DashboardCardTwo from "../../Components/dashboard/DashboardCardTwo"
+import DashboardTable from "../../Components/dashboard/DashboardTable"
 import axiosInstance from "../../utils/axiosConfig"
-import BalanceCard from "../../comonents/dashboard/BalanceCard"
+import BalanceCard from "../../Components/dashboard/BalanceCard"
 
 const Dashboard = () => {
   const [clientWallets, setClientWallets] = useState<any>()

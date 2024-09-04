@@ -1,8 +1,8 @@
 import { Key, useEffect, useState } from "react"
 import { tableData } from "../.."
-import TData from "../../comonents/Table/TData"
-import Modal from "../../comonents/Modal/Modal"
-import Pagination from "../../comonents/Pagination/Pagination"
+import TData from "../../Components/Table/TData"
+import Modal from "../../Components/Modal/Modal"
+import Pagination from "../../Components/Pagination/Pagination"
 import axiosInstance from "../../utils/axiosConfig"
 import { formatToLocalDate } from "../../hooks/formatDate"
 import { Link } from "react-router-dom"
@@ -53,7 +53,7 @@ const Licenses = () => {
       {/* <Renew handleRenewModal={handleRenewModal} renewModal={renewModal} /> */}
       <div className="md:p-6 px-3 pt-4">
         <div className="flex justify-end">
-          <Link to={"/start-here"}>
+          <Link to={"/dashboard/start-here"}>
             <button className="px-5 py-2 rounded-lg bg-primary text-white font-semibold">
               Add New Licenses
             </button>

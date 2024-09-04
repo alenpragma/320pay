@@ -1,5 +1,5 @@
 import React from "react"
-import TData from "../../comonents/Table/TData"
+import TData from "../../Components/Table/TData"
 import { MdContentCopy } from "react-icons/md"
 import HoverTableItem from "../../lib/HoverTableItem"
 

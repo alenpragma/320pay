@@ -54,6 +54,7 @@ type TInputProps = {
   placeholder?: string
   required?: boolean
   defaultValue?: string | number
+  maxlength?: number;
 }
 
 const InputField = ({
@@ -63,6 +64,7 @@ const InputField = ({
   placeholder,
   defaultValue,
   required,
+  maxlength
 }: TInputProps) => {
   const { control } = useFormContext()
   return (
@@ -78,6 +80,7 @@ const InputField = ({
             className={className}
             placeholder={placeholder}
             required={required}
+            maxLength={maxlength}
           />
           {error && type !== "checkbox" && (
             <span className="text-[#e82828] text-[14px]">{error.message}</span>
