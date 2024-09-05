@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TData from "../../comonents/Table/TData";
+import TData from "../../Components/Table/TData";
 import { PuffLoader } from "react-spinners";
 
 const PaymentData = ({ handelUpdateStatus, loading, token, tokenId }: any) => {

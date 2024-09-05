@@ -7,8 +7,6 @@ import { z } from "zod";
 import { useEffect, useState } from "react";
 import Loading from "../Lottie/Loading";
 import axiosInstance from "../../utils/axiosConfig";
-import InputField from "../Forms/InputField";
-import { toast } from "react-toastify";
 
 type IModal = {
   handleRenewModal: () => void;
@@ -16,19 +14,21 @@ type IModal = {
 };
 
 export const validationSchema = z.object({
-  currency: z.string().min(1, "This field is required"),
-  network: z.string().optional(),
+  currency: z.number().min(1, "This field is required"),
+  network: z.number().optional(),
 });
 
-export const validationSchemaDomain = z.object({
-  item: z.string().optional(),
-});
+// export const validationSchemaDomain = z.object({
+//   item: z.string().optional(),
+// })
 
 const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
   const [availableTokens, setAvailableTokens] = useState([]);
   const [rpcData, setRpcData] = useState([]);
+
+  console.log(availableTokens);
 
   const getDatas = async () => {
     const response = await axiosInstance.get("/client/rpc-urls");
@@ -81,6 +81,8 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
+    handleRenewModal();
+    return;
     // setLoading(true);
     // const data = {
     //   token_id: selectedCurrency.id,
@@ -122,8 +124,8 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
               onSubmit={formSubmit}
               resolver={zodResolver(validationSchema)}
               defaultValues={{
-                currency: "",
-                network: "",
+                currency: undefined,
+                network: undefined,
               }}
             >
               <div className="md:w-10/12 w-full mx-auto">
@@ -138,8 +140,6 @@ const PaymenModal = ({ handleRenewModal, renewModal }: IModal) => {
                     placeholder="Please select an option"
                     onChange={handleCurrencyChange}
                     type="string"
-
-                    // value={'selectedCurrency'}
                   />
                 </div>
                 <div className="relative mb-8">

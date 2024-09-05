@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdContentCopy } from "react-icons/md";
 import HoverTableItem from "../../lib/HoverTableItem";
 import { copyToClipboard } from "../../utils/Actions";
-import TData from "../../comonents/Table/TData";
+import TData from "../../Components/Table/TData";
 
 const TransactionRow = ({ data, selectValue, wallet }: any) => {
   const [hoveredField, setHoveredField] = useState<string | null>(null);

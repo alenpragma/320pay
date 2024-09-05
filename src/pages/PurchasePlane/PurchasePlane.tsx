@@ -1,76 +1,77 @@
-import { Key, useEffect, useState } from "react";
-import TData from "../../comonents/Table/TData";
-import axiosInstance from "../../utils/axiosConfig";
-import PurchasePlaneModal from "../../comonents/Modal/PurchasePlaneModal";
-import Skeleton from "react-loading-skeleton";
+import { Key, useEffect, useState } from "react"
+import TData from "../../Components/Table/TData"
+import axiosInstance from "../../utils/axiosConfig"
+import PurchasePlaneModal from "../../Components/Modal/PurchasePlaneModal"
+import Skeleton from "react-loading-skeleton"
+import { formatToLocalDate } from "../../hooks/formatDate"
 
 type IPurchase = {
-  created_at: string;
-  id: string;
-};
+  created_at: string
+  id: string
+}
 
 type IDate = {
-  days: string;
-  hours: string;
-  id: string;
-};
+  days: string
+  hours: string
+  id: string
+}
 
 const PurchasePlane = () => {
-  const [modal, setModal] = useState(false);
-  const [singleData, setSingleData] = useState();
+  const [modal, setModal] = useState(false)
+  const [singleData, setSingleData] = useState()
 
-  const [loading, setLoading] = useState(false);
-  console.log(loading);
+  const [loading, setLoading] = useState(false)
+  console.log(loading)
 
-  const [purchasePlane, setPurchasePlane] = useState<any>([]);
-  console.log(purchasePlane);
+  const [purchasePlane, setPurchasePlane] = useState<any>([])
+  console.log(purchasePlane)
 
   // *********** get purchase plan data
   const getPurchasePlane = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await axiosInstance.get(
         "/client/package-purchase-history"
-      );
+      )
       if (response?.data?.success == 200) {
-        setPurchasePlane(response?.data?.data);
+        setPurchasePlane(response?.data?.data)
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
   useEffect(() => {
-    getPurchasePlane();
-  }, []);
+    getPurchasePlane()
+  }, [])
   //  --------- purchase plan modal show funciton
   const handleModal = (clientId: any) => {
-    setModal(!modal);
+    setModal(!modal)
     const purchasePlanSingleData = purchasePlane?.find(
       (data: any) => data.id === clientId
-    );
-    setSingleData(purchasePlanSingleData);
-  };
+    )
+    setSingleData(purchasePlanSingleData)
+  }
 
   const dateCount = () => {
     return purchasePlane.map((purchase: IPurchase) => {
-      console.log(purchase);
-      const id = purchase.id;
-      const creatDate = new Date(purchase.created_at);
-      const currentDate = new Date();
-      const diffInMilliseconds = currentDate.getTime() - creatDate.getTime();
-      const hours = diffInMilliseconds / (1000 * 60 * 60);
-      const days = Math.floor(hours / 24);
-      const hour = Math.floor(hours % 24);
+      console.log(purchase)
+      const id = purchase.id
+      const creatDate = new Date(purchase.created_at)
+      const currentDate = new Date()
+      const diffInMilliseconds = currentDate.getTime() - creatDate.getTime()
+      const hours = diffInMilliseconds / (1000 * 60 * 60)
+      const days = Math.floor(hours / 24)
+      const hour = Math.floor(hours % 24)
       return {
         id: id,
         days: days,
         hours: hour,
-      };
-    });
-  };
-  const date = dateCount();
+      }
+    })
+  }
+  const date = dateCount()
   return (
     <>
       <PurchasePlaneModal
@@ -108,9 +109,9 @@ const PurchasePlane = () => {
                         <th className="py-2 px-6 text-start  whitespace-nowrap">
                           Created
                         </th>
-                        <th className="py-2 px-6 text-start  whitespace-nowrap">
+                        {/* <th className="py-2 px-6 text-start  whitespace-nowrap">
                           Total Days
-                        </th>
+                        </th> */}
                         <th className="py-2 px-6 text-start  whitespace-nowrap">
                           Status
                         </th>
@@ -128,8 +129,12 @@ const PurchasePlane = () => {
                           <TData data={item.client_id} className="  px-6" />
                           <TData data={item.package_name} className="px-6" />
                           <TData className="px-6">${item.package_price}</TData>
-                          <TData data={item.created_at} className="  px-6" />
-                          {date.map((d: IDate) => (
+                          <TData
+                            data={formatToLocalDate(item.created_at)}
+                            className="  px-6"
+                          />
+
+                          {/* {date.map((d: IDate) => (
                             <>
                               {d.id == item.id && (
                                 <TData className="  px-6">
@@ -137,7 +142,7 @@ const PurchasePlane = () => {
                                 </TData>
                               )}
                             </>
-                          ))}
+                          ))} */}
 
                           <TData className="px-6">
                             <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
@@ -171,7 +176,7 @@ const PurchasePlane = () => {
         handlePrevPage={handlePrevPage}
       /> */}
     </>
-  );
-};
+  )
+}
 
-export default PurchasePlane;
+export default PurchasePlane

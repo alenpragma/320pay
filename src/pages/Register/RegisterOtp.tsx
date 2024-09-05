@@ -1,61 +1,58 @@
-import { useForm, Controller } from "react-hook-form";
-import Container from "../../comonents/Shared/Container";
-import { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosConfig";
-import { PuffLoader } from "react-spinners";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-
-interface OTPFormInputs {
-  otp: string[];
-}
+import { useForm, Controller } from "react-hook-form"
+import Container from "../../Components/Shared/Container"
+import { useEffect, useState } from "react"
+import axiosInstance from "../../utils/axiosConfig"
+import { PuffLoader } from "react-spinners"
+import Swal from "sweetalert2"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
+import { OTPFormInputs } from "../OtpPage/Otp"
 
 const PasswordOtp = () => {
   const { control, handleSubmit } = useForm<OTPFormInputs>({
     defaultValues: {
       otp: ["", "", "", "", "", ""],
     },
-  });
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  })
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const onSubmit = async (data: OTPFormInputs) => {
-    const otp = data.otp.join("");
+    const otp = data.otp.join("")
 
-    setLoading(true);
+    setLoading(true)
     try {
-      const response = await axiosInstance.post("/verified", { otp: otp });
+      const response = await axiosInstance.post("/verified", { otp: otp })
 
       if (response?.data?.success === true) {
         Swal.fire({
           icon: "success",
           text: `Validation Successfully`,
-        });
-        navigate("/");
+        })
+        navigate("/")
       }
       if (response?.data?.success === false) {
         Swal.fire({
           icon: "error",
           text: `OTP validation Failed, Please try again`,
-        });
+        })
       }
     } catch (error) {
-      setLoading(false);
-      console.error("Error fetching data:", error);
+      setLoading(false)
+      console.error("Error fetching data:", error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleResendOtp = async () => {
-    const response = await axiosInstance.get("/send-otp");
-    console.log(response);
+    const response = await axiosInstance.get("/send-otp")
+    console.log(response)
     if (response?.data?.success === 200) {
-      toast("email validation code send");
+      toast("email validation code send")
     }
-    console.log(response);
-  };
+    console.log(response)
+  }
 
   //   const [isDisabled, setIsDisabled] = useState(false);
   //   const [timer, setTimer] = useState<number | null>(null);
@@ -108,26 +105,26 @@ const PasswordOtp = () => {
                         maxLength={1}
                         className="w-12 h-12 text-center border rounded-md"
                         onChange={(e) => {
-                          const target = e.target as HTMLInputElement;
-                          const value = target.value;
+                          const target = e.target as HTMLInputElement
+                          const value = target.value
 
                           // Allow only digits
                           if (/^\d$/.test(value) || value === "") {
-                            field.onChange(value);
+                            field.onChange(value)
                           }
 
                           // Handle backspace
                           if (value === "" && index > 0) {
                             const previousSibling =
-                              target.previousElementSibling as HTMLInputElement | null;
-                            previousSibling?.focus();
+                              target.previousElementSibling as HTMLInputElement | null
+                            previousSibling?.focus()
                           }
 
                           // Move to the next input on valid input
                           if (/^\d$/.test(value) && index < 5) {
                             const nextSibling =
-                              target.nextElementSibling as HTMLInputElement | null;
-                            nextSibling?.focus();
+                              target.nextElementSibling as HTMLInputElement | null
+                            nextSibling?.focus()
                           }
                         }}
                       />
@@ -171,7 +168,7 @@ const PasswordOtp = () => {
         </div>
       </div>
     </Container>
-  );
-};
+  )
+}
 
-export default PasswordOtp;
+export default PasswordOtp

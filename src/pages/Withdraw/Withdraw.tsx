@@ -3,10 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useEffect, useState } from "react"
 import axiosInstance from "../../utils/axiosConfig"
-import Form from "../../comonents/Forms/Form"
-import SelectField from "../../comonents/Forms/SelecetField"
-import InputField from "../../comonents/Forms/InputField"
-import SlideButton from "../../comonents/SlideButton/SlideButton"
+import Form from "../../Components/Forms/Form"
+import SelectField from "../../Components/Forms/SelecetField"
+import InputField from "../../Components/Forms/InputField"
+import { useNavigate } from "react-router-dom"
 
 export const validationSchema = z.object({
   currency: z.string().min(1, "This field is required"),
@@ -19,8 +19,17 @@ const Withdraw = () => {
   // const [loading, setLoading] = useState<boolean>(false)
   const [selectedCurrency, setSelectedCurrency] = useState<any>()
   const [availableTokens, setAvailableTokens] = useState([])
+  const navigate = useNavigate()
+
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
+    const withdrawData = {
+      amount: data.amount,
+      wallet_address: data.wallet,
+      token_id: data.currency,
+      network: selectedCurrency.rpc_chain,
+    }
+
+    navigate("/dashboard/withdraw/preview", { state: { withdrawData } })
   }
   const getDatas = async () => {
     const response = await axiosInstance.get("/client-tokens")
@@ -31,19 +40,20 @@ const Withdraw = () => {
   useEffect(() => {
     getDatas()
   }, [])
+
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.token_symbol,
-    value: item.token_symbol,
+    value: item.tokenId,
     image: item.image,
   }))
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
-      return token.token_symbol === value
+      return token.tokenId == value
     })
-
     setSelectedCurrency(selectedToken)
   }
+
   return (
     <div className="w-full mt-5 px-3">
       <div className=" md:w-1/2 w-full mx-auto border border-slate-300 shadow-4 rounded-lg md:px-0">
@@ -76,20 +86,17 @@ const Withdraw = () => {
             <div className="relative mb-8">
               <p className="font-semibold text-secondary mb-2">Network</p>
               <div className="relative">
-                <InputField
-                  placeholder="Network"
+                <input
                   type="text"
                   name="network"
-                  defaultValue={
-                    selectedCurrency?.rpc_chain
-                      ? selectedCurrency?.rpc_chain
-                      : "Network"
-                  }
+                  placeholder={"Network"}
+                  defaultValue={(selectedCurrency?.rpc_chain as string) || ""}
                   className={`${
                     selectedCurrency?.rpc_chain
                       ? "text-black pl-10"
                       : "text-secondary px-4"
                   } w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pr-4`}
+                  readOnly
                 />
 
                 <img
@@ -119,7 +126,10 @@ const Withdraw = () => {
                 placeholder="Enter Your Amount"
               />
             </div>
-            <SlideButton />
+            <button className="px-7 py-2 flex justify-center mx-auto rounded-md bg-primary text-white font-semibold cursor-pointer">
+              Submit
+            </button>
+            {/* <SlideButton onSubmit={formSubmit} /> */}
           </div>
         </Form>
       </div>

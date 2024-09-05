@@ -7,6 +7,8 @@ import { z } from "zod";
 import SelectIcon from "../SelectIcon/SelectIcon";
 import { useState } from "react";
 import Loading from "../Lottie/Loading";
+import LoaingAnimation from "../Loading/LoaingAnimation";
+import LoadingButton from "../Loading/LoadingButton";
 
 type IModal = {
   handleRenewModal: () => void;
@@ -96,15 +98,12 @@ const Renew = ({ handleRenewModal, renewModal }: IModal) => {
                   80 <span>$</span>
                 </h4>
               </div>
-              <div className="flex justify-center items-center">
+
+              <div className="w-full mt-6 border border-slate-300 rounded-lg">
                 {loading ? (
-                  <button className="px-5 rounded-xl bg-[#5634dc93] text-white font-semibold w-[90%] flex justify-center items-center cursor-not-allowed">
-                    <Loading />
-                  </button>
+                  <LoaingAnimation size={30} color="#36d7b7" />
                 ) : (
-                  <button className="px-5 py-3 rounded-xl bg-primary text-white font-semibold w-[90%]">
-                    Submit
-                  </button>
+                  <LoadingButton className="w-full">Submit</LoadingButton>
                 )}
               </div>
             </Form>

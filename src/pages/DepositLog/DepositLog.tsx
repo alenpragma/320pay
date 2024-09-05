@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { tableData, walletHistory } from "../..";
-import TData from "../../comonents/Table/TData";
+import TData from "../../Components/Table/TData";
 import { useState } from "react";
-import Pagination from "../../comonents/Pagination/Pagination";
+import Pagination from "../../Components/Pagination/Pagination";
 import { FaCopy } from "react-icons/fa";
 import { copyToClipboard } from "../../utils/Actions";
 import { MdContentCopy } from "react-icons/md";

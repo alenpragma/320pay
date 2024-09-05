@@ -1,12 +1,17 @@
 import { removePaymentaToken } from "../../hooks/handelAuthToken";
 import { Link, useNavigate } from "react-router-dom";
+import { RxExit } from "react-icons/rx";
+import { handleLogOut } from "../../Actions/LogoutActions";
+// import { handleLogOut } from "../../Actions/LogoutActions";
 
 export const UserOne =
   "https://media.licdn.com/dms/image/D4E03AQFrmDuWUxQoMg/profile-displayphoto-shrink_200_200/0/1715645354619?e=2147483647&v=beta&t=_WBVcQpyigwPLI-efv18uQQ3eV_hhzU5DcUlIHl77HA";
 
 const DropdownUser = ({ modal, clientProfile }: any) => {
   const navigate = useNavigate();
-
+  const logOutHandler = () => {
+    handleLogOut(navigate, removePaymentaToken);
+  };
 
   return (
     <div
@@ -30,9 +35,14 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
             User Id : {clientProfile?.client_secret_id}
           </p>
           <div className="text-[14px] py-2 hover:border-b border-b-slate-600 duration-300 hover:text-primary ">
-          <Link to="change-password">
-            <p>Settings</p>
-          </Link>
+            <Link to="/dashboard/change-password">
+              <p>Edit profile</p>
+            </Link>
+          </div>
+          <div className="text-[14px] py-2  duration-300 hover:text-primary cursor-pointer">
+            <p className="flex items-center gap-2" onClick={logOutHandler}>
+              Logout <RxExit />
+            </p>
           </div>
         </div>
       </div>
