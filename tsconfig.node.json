@@ -20,5 +20,5 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*.ts", "vite.config.ts", "src/assets/icon/sidebar/home.tsx"]
+  "include": ["src/**/*.ts", "vite.config.ts", "src/assets/icon/sidebar/home.tsx", "src/Components/CursotmToast/CurtomToast.tsx"]
 }

@@ -1,34 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react"
-import { NavLink, useLocation, useNavigate } from "react-router-dom"
-import { images, mainNavItem, submenuItem, subNavItem } from "../.."
-import { MenuInterface } from "../../types/menuType"
-import { GoChevronDown } from "react-icons/go"
-import { RxExit } from "react-icons/rx"
-import { removePaymentaToken } from "../../hooks/handelAuthToken"
-import Swal from "sweetalert2"
-import { handleLogOut } from "../../Actions/LogoutActions"
+import { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { images, mainNavItem, submenuItem, subNavItem } from "../..";
+import { MenuInterface } from "../../types/menuType";
+import { GoChevronDown } from "react-icons/go";
+import { RxExit } from "react-icons/rx";
+import { removePaymentaToken } from "../../hooks/handelAuthToken";
+import Swal from "sweetalert2";
+import { handleLogOut } from "../../Actions/LogoutActions";
 
 interface SidebarProps {
-  sidebarOpen: boolean
-  setSidebarOpen: (arg: boolean) => void
+  sidebarOpen: boolean;
+  setSidebarOpen: (arg: boolean) => void;
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const [submenu, setSubmenu] = useState(false)
-  const location = useLocation()
-  const { pathname } = location
+  const [submenu, setSubmenu] = useState(false);
+  const location = useLocation();
+  const { pathname } = location;
 
-  const [mouseHover, setMouseHover] = useState<number | null>(null)
+  const active = pathname === "/dashboard";
+
+  const [mouseHover, setMouseHover] = useState<number | null>(null);
   const handleSubmenu = () => {
-    setSubmenu(!submenu)
-  }
+    setSubmenu(!submenu);
+  };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const logOutHandler = () => {
     handleLogOut(navigate, removePaymentaToken);
   };
-  
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -111,6 +112,26 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <nav className="mt-0 py-4 px-4 lg:mt-0 lg:px-6">
           <div>
             <ul className="mb-6 flex flex-col gap-1.5">
+              <NavLink
+                to="/dashboard"
+                onMouseEnter={() => setMouseHover(12)}
+                onMouseLeave={() => setMouseHover(null)}
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className={`${
+                  active
+                    ? "p-2 rounded-md font-semibold  text-primary  hover:bg-[#EFEBFE] duration-300 cursor-pointer flex items-center gap-3 bg-[#EFEBFE]"
+                    : "p-2 rounded-md font-semibold hover:bg-[#EFEBFE] hover:text-primary text-[#868B8F] text-[16px] duration-300 cursor-pointer flex items-center gap-3"
+                }`}
+              >
+                <span>
+                  {"dashboard" === pathname || mouseHover == 12 ? (
+                    <img src={images.homeHover} alt="" />
+                  ) : (
+                    <img src={images.home} alt="" />
+                  )}
+                </span>
+                <span>Dashboard</span>
+              </NavLink>
               {mainNavItem.map((item: MenuInterface) => (
                 <NavLink
                   key={item.item}
@@ -243,7 +264,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- Sidebar Menu --> */}
       </div>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
