@@ -3,7 +3,7 @@ import Form from "../Forms/Form";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import SelectField from "../Forms/SelecetField";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { boolean, z } from "zod";
 import { useEffect, useState } from "react";
 import Loading from "../Lottie/Loading";
 import axiosInstance from "../../utils/axiosConfig";
@@ -15,8 +15,11 @@ export const validationSchema = z.object({
   network: z.string().min(1, "select any network"),
   currency: z.string().min(1, "select any network"),
 });
-
-const PaymentModal2 = ({ handleModal, modal }: any) => {
+export type IProps = {
+  modal: boolean;
+  handleModal: () => void;
+};
+const PaymentModal2 = ({ handleModal, modal }: IProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
   const [availableTokens, setAvailableTokens] = useState([]);
@@ -90,7 +93,7 @@ const PaymentModal2 = ({ handleModal, modal }: any) => {
         setLoading(false);
         toast.error(response?.data?.message);
       }
-      handleModal(false);
+      handleModal();
     } catch (error) {
       console.log(error);
     }
@@ -104,18 +107,20 @@ const PaymentModal2 = ({ handleModal, modal }: any) => {
             ? " opacity-100 fixed bg-[#07070745] w-full h-screen z-[100] right-0 top-0 bottom-0 m-auto"
             : "opacity-0 -z-50"
         }`}
-        onClick={() => handleModal(false)}
+        onClick={handleModal}
       ></div>
       <div
-        className={`fixed bg-[#ffffff] md:w-5/12 w-11/12 h-fit m-auto right-0 left-0 top-0 bottom-0 rounded  ${
-          modal ? " opacity-100 z-[101]" : "opacity-0 -z-[102]"
+        className={`fixed bg-[#ffffff] w-2/5 h-fit m-auto right-0 left-0 top-0  rounded  ${
+          modal
+            ? "bottom-10 opacity-100  duration-300 z-[101]"
+            : "bottom-0 opacity-0 duration-300 pointer-events-none"
         }`}
       >
         <div className="w-full h-full rounded">
           <div className="w-full py-3 px-5 bg-primary text-white font-semibold text-[20px] flex justify-between items-center rounded-t">
             <h4> Add New Currency</h4>
             <RxCross1
-              onClick={() => handleModal(false)}
+              onClick={handleModal}
               className="cursor-pointer hover:scale-105"
             />
           </div>
@@ -155,24 +160,7 @@ const PaymentModal2 = ({ handleModal, modal }: any) => {
                     type="string"
                     required
                   />
-                  {/* <div className="relative">
-                    <InputField
-                      name="network"
-                      type="text"
-                      defaultValue={
-                        selectedCurrency && selectedCurrency?.rpc_chain
-                      }
-                      className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                    />
-                    <img
-                      className="absolute w-6 top-1 my-auto left-2 text-slate-500 text-[20px] cursor-pointer"
-                      src={selectedCurrency?.image}
-                      alt=""
-                    />
-                  </div> */}
-                  {/* <SelectIcon /> */}
                 </div>
-
                 <div className="w-full mt-6 border border-slate-300 rounded-lg">
                   {loading ? (
                     <LoaingAnimation size={30} color="#36d7b7" />

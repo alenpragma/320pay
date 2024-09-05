@@ -1,4 +1,4 @@
-import { FaLock, FaUser } from "react-icons/fa";
+import { FaLock, FaRegEye, FaRegEyeSlash, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { images } from "../..";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -28,7 +28,10 @@ const Register = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  console.log(error);
+  const [showPassword, setShowPassword] = useState<boolean | null>(true);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   const formSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     setLoading(true);
     const { password, password_confirmation } = data;
@@ -62,7 +65,7 @@ const Register = () => {
     }
   };
   return (
-    <div className="flex justify-between items-center md:w-10/12 px-3 w-full mx-auto h-screen overflow-y-auto">
+    <div className="flex justify-between items-center md:w-10/12 px-3 w-full mx-auto h-screen overflow-y-auto py-4 pt-10">
       <div className="flex-1 md:block hidden">
         <img className="w-full h-auto" src={images.loginImage} alt="" />
       </div>
@@ -133,11 +136,22 @@ const Register = () => {
               <div className="relative">
                 <InputField
                   name="password"
-                  type="password"
+                  type={showPassword ? "password" : "text"}
                   className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
                   placeholder="password"
                 />
                 <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
+                {showPassword ? (
+                  <FaRegEyeSlash
+                    onClick={handleShowPassword}
+                    className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+                  />
+                ) : (
+                  <FaRegEye
+                    onClick={handleShowPassword}
+                    className="absolute top-2 my-auto right-4 text-slate-500 text-[20px] cursor-pointer"
+                  />
+                )}
               </div>
             </div>
             <div className="space-y-1 ">
@@ -149,7 +163,7 @@ const Register = () => {
                   name="password_confirmation"
                   type="password"
                   className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 pl-10 pr-4"
-                  placeholder="password"
+                  placeholder="Confirm Password"
                 />
                 <FaLock className="absolute top-2 my-auto left-4 text-slate-500 text-[18px]" />
               </div>
@@ -169,7 +183,7 @@ const Register = () => {
                   </div>
                 ) : (
                   <button className="px-5 py-3 rounded-lg bg-primary text-white font-semibold w-full">
-                    sign Up
+                    Sign Up
                   </button>
                 )}
               </div>
@@ -177,7 +191,7 @@ const Register = () => {
               <p>
                 You Have Al ready a account{" "}
                 <Link to="/login" className="text-primary">
-                  Sign In
+                  Login
                 </Link>
               </p>
             </div>

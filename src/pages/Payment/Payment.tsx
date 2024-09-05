@@ -1,4 +1,5 @@
 import { Key, useEffect, useState } from "react"
+import PaymenModal from "../../Components/Modal/PaymentModal"
 import axiosInstance from "../../utils/axiosConfig"
 import PaymentData from "./PaymentData"
 import Skeleton from "react-loading-skeleton"
@@ -10,10 +11,10 @@ const Payment = () => {
   const [tokenId, setTokenId] = useState<string>("")
   const [tokens, setTokens] = useState<any>([])
   const [loading, setLoading] = useState(false)
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState<boolean>(false)
 
-  const handleModal = (data: boolean) => {
-    setModal(data)
+  const handleModal = () => {
+    setModal(!modal)
   }
   const getDatas = async () => {
     setTokenLoading(true)
@@ -60,7 +61,7 @@ const Payment = () => {
 
   return (
     <>
-      {/* <PaymenModal renewModal={modal} handleRenewModal={handleModal} /> */}
+      <PaymentModal2 modal={modal} handleModal={handleModal} />
       <div className="md:p-6 px-3 pt-4">
         <div className=" rounded-xl border-2 border-[#E2E2E9] mt-4 p-4">
           <div className="flex justify-between items-center">
@@ -68,7 +69,7 @@ const Payment = () => {
               Payment Settings
             </h4>
             <button
-              onClick={() => handleModal(true)}
+              onClick={handleModal}
               className="px-5 py-2 rounded-lg bg-primary text-white font-semibold cursor-pointer"
             >
               Add New Currency
@@ -125,7 +126,7 @@ const Payment = () => {
           )}
         </div>
       </div>
-      {modal && <PaymentModal2 handleModal={handleModal} modal={modal}/>}
+
     </>
   )
 }

@@ -95,13 +95,7 @@ export const walletHistory = [
 ]
 
 export const mainNavItem: MenuInterface[] = [
-  {
-    id: 112,
-    pathname: "/dashboard/",
-    item: "Dashboard",
-    icon1: home,
-    icon2: homeHover,
-  },
+
   {
     id: 113,
     pathname: "/dashboard/start-here",

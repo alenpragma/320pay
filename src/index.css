@@ -126,13 +126,9 @@ input[type="number"] {
     @apply text-[#3e3e3e] font-semibold text-[14px];
   }
   .start-here-icon {
-    @apply hover:text-primary cursor-pointer border border-slate-300 p-1 w-fit rounded hover:bg-slate-200
+    @apply hover:text-primary cursor-pointer border border-slate-300 p-1 w-fit rounded hover:bg-slate-200;
   }
 }
-
-
-
-
 
 /* swal modal editing */
 
@@ -143,14 +139,12 @@ input[type="number"] {
   padding: 20px; /* Optional padding */
 }
 
-
 .custom-swal-modal .swal2-actions {
   flex-direction: row-reverse; /* Reverse the order of the buttons */
 }
 .custom-swal-modal .swal2-cancel {
-  padding : 10px 30px;
+  padding: 10px 30px;
 }
-
 
 @media (max-width: 768px) {
   .custom-swal-modal {

@@ -1,57 +1,49 @@
-import { FaCopy } from "react-icons/fa"
-import { images } from "../.."
-import { useEffect, useState } from "react"
-import { copyToClipboard } from "../../utils/Actions"
-import Form from "../../Components/Forms/Form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { FieldValues, SubmitHandler } from "react-hook-form"
-import { z } from "zod"
-import SelectField from "../../Components/Forms/SelecetField"
-import { currency } from "../../Components/Modal/PaymentModal"
-import axiosInstance from "../../utils/axiosConfig"
-import Skeleton from "react-loading-skeleton"
-
-export const validationSchema = z.object({
-  currency: z.string().min(1, "This field is required"),
-})
+import { FaCopy } from "react-icons/fa";
+import { images } from "../..";
+import { useEffect, useState } from "react";
+import { copyToClipboard } from "../../utils/Actions";
+import axiosInstance from "../../utils/axiosConfig";
+import Skeleton from "react-loading-skeleton";
+import { MdContentCopy } from "react-icons/md";
+import { TiTick } from "react-icons/ti";
 
 const Deposit = () => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [textToCopy, setTextToCopy] = useState<string>("")
-  const [wallet, setWallet] = useState<any>()
-  const handleCopy = (copy: string) => {
-    copyToClipboard(textToCopy)
-    setTextToCopy(copy)
-  }
+  const [loading, setLoading] = useState<boolean>(false);
+  const [wallet, setWallet] = useState<any>();
+  const [timeout, setTimeouts] = useState<boolean>(false);
 
-  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
-  }
+  const handleCopy = (copy: string) => {
+    copyToClipboard(copy);
+    setTimeouts(true);
+    setTimeout(() => {
+      setTimeouts(false);
+    }, 3000);
+  };
 
   const getWallet = async () => {
     try {
-      setLoading(true)
-      const response = await axiosInstance.get("/client-wallets")
+      setLoading(true);
+      const response = await axiosInstance.get("/client-wallets");
       if (response?.data?.success === 200) {
-        setWallet(response?.data?.data)
+        setWallet(response?.data?.data);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      console.error("Failed to fetch wallet data:", error)
+      console.error("Failed to fetch wallet data:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
   useEffect(() => {
-    getWallet()
-  }, [])
+    getWallet();
+  }, []);
 
   const shortenAddress = (address: string) => {
-    if (!address) return ""
-    const firstPart = address.slice(0, 10)
-    const lastPart = address.slice(-8)
-    return `${firstPart}....${lastPart}`
-  }
+    if (!address) return "";
+    const firstPart = address.slice(0, 10);
+    const lastPart = address.slice(-8);
+    return `${firstPart}....${lastPart}`;
+  };
 
   return (
     <div className="md:p-8 pt-5">
@@ -89,18 +81,20 @@ const Deposit = () => {
                   shortenAddress(wallet?.client_wallet_address)
                 )}
               </span>
-              <span
-                onClick={() => handleCopy(wallet?.client_wallet_address)}
-                className="px-3 py-3 text-white bg-primary rounded-r-lg cursor-pointer"
-              >
-                <FaCopy />
-              </span>
+              {timeout == false ? (
+                <MdContentCopy
+                  onClick={() => handleCopy(wallet?.client_wallet_address)}
+                  className="cursor-pointer rotate-180 size-6"
+                />
+              ) : (
+                <TiTick className="size-6" />
+              )}
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Deposit
+export default Deposit;

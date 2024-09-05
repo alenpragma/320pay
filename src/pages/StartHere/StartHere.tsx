@@ -141,7 +141,7 @@ const StartHere = () => {
               {packages?.map((data: IPackage, i: Key) => (
                 <div
                   key={i}
-                  className="p-6 space-y-6 border-t-2 border-t-primary rounded-3xl shadow-md duration-300 hover:shadow-xl hover:translate-y-2"
+                  className="p-6 space-y-6 border-t-2 border-t-primary rounded-3xl shadow-md duration-500 hover:shadow-xl hover:translate-y-1"
                 >
                   <div>
                     <div className="flex items-center gap-4">
