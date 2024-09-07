@@ -65,7 +65,7 @@ const Register = () => {
     }
   };
   return (
-    <div className="flex justify-between items-center md:w-10/12 px-3 w-full mx-auto h-screen overflow-y-auto py-4 pt-10">
+    <div className="flex justify-between items-center md:w-10/12 px-3 w-full mx-auto h-screen overflow-y-auto md:py-0 py-4 md:pt-0 pt-10">
       <div className="flex-1 md:block hidden">
         <img className="w-full h-auto" src={images.loginImage} alt="" />
       </div>
