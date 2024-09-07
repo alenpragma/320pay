@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { MdContentCopy } from "react-icons/md";
-import HoverTableItem from "../../lib/HoverTableItem";
-import { copyToClipboard } from "../../utils/Actions";
-import TData from "../../Components/Table/TData";
-import { TiTick } from "react-icons/ti";
+import React, { useState } from "react"
+import { MdContentCopy } from "react-icons/md"
+import HoverTableItem from "../../lib/HoverTableItem"
+import { copyToClipboard } from "../../utils/Actions"
+import TData from "../../Components/Table/TData"
+import { TiTick } from "react-icons/ti"
 
-const TransactionRow = ({ data, selectValue, wallet }: any) => {
-  const [hoveredField, setHoveredField] = useState<string | null>(null);
-  console.log(data);
+const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
+  const [hoveredField, setHoveredField] = useState<string | null>(null)
+  console.log(data)
   const handleMouseEnter = (field: string) => {
-    setHoveredField(field);
-  };
+    setHoveredField(field)
+  }
 
   const handleMouseLeave = () => {
-    setHoveredField(null);
-  };
+    setHoveredField(null)
+  }
 
-  const [tranHas, setTranHas] = useState<string | null>("");
-  const [walletFrom, setWalletFrom] = useState<string | null>("");
-  const [walletTo, setWalletTo] = useState<string | null>("");
+  const [tranHas, setTranHas] = useState<string | null>("")
+  const [walletFrom, setWalletFrom] = useState<string | null>("")
+  const [walletTo, setWalletTo] = useState<string | null>("")
 
   const handleCopy = (
     copy: string | null,
@@ -26,20 +26,21 @@ const TransactionRow = ({ data, selectValue, wallet }: any) => {
     fromWallet: string | null,
     toWallet: string | null
   ) => {
-    copyToClipboard(copy);
-    setTranHas(hashIdid);
-    setWalletFrom(fromWallet);
-    setWalletTo(toWallet);
+    copyToClipboard(copy)
+    setTranHas(hashIdid)
+    setWalletFrom(fromWallet)
+    setWalletTo(toWallet)
     setTimeout(() => {
-      setTranHas(null);
-      setWalletFrom(null);
-      setWalletTo(null);
-    }, 3000);
-  };
+      setTranHas(null)
+      setWalletFrom(null)
+      setWalletTo(null)
+    }, 3000)
+  }
 
   return (
     <>
       <tr className="border-b border-[#E2E2E9]">
+        <TData data={index + 1} className="px-6" />
         <TData data={data?.timestamp} className="px-6" />
         <TData className="px-3">
           <div className="relative">
@@ -126,7 +127,7 @@ const TransactionRow = ({ data, selectValue, wallet }: any) => {
         </TData>
       </tr>
     </>
-  );
-};
+  )
+}
 
-export default TransactionRow;
+export default TransactionRow

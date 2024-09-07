@@ -67,8 +67,8 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-5">
-        <div className="md:p-5 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
+      <div className="grid grid-cols-3 gap-5 -z-999999">
+        <div className="md:p-5 -z-9 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
           <div className="flex items-center gap-5 pt-8 md:pt-0">
             <div className="md:size-[70px] size-[32px] p-2 bg-[#E8E2FD] flex justify-center items-center rounded-full">
               <img
@@ -105,7 +105,7 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
           </div>
         </div>
 
-        <div className="md:p-5 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
+        <div className="md:p-5 -z-9 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
           <div className="flex items-center gap-5 pt-8 md:pt-0">
             <div className="md:size-[70px] size-[32px] p-2 bg-[#E8E2FD] flex justify-center items-center rounded-full">
               <img
@@ -134,7 +134,7 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
           </div>
         </div>
 
-        <div className="md:p-5 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
+        <div className="md:p-5 p-1 -z-9 rounded-xl border-2 border-[#E2E2E9] relative px-2">
           <div className="flex items-center gap-5 pt-8 md:pt-0">
             <div className="md:size-[70px] size-[32px] p-2 bg-[#E8E2FD] flex justify-center items-center rounded-full">
               <img

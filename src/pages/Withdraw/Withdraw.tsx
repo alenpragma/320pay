@@ -27,6 +27,7 @@ const Withdraw = () => {
       wallet_address: data.wallet,
       token_id: data.currency,
       network: selectedCurrency.rpc_chain,
+      token_symbol: selectedCurrency.token_symbol,
     }
 
     navigate("/dashboard/withdraw/preview", { state: { withdrawData } })

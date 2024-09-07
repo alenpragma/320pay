@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form"
 import { PuffLoader } from "react-spinners"
 import axiosInstance from "../../utils/axiosConfig"
 import { toast } from "react-toastify"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 export interface OTPFormInputs {
   otp: string[]
@@ -11,6 +11,7 @@ export interface OTPFormInputs {
 
 const Otp = () => {
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { confirmationResponsData } = location.state || {}
   console.log(confirmationResponsData)
@@ -25,7 +26,6 @@ const Otp = () => {
   const onSubmit = async (data: OTPFormInputs) => {
     const otp = data.otp.join("")
 
-    console.log("Entered OTP:", otp)
     const confirmData = {
       id: confirmationResponsData?.id,
       code: otp,
@@ -35,19 +35,19 @@ const Otp = () => {
       toast.error("data not found")
       return
     }
+    setLoading(true)
     const withdrowResponse = await axiosInstance.post(
       "/client/withdraw-confirm",
       confirmData
     )
-    console.log(withdrowResponse)
-    if (withdrowResponse?.data.success == 200) {
+    if (withdrowResponse?.data?.success) {
       toast.success(withdrowResponse?.data?.msg)
+      navigate("/dashboard")
     }
     if (withdrowResponse?.data?.error) {
       toast.error(withdrowResponse?.data?.msg)
     }
     setLoading(false)
-    // Handle OTP submission logic here
   }
 
   return (

@@ -1,33 +1,33 @@
-import { useState } from "react";
-import { images } from "../..";
-import { copyToClipboard } from "../../utils/Actions";
-import { FaCopy } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
+import { useState } from "react"
+import { images } from "../.."
+import { copyToClipboard } from "../../utils/Actions"
+import { FaCopy } from "react-icons/fa"
+import { RxCross1 } from "react-icons/rx"
 
 export type IPurchasPlane = {
-  domain_name: string;
-  date: string;
-  package_id: string;
-  package_name: string;
-  package_price: string;
-  updated_at: string;
-};
+  domain_name: string
+  date: string
+  package_id: string
+  package_name: string
+  package_price: string
+  updated_at: string
+}
 
 type IModal = {
-  handleModal: (data: any) => void;
-  modal: boolean;
-  singleData: any;
-};
+  handleModal: (data: any) => void
+  modal: boolean
+  singleData: any
+}
 
 const PurchasePlaneModal = ({ handleModal, modal, singleData }: IModal) => {
-  console.log(singleData);
+  console.log(singleData)
 
-  const [textToCopy, setTextToCopy] = useState<string>("");
+  const [textToCopy, setTextToCopy] = useState<string>("")
   const handleCopy = (copy: string) => {
-    copyToClipboard(textToCopy);
-    setTextToCopy(copy);
-  };
-  const copy = "eeeee";
+    copyToClipboard(textToCopy)
+    setTextToCopy(copy)
+  }
+  const copy = "eeeee"
   return (
     <div className="w-full ">
       <div
@@ -85,7 +85,7 @@ const PurchasePlaneModal = ({ handleModal, modal, singleData }: IModal) => {
             <div className="w-full mt-4">
               <div className=" rounded-lg bg-[#91919131] flex  items-center text-end justify-between">
                 <span className=" w-4/5 text-[14px]  text-start pl-3 font-semibold">
-                  0x625336E4A6C4cCa4....852A668ad3a3fA
+                  {singleData?.license_key}{" "}
                 </span>
                 <span
                   onClick={() => handleCopy(copy)}
@@ -100,7 +100,7 @@ const PurchasePlaneModal = ({ handleModal, modal, singleData }: IModal) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PurchasePlaneModal;
+export default PurchasePlaneModal
