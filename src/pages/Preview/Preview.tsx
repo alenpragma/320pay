@@ -2,13 +2,14 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axiosInstance from "../../utils/axiosConfig"
 import { toast } from "react-toastify"
-import LoadLoading from "../../Components/Lottie/LoadLoading"
+import LoaingAnimation from "../../Components/Loading/LoaingAnimation"
 
 const Preview = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [loading, setLoading] = useState(false)
   const { withdrawData } = location.state || {}
+
   console.log(withdrawData)
 
   const confirmWithdrow = async () => {
@@ -22,9 +23,9 @@ const Preview = () => {
       "/client/withdraw",
       confirmData
     )
-    console.log(withdrowResponse, "client/withdraw")
+    console.log(withdrowResponse)
 
-    if (withdrowResponse?.data.success == 200) {
+    if (withdrowResponse?.data?.success == 200) {
       setLoading(false)
       toast.success(withdrowResponse?.data?.msg)
       const { ...confirmationResponsData } = withdrowResponse.data
@@ -42,12 +43,13 @@ const Preview = () => {
   return (
     <div className="md:w-1/2 w-full mx-auto mt-20 rounded-lg px-3">
       <h4 className="text-center text-secondary font-medium text-[18px]">
-        Confirm Order
+        Confirm Withdraw
       </h4>
       <div className="text-center mt-4">
         <p className="text-[14px] text-black">Received Amount</p>
         <h4 className="text-[24px] font-semibold  leading-6">
-          {withdrawData?.amount} USDT
+          {withdrawData?.amount - (withdrawData?.amount / 100) * 1}{" "}
+          {withdrawData?.token_symbol}
         </h4>
       </div>
       <div className="space-y-6 mt-10">
@@ -70,14 +72,14 @@ const Preview = () => {
           </h6>
         </div>
         <div className="flex items-center justify-between">
-          <h6 className="text-secondary text-[14px]">Network Fee</h6>
+          <h6 className="text-secondary text-[14px]">Network Fee 1%</h6>
           <h6 className=" text-[14px] px-2 text-secondary py-[2px] w-fit">
-            $0.01
+            ${(withdrawData?.amount / 100) * 1}
           </h6>
         </div>
       </div>
       {loading ? (
-        <LoadLoading />
+        <LoaingAnimation size={30} color="#36d7b7" />
       ) : (
         <button
           onClick={() => confirmWithdrow()}

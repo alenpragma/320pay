@@ -10,7 +10,7 @@ import Skeleton from "react-loading-skeleton"
 const BalanceCard = ({ wallets, loading }: any) => {
   return (
     <div>
-      <div className="relative mt-5">
+      <div className="relative mt-5  ">
         <h4 className="text-secondary text-[20px] font-semibold">
           Your Balance
         </h4>

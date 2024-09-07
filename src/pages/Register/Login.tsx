@@ -60,7 +60,7 @@ const Login = () => {
         <div className="flex-1 md:block hidden">
           <img className="w-full h-auto" src={images.loginImage} alt="" />
         </div>
-        <div className="md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md md:w-3/4 w-full mx-auto">
+        <div className="flex-1 md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md md:w-3/4 w-full mx-auto">
           <img className="w-32 h-10" src={images.logo} alt="" />
           <h4 className="text-primary text-[24px] font-semibold my-2">
             Welcome to 3TwentyPay!

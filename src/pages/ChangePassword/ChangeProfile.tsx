@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { FaUser } from "react-icons/fa";
-import LoadingButton from "../../Components/Loading/LoadingButton";
-import LoaingAnimation from "../../Components/Loading/LoaingAnimation";
+import { useState } from "react"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { FaUser } from "react-icons/fa"
+import LoadingButton from "../../Components/Loading/LoadingButton"
+import LoaingAnimation from "../../Components/Loading/LoaingAnimation"
 
 const ChangeProfile = () => {
-  const { register, handleSubmit } = useForm<FieldValues>();
+  const { register, handleSubmit } = useForm<FieldValues>()
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -23,7 +23,7 @@ const ChangeProfile = () => {
             {...register("edit_name", { required: true })}
             type="text"
             className="w-full border border-[#E2E2E9] focus:outline focus:outline-slate-400 rounded-md py-1 px-4"
-            placeholder="Old Password"
+            placeholder="Name"
           />
         </div>
       </div>
@@ -46,7 +46,7 @@ const ChangeProfile = () => {
         )}
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default ChangeProfile;
+export default ChangeProfile

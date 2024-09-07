@@ -12,6 +12,7 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
 
   const handleCopy = (copy: string) => {
     copyToClipboard(copy)
+    toast.success("Successfully copyed!")
   }
   const navigate = useNavigate()
 
@@ -67,8 +68,8 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-5">
-        <div className="md:p-5 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 ">
+        <div className="md:p-5  p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
           <div className="flex items-center gap-5 pt-8 md:pt-0">
             <div className="md:size-[70px] size-[32px] p-2 bg-[#E8E2FD] flex justify-center items-center rounded-full">
               <img
@@ -88,8 +89,9 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
                   <Skeleton height={40} count={1} highlightColor="#F4F5F6" />
                 ) : (
                   <p className="flex justify-between items-center">
-                    {clientProfile?.client_secret_id.slice(0, 6)}...{" "}
-                    {clientProfile?.client_secret_id.slice(-3)}
+                    {/* {clientProfile?.client_secret_id.slice(0, 2)}...{" "}
+                    {clientProfile?.client_secret_id.slice(-3)} */}
+                    {clientProfile?.client_secret_id}
                     <span className="text-[#5734DC] md:text-[24px] text-[20px]">
                       <FaRegCopy
                         className="cursor-pointer"
@@ -105,7 +107,7 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
           </div>
         </div>
 
-        <div className="md:p-5 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
+        <div className="md:p-5 -z-9 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
           <div className="flex items-center gap-5 pt-8 md:pt-0">
             <div className="md:size-[70px] size-[32px] p-2 bg-[#E8E2FD] flex justify-center items-center rounded-full">
               <img
@@ -134,7 +136,7 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
           </div>
         </div>
 
-        <div className="md:p-5 p-1 rounded-xl border-2 border-[#E2E2E9] relative px-2">
+        <div className="md:p-5 p-1  rounded-xl border-2 border-[#E2E2E9] relative px-2">
           <div className="flex items-center gap-5 pt-8 md:pt-0">
             <div className="md:size-[70px] size-[32px] p-2 bg-[#E8E2FD] flex justify-center items-center rounded-full">
               <img
@@ -179,12 +181,14 @@ const DashboardCardOne = ({ clientProfile, totalBalance }: any) => {
                         )} .........${wallet?.client_wallet_address?.slice(
                           -6
                         )}`}{" "}
-                        <FaRegCopy
-                          className="cursor-pointer"
-                          onClick={() =>
-                            handleCopy(wallet?.client_wallet_address)
-                          }
-                        />
+                        <div className="text-[#5734DC] md:text-[24px] text-[20px]">
+                          <FaRegCopy
+                            className="cursor-pointer"
+                            onClick={() =>
+                              handleCopy(wallet?.client_wallet_address)
+                            }
+                          />
+                        </div>
                       </>
                     )}
                     {/* {shortenAddress(wallet?.client_wallet_address)}

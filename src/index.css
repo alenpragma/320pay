@@ -157,3 +157,40 @@ input[type="number"] {
     width: 400px; /* Adjust for larger screens */
   }
 }
+
+.bottom-full {
+  bottom: 100%;
+}
+.top-full {
+  top: 100%;
+}
+
+.pageButton a {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paginationButton,
+.pageButton a {
+  width: 30px;
+  height: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  .paginationButton,
+  .pageButton a {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}

@@ -1,35 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { images, mainNavItem, submenuItem, subNavItem } from "../..";
-import { MenuInterface } from "../../types/menuType";
-import { GoChevronDown } from "react-icons/go";
-import { RxExit } from "react-icons/rx";
-import { removePaymentaToken } from "../../hooks/handelAuthToken";
-import Swal from "sweetalert2";
-import { handleLogOut } from "../../Actions/LogoutActions";
+import { useState } from "react"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
+import { images, mainNavItem, submenuItem, subNavItem } from "../.."
+import { MenuInterface } from "../../types/menuType"
+import { GoChevronDown } from "react-icons/go"
+import { RxExit } from "react-icons/rx"
+import { removePaymentaToken } from "../../hooks/handelAuthToken"
+import { handleLogOut } from "../../Actions/LogoutActions"
 
 interface SidebarProps {
-  sidebarOpen: boolean;
-  setSidebarOpen: (arg: boolean) => void;
+  sidebarOpen: boolean
+  setSidebarOpen: (arg: boolean) => void
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const [submenu, setSubmenu] = useState(false);
-  const location = useLocation();
-  const { pathname } = location;
+  const [submenu, setSubmenu] = useState(false)
+  const location = useLocation()
+  const { pathname } = location
 
-  const active = pathname === "/dashboard";
+  const active = pathname === "/dashboard"
 
-  const [mouseHover, setMouseHover] = useState<number | null>(null);
+  const [mouseHover, setMouseHover] = useState<number | null>(null)
   const handleSubmenu = () => {
-    setSubmenu(!submenu);
-  };
+    setSubmenu(!submenu)
+  }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const logOutHandler = () => {
-    handleLogOut(navigate, removePaymentaToken);
-  };
+    handleLogOut(navigate, removePaymentaToken)
+  }
 
   // const trigger = useRef<any>(null);
   // const sidebar = useRef<any>(null);
@@ -76,7 +75,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       // ref={sidebar}
-      className={`absolute left-0 top-0 z-[5] flex h-screen w-64 flex-col overflow-y-hidden border-r-2 border-r-[#E2E2E9] bg-white duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-[5] flex h-screen w-67 flex-col overflow-y-hidden border-r-2 border-r-[#E2E2E9] bg-white duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -264,7 +263,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- Sidebar Menu --> */}
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
