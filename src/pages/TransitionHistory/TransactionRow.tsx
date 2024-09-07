@@ -7,7 +7,6 @@ import { TiTick } from "react-icons/ti"
 
 const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
   const [hoveredField, setHoveredField] = useState<string | null>(null)
-  console.log(data)
   const handleMouseEnter = (field: string) => {
     setHoveredField(field)
   }

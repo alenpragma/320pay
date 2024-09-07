@@ -1,6 +1,4 @@
 import { Key, useEffect, useState } from "react"
-import { tableData } from "../.."
-import Pagination from "../../Components/Pagination/Pagination"
 import Select, { SingleValue } from "react-select"
 import axiosInstance from "../../utils/axiosConfig"
 import TransactionRow from "./TransactionRow"
@@ -8,6 +6,7 @@ import { ITokenData, ITransaction } from "../../types/web3"
 import Loading from "../../Components/Lottie/Loading"
 import Skeleton from "react-loading-skeleton"
 import PaginationButtons from "../../Components/PaginationButton/PaginationButton"
+import SearchInput from "../../Components/SearchInput"
 
 // const options = [
 //   { value: "bnb", label: "BNB" },
@@ -130,6 +129,9 @@ const TransitionHistory = () => {
   return (
     <>
       <div className="md:p-6 px-3 pt-4">
+        <div className="max-w-full w-100 mb-4">
+          <SearchInput placeholder="Search..." setSearch={setSearch} />
+        </div>
         {loading == true ? (
           <div>
             <Skeleton height={35} count={7} />

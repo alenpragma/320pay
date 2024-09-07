@@ -1,11 +1,11 @@
-import { FaCopy } from "react-icons/fa"
-import { MdContentCopy } from "react-icons/md"
+// import { FaCopy } from "react-icons/fa"
+// import { MdContentCopy } from "react-icons/md"
 
-type IHoverItemProps = {
-  handleCopy: (text: string) => void
-  item: any
-  history: any
-}
+// type IHoverItemProps = {
+//   handleCopy: (text: string) => void
+//   item: any
+//   history: any
+// }
 
 const HoverTableItem = ({ value }: any) => {
   return (

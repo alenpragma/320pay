@@ -21,7 +21,7 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
           : "top-18 right-5 opacity-0 translate-y-[-20px] pointer-events-none"
       }`}
     >
-      <div className="bg-red-500 w-full h-full relative shadow-lg rounded-3xl">
+      <div className="bg-[#fff] w-full h-full relative shadow-lg rounded-3xl">
         <div className="w-full py-10 p-5 ">
           <img
             className="size-16 rounded-full"
@@ -31,9 +31,7 @@ const DropdownUser = ({ modal, clientProfile }: any) => {
             height={100}
           />
           <h4 className="font-semibold text-[20px]">{clientProfile?.name}</h4>
-          <p className="text-[12px]">
-            User Id : {clientProfile?.client_secret_id}
-          </p>
+          <p className="text-md">User Id : {clientProfile?.client_secret_id}</p>
           <div className="text-[14px] py-2 hover:border-b border-b-slate-600 duration-300 hover:text-primary ">
             <Link to="/dashboard/change-password">
               <p>Edit profile</p>

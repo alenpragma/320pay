@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { tableData } from "../..";
-import TData from "../Table/TData";
-import Pagination from "../Pagination/Pagination";
-import axiosInstance from "../../utils/axiosConfig";
-import { formatToLocalDate } from "../../hooks/formatDate";
-import PaginationButtons from "../PaginationButton/PaginationButton";
-import Skeleton from "react-loading-skeleton";
+import { useEffect, useState } from "react"
+import { tableData } from "../.."
+import TData from "../Table/TData"
+import Pagination from "../Pagination/Pagination"
+import axiosInstance from "../../utils/axiosConfig"
+import { formatToLocalDate } from "../../hooks/formatDate"
+import PaginationButtons from "../PaginationButton/PaginationButton"
+import Skeleton from "react-loading-skeleton"
 
 const DashboardTable = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [total, setTotal] = useState<any>();
+  const [currentPage, setCurrentPage] = useState(1)
+  const [total, setTotal] = useState<any>()
 
-  const [lastSessions, setLastSessions] = useState([]);
+  const [lastSessions, setLastSessions] = useState([])
 
   const getData = async () => {
-    const response = await axiosInstance.get("/user-last-sessions");
+    const response = await axiosInstance.get("/user-last-sessions")
     // console.log(response);
 
     if (response?.data?.success == 200) {
-      setLastSessions(response?.data?.sessions);
-      setTotal(lastSessions?.length);
+      setLastSessions(response?.data?.sessions)
+      setTotal(lastSessions?.length)
     }
-  };
+  }
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
 
-  const perPage = 10;
+  const perPage = 10
 
   return (
     <>
@@ -41,6 +41,7 @@ const DashboardTable = () => {
             <table className="overflow-x-auto border-collapse w-full">
               <thead>
                 <tr className="bg-[#FAFAFA] text-[#616365]">
+                  <th className="py-2 px-6 text-start">No.</th>{" "}
                   <th className="py-2 px-6 text-start">Location</th>
                   <th className="py-2 px-6 text-start">Status</th>
                   <th className="py-2 px-6 text-start">Device</th>
@@ -52,6 +53,8 @@ const DashboardTable = () => {
               <tbody className="bg-white">
                 {lastSessions?.map((item: any, i) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
+                    <TData data={i + 1} className=" px-6" />
+
                     <TData
                       data={`${item?.city} ${item?.country}`}
                       className=" px-6"
@@ -83,7 +86,7 @@ const DashboardTable = () => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DashboardTable;
+export default DashboardTable
