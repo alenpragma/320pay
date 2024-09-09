@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
-import { tableData } from "../.."
 import TData from "../Table/TData"
-import Pagination from "../Pagination/Pagination"
 import axiosInstance from "../../utils/axiosConfig"
 import { formatToLocalDate } from "../../hooks/formatDate"
 import PaginationButtons from "../PaginationButton/PaginationButton"
@@ -9,24 +7,22 @@ import Skeleton from "react-loading-skeleton"
 
 const DashboardTable = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [total, setTotal] = useState<any>()
 
-  const [lastSessions, setLastSessions] = useState([])
+  const [lastSessions, setLastSessions] = useState<any>([])
 
   const getData = async () => {
-    const response = await axiosInstance.get("/user-last-sessions")
-    // console.log(response);
+    const response = await axiosInstance.get(
+      `/user-last-sessions?page=${currentPage + 1}&per_page=25`
+    )
+    console.log(response)
 
     if (response?.data?.success == 200) {
       setLastSessions(response?.data?.sessions)
-      setTotal(lastSessions?.length)
     }
   }
   useEffect(() => {
     getData()
-  }, [])
-
-  const perPage = 10
+  }, [currentPage])
 
   return (
     <>
@@ -51,7 +47,7 @@ const DashboardTable = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {lastSessions?.map((item: any, i) => (
+                {lastSessions?.data?.map((item: any, i: any) => (
                   <tr key={i} className="border-b border-[#E2E2E9]">
                     <TData data={i + 1} className=" px-6" />
 
@@ -80,7 +76,7 @@ const DashboardTable = () => {
       </div>
       <div className="my-4">
         <PaginationButtons
-          totalPages={Math.ceil(total / perPage)}
+          totalPages={Math.ceil(lastSessions.total / 25)}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
