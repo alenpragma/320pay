@@ -76,7 +76,7 @@ const Form = ({
 
   const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data)
-    // reset()
+    reset()
   }
 
   // Control logic for form state changes
