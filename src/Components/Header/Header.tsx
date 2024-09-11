@@ -1,52 +1,52 @@
-import { NavLink, useLocation } from "react-router-dom";
-import DropdownUser, { UserOne } from "./DropdownUser";
-import { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosConfig";
-import { images } from "../..";
+import { NavLink, useLocation } from "react-router-dom"
+import DropdownUser, { UserOne } from "./DropdownUser"
+import { useEffect, useState } from "react"
+import axiosInstance from "../../utils/axiosConfig"
+import { images } from "../.."
 // import DarkModeSwitcher from "./DarkModeSwitcher"
 
 const Header = (props: {
-  sidebarOpen: string | boolean | undefined;
-  setSidebarOpen: (arg0: boolean) => void;
+  sidebarOpen: string | boolean | undefined
+  setSidebarOpen: (arg0: boolean) => void
 }) => {
-  const { pathname } = useLocation();
-  const [rotate, setRotate] = useState<boolean>(false);
-  const [modal, setModal] = useState<boolean>(false);
-  const [visible, setVisible] = useState(false);
-  const [clientProfile, setClientProfile] = useState<any>();
+  const { pathname } = useLocation()
+  const [rotate, setRotate] = useState<boolean>(false)
+  const [modal, setModal] = useState<boolean>(false)
+  const [visible, setVisible] = useState(false)
+  const [clientProfile, setClientProfile] = useState<any>()
 
   const capital = (text: string) => {
-    const cleneText = text.replace(/[\/-]/g, " ");
+    const cleneText = text.replace(/[\/-]/g, " ")
     if (!text) {
-      return "";
+      return ""
     }
-    return cleneText;
-  };
-  const title = capital(pathname);
+    return cleneText
+  }
+  const title = capital(pathname)
   const handleModal = () => {
-    setModal(!modal);
-    setRotate(!rotate);
-    setVisible(!visible);
-  };
+    setModal(!modal)
+    setRotate(!rotate)
+    setVisible(!visible)
+  }
 
   const getData = async () => {
-    const response = await axiosInstance.get("/client-profile");
+    const response = await axiosInstance.get("/client-profile")
     if (response?.data?.success == 200) {
-      setClientProfile(response?.data?.profile);
+      setClientProfile(response?.data?.profile)
     }
-  };
+  }
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
 
   useEffect(() => {
-    setModal(false);
-    setRotate(false);
-    setVisible(false);
-  }, [pathname]);
+    setModal(false)
+    setRotate(false)
+    setVisible(false)
+  }, [pathname])
 
   return (
-    <header className="sticky top-0 z-50 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+    <header className="sticky top-0 z-10  flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
@@ -54,8 +54,8 @@ const Header = (props: {
             <button
               aria-controls="sidebar"
               onClick={(e) => {
-                e.stopPropagation();
-                props.setSidebarOpen(!props.sidebarOpen);
+                e.stopPropagation()
+                props.setSidebarOpen(!props.sidebarOpen)
               }}
               className="z-[9] block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
             >
@@ -121,7 +121,7 @@ const Header = (props: {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

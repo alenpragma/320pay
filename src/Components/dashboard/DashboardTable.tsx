@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
-import { tableData } from "../..";
-import TData from "../Table/TData";
-import Pagination from "../Pagination/Pagination";
-import axiosInstance from "../../utils/axiosConfig";
-import { formatToLocalDate } from "../../hooks/formatDate";
-import PaginationButtons from "../PaginationButton/PaginationButton";
-import Skeleton from "react-loading-skeleton";
+import { useEffect, useState } from "react"
+import TData from "../Table/TData"
+import axiosInstance from "../../utils/axiosConfig"
+import { formatToLocalDate } from "../../hooks/formatDate"
+import PaginationButtons from "../PaginationButton/PaginationButton"
+import Skeleton from "react-loading-skeleton"
 
 const DashboardTable = () => {
   const [lastSessions, setLastSessions] = useState([]);
@@ -23,7 +21,7 @@ const DashboardTable = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
   useEffect(() => {
     getData();
   }, []);
@@ -83,7 +81,7 @@ const DashboardTable = () => {
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DashboardTable;
+export default DashboardTable

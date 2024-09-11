@@ -1,104 +1,103 @@
-import { RxCross1 } from "react-icons/rx";
-import Form from "../Forms/Form";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import SelectField from "../Forms/SelecetField";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { boolean, z } from "zod";
-import { useEffect, useState } from "react";
-import Loading from "../Lottie/Loading";
-import axiosInstance from "../../utils/axiosConfig";
-import { toast } from "react-toastify";
-import LoaingAnimation from "../Loading/LoaingAnimation";
-import LoadingButton from "../Loading/LoadingButton";
+import { RxCross1 } from "react-icons/rx"
+import Form from "../Forms/Form"
+import { FieldValues, SubmitHandler } from "react-hook-form"
+import SelectField from "../Forms/SelecetField"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { boolean, z } from "zod"
+import { useEffect, useState } from "react"
+import Loading from "../Lottie/Loading"
+import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
+import LoaingAnimation from "../Loading/LoaingAnimation"
+import LoadingButton from "../Loading/LoadingButton"
 
 export const validationSchema = z.object({
   network: z.string().min(1, "select any network"),
   currency: z.string().min(1, "select any network"),
-});
+})
 export type IProps = {
-  modal: boolean;
-  handleModal: () => void;
-};
+  modal: boolean
+  handleModal: () => void
+}
 const PaymentModal2 = ({ handleModal, modal }: IProps) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [selectedCurrency, setSelectedCurrency] = useState<any>();
-  const [availableTokens, setAvailableTokens] = useState([]);
-  const [rpcData, setRpcData] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [selectedCurrency, setSelectedCurrency] = useState<any>()
+  const [availableTokens, setAvailableTokens] = useState([])
+  const [rpcData, setRpcData] = useState([])
 
   const getDatas = async () => {
-    const response = await axiosInstance.get("/client/rpc-urls");
+    const response = await axiosInstance.get("/client/rpc-urls")
     if (response?.data?.chains) {
-      setAvailableTokens(response?.data?.chains);
+      setAvailableTokens(response?.data?.chains)
     }
-  };
+  }
 
   useEffect(() => {
-    getDatas();
-  }, []);
+    getDatas()
+  }, [])
 
   const getRPCDatas = async (id: any) => {
     if (id) {
       const response = await axiosInstance.get(
         `/client/rpc-wise-tokens?chain_id=${id}`
-      );
+      )
 
       if (response?.data?.tokens) {
-        setRpcData(response?.data?.tokens);
+        setRpcData(response?.data?.tokens)
       }
     }
-  };
-
+  }
   useEffect(() => {
     if (selectedCurrency) {
-      getRPCDatas(selectedCurrency?.id);
+      getRPCDatas(selectedCurrency?.id)
     }
-  }, [selectedCurrency]);
+  }, [selectedCurrency])
 
   const currencys = availableTokens?.map((item: any) => ({
     label: item?.rpc_chain,
     value: item?.id?.toString(),
     image: item.image,
-  }));
+  }))
 
   const tokens = rpcData?.map((item: any) => ({
     label: item?.token_symbol,
     value: item?.id?.toString(),
     image: item.image,
-  }));
+  }))
 
   const handleCurrencyChange = (value: string) => {
     const selectedToken = availableTokens.find((token: any) => {
-      return token.id == value;
-    });
-    setSelectedCurrency(selectedToken);
-  };
+      return token.id == value
+    })
+    setSelectedCurrency(selectedToken)
+  }
 
-  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+  const formSubmit: SubmitHandler<FieldValues> = async (data: any) => {
     const tokenData = {
-      token_id: data.network,
-    };
-    setLoading(true);
+      token_id: data.currency,
+    }
+
+    setLoading(true)
     try {
       const response = await axiosInstance.post(
         "/client-token/store",
         tokenData
-      );
-      console.log(response.data);
+      )
+      console.log(response.data)
 
       if (response.data.success == 200) {
-        setLoading(false);
-        toast.success("Successfuly added currency");
+        setLoading(false)
+        toast.success("Successfuly added currency")
       }
       if (response.data.success != 200) {
-        setLoading(false);
-        toast.error(response?.data?.message);
+        setLoading(false)
+        toast.error(response?.data?.message)
       }
-      handleModal();
+      handleModal()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <div className="w-full">
@@ -156,7 +155,7 @@ const PaymentModal2 = ({ handleModal, modal }: IProps) => {
                   <SelectField
                     name="currency"
                     options={tokens}
-                    onChange={handleCurrencyChange}
+                    // onChange={handleCurrencyChange}
                     placeholder="Please select an option"
                     type="string"
                     required
@@ -175,7 +174,7 @@ const PaymentModal2 = ({ handleModal, modal }: IProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PaymentModal2;
+export default PaymentModal2
