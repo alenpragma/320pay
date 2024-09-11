@@ -64,7 +64,7 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
         onClick={handleModal}
       ></div>
       <div
-        className={`fixed bg-[#ffffff] w-2/5 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
+        className={`fixed bg-[#fff] w-2/5 h-fit m-auto right-0 left-0 top-0 bottom-20 rounded  ${
           modal
             ? " opacity-100  duration-500 z-[101]"
             : "opacity-0 duration-500 pointer-events-none"

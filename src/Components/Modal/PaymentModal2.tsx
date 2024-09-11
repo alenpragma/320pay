@@ -74,6 +74,7 @@ const PaymentModal2 = ({ handleModal, modal }: IProps) => {
   };
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
     const tokenData = {
       token_id: data.network,
     };
@@ -110,13 +111,13 @@ const PaymentModal2 = ({ handleModal, modal }: IProps) => {
         onClick={handleModal}
       ></div>
       <div
-        className={`fixed bg-[#ffffff] w-2/5 h-fit m-auto right-0 left-0 top-0  rounded  ${
+        className={`fixed  md:w-2/5 w-full h-fit m-auto right-0 left-0 top-0 rounded px-3 ${
           modal
             ? "bottom-10 opacity-100  duration-300 z-[101]"
             : "bottom-0 opacity-0 duration-300 pointer-events-none"
         }`}
       >
-        <div className="w-full h-full rounded">
+        <div className="w-full h-full rounded bg-[#ffffff]">
           <div className="w-full py-3 px-5 bg-primary text-white font-semibold text-[20px] flex justify-between items-center rounded-t">
             <h4> Add New Currency</h4>
             <RxCross1
