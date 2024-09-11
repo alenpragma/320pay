@@ -99,7 +99,7 @@ const Header = (props: {
         </div>
         {/* <!-- Hamburger Toggle BTN --> */}
 
-        <h4 className="text-[20px] font-semibold text-secondary capitalize md:block hidden">
+        <h4 className="text-[20px] font-semibold text-[#313437] capitalize md:block hidden">
           {pathname === "/" ? "Dashboard" : title}
         </h4>
         <div className="flex lg:ms-auto items-center gap-3 2xsm:gap-5">
