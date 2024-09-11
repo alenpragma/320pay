@@ -102,7 +102,7 @@ const Header = (props: {
         {/* <!-- Hamburger Toggle BTN --> */}
 
         <h4 className="text-[20px] font-semibold text-[#313437] capitalize md:block hidden">
-          {pathname === "/" ? "Dashboard" : title}
+          {pathname === "/dashboard" ? "Dashboard" : title}
         </h4>
         <div className="flex lg:ms-auto items-center gap-3 2xsm:gap-5">
           <h4 className="font-semibold text-[16px]">{clientProfile?.name}</h4>
