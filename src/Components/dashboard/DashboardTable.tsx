@@ -6,30 +6,30 @@ import PaginationButtons from "../PaginationButton/PaginationButton"
 import Skeleton from "react-loading-skeleton"
 
 const DashboardTable = () => {
-  const [lastSessions, setLastSessions] = useState([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [lastSessions, setLastSessions] = useState([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   const getData = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const response = await axiosInstance.get("/user-last-sessions");
+      const response = await axiosInstance.get("/user-last-sessions")
       console.log(response)
       if (response?.data?.success == 200) {
-        setLastSessions(response?.data?.sessions?.data);
+        setLastSessions(response?.data?.sessions?.data)
       }
     } catch (error) {
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
 
   return (
     <>
       <div className="rounded-xl border-2 border-[#E2E2E9] pb-4">
-        <h4 className="text-[24px] font-semibold p-4 text-[#959799]">
+        <h4 className="text-lg md:text-[24px] font-semibold p-4 text-[#959799]">
           Last Login Sessions
         </h4>
 

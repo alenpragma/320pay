@@ -1,65 +1,65 @@
-import { NavLink, useLocation } from "react-router-dom";
-import DropdownUser, { UserOne } from "./DropdownUser";
-import { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosConfig";
-import { images } from "../..";
+import { NavLink, useLocation } from "react-router-dom"
+import DropdownUser, { UserOne } from "./DropdownUser"
+import { useEffect, useState } from "react"
+import axiosInstance from "../../utils/axiosConfig"
+import { images } from "../.."
 // import DarkModeSwitcher from "./DarkModeSwitcher"
 
 const Header = (props: {
-  sidebarOpen: string | boolean | undefined;
-  setSidebarOpen: (arg0: boolean) => void;
+  sidebarOpen: string | boolean | undefined
+  setSidebarOpen: (arg0: boolean) => void
 }) => {
-  const { pathname } = useLocation();
-  const [rotate, setRotate] = useState<boolean>(false);
-  const [modal, setModal] = useState<boolean>(false);
-  const [visible, setVisible] = useState(false);
-  const [clientProfile, setClientProfile] = useState<any>();
+  const { pathname } = useLocation()
+  const [rotate, setRotate] = useState<boolean>(false)
+  const [modal, setModal] = useState<boolean>(false)
+  const [visible, setVisible] = useState(false)
+  const [clientProfile, setClientProfile] = useState<any>()
 
   const capital = (text: string) => {
     if (!text) {
-      return "";
+      return ""
     }
     const cleanedText = text
       .replace(/[\/-]/g, " ") // Replace '/' and '-' with spaces
-      .replace(/dashboard/gi, ""); // Remove the word 'dashboard', case insensitive
-    return cleanedText.trim(); // Trim any extra spaces
-  };
-  const title = capital(pathname);
+      .replace(/dashboard/gi, "") // Remove the word 'dashboard', case insensitive
+    return cleanedText.trim() // Trim any extra spaces
+  }
+  const title = capital(pathname)
   const handleModal = () => {
-    setModal(!modal);
-    setRotate(!rotate);
-    setVisible(!visible);
-  };
+    setModal(!modal)
+    setRotate(!rotate)
+    setVisible(!visible)
+  }
 
   const getData = async () => {
-    const response = await axiosInstance.get("/client-profile");
+    const response = await axiosInstance.get("/client-profile")
     if (response?.data?.success == 200) {
-      setClientProfile(response?.data?.profile);
+      setClientProfile(response?.data?.profile)
     }
-  };
+  }
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
 
   useEffect(() => {
-    setModal(false);
-    setRotate(false);
-    setVisible(false);
-  }, [pathname]);
+    setModal(false)
+    setRotate(false)
+    setVisible(false)
+  }, [pathname])
 
   return (
     <header className="sticky top-0 z-10  flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
-      <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
+      <div className="flex flex-grow items-center justify-between px-2 py-4 shadow-2 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
           <div>
             <button
               aria-controls="sidebar"
               onClick={(e) => {
-                e.stopPropagation();
-                props.setSidebarOpen(!props.sidebarOpen);
+                e.stopPropagation()
+                props.setSidebarOpen(!props.sidebarOpen)
               }}
-              className="z-[9] block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
+              className="z-[9] block rounded-sm border border-stroke bg-white p-1 md:p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
             >
               <span className="relative block h-5.5 w-5.5 cursor-pointer">
                 <span className="du-block absolute right-0 h-full w-full">
@@ -96,7 +96,11 @@ const Header = (props: {
           </div>
 
           <NavLink to="/" className="md:hidden block">
-            <img className="w-[100px] h-7" src={images.logo} alt="" />
+            <img
+              className="w-[85px] md:w-[85px] lg:w-[100px] lg:h-7"
+              src={images.logo}
+              alt=""
+            />
           </NavLink>
         </div>
         {/* <!-- Hamburger Toggle BTN --> */}
@@ -108,11 +112,9 @@ const Header = (props: {
           <h4 className="font-semibold text-[16px]">{clientProfile?.name}</h4>
           <img
             onClick={handleModal}
-            className="size-12 rounded-full cursor-pointer border border-primary hover:scale-105 duration-300"
+            className="size-9 lg:size-12 rounded-full cursor-pointer border border-primary hover:scale-105 duration-300"
             src={UserOne}
             alt="user"
-            width={100}
-            height={100}
           />
           <DropdownUser
             modal={modal}
@@ -123,7 +125,7 @@ const Header = (props: {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
