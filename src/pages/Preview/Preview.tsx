@@ -72,7 +72,7 @@ const Preview = () => {
           </h6>
         </div>
         <div className="flex items-center justify-between">
-          <h6 className="text-secondary text-[14px]">Network Fee 1%</h6>
+          <h6 className="text-secondary text-[14px]">Network Fee 0.5%</h6>
           <h6 className=" text-[14px] px-2 text-secondary py-[2px] w-fit">
             ${(withdrawData?.amount / 100) * 1}
           </h6>
