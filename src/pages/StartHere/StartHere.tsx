@@ -113,7 +113,7 @@ const StartHere = () => {
 
   return (
     <>
-      <StartHereModal plan={plan} handleModal={handleModal} modal={modal} />
+      <StartHereModal plan={plan} handleModal={handleModal} modal={modal} usdtBalance={usdtBalance} />
       <div className="md:p-8 px-3 pt-4">
         <div className="flex justify-between">
           <h5>
