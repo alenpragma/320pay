@@ -12,6 +12,7 @@ import { useState } from "react";
 
 export const validationSchema = z.object({
   domain: z.string().min(1, "This field is required"),
+  coupon: z.string().optional(),
 });
 
 type IModal = {
@@ -21,6 +22,7 @@ type IModal = {
 };
 
 const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
+  const [coupon, setCoupon] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     const { domain } = data;
@@ -84,6 +86,7 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
               resolver={zodResolver(validationSchema)}
               defaultValues={{
                 domain: "",
+                coupon: "",
               }}
             >
               <div className="md:w-10/12 w-full mx-auto">
@@ -98,6 +101,24 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
                     placeholder="Enter Your Domain Name"
                   />
                 </div>
+                <div className="w-full text-right">
+                  <p
+                    className="hover:text-primary text-slate-800 cursor-pointer"
+                    onClick={() => setCoupon(!coupon)}
+                  >
+                    Do you have coupon?
+                  </p>
+                </div>
+                {coupon ? (
+                  <InputField
+                    name="coupon"
+                    type="text"
+                    className="md:w-1/2 w-full mt-3 border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 px-2"
+                    placeholder="Enter Your Coupon Code"
+                  />
+                ) : (
+                  ""
+                )}
 
                 <div className="w-full mt-6 border border-slate-300 rounded-lg">
                   {loading ? (
