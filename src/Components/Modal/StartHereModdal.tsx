@@ -9,22 +9,42 @@ import Form from "../Forms/Form";
 import LoaingAnimation from "../Loading/LoaingAnimation";
 import LoadingButton from "../Loading/LoadingButton";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export const validationSchema = z.object({
   domain: z.string().min(1, "This field is required"),
-  coupon: z.string().optional(),
 });
 
 type IModal = {
   handleModal: () => void;
   modal: boolean;
   plan: any;
+  usdtBalance: string;
 };
 
-const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
-  const [coupon, setCoupon] = useState<boolean>(false);
+const StartHereModal = ({ plan, handleModal, modal, usdtBalance }: IModal) => {
+  console.log(plan);
+  const navigate = useNavigate();
+  const balance = Math.ceil(Number(plan?.package_price));
+  console.log(balance, usdtBalance);
   const [loading, setLoading] = useState<boolean>(false);
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    navigate("/dashboard/start-here/confirmation", {
+      state: { plan, data },
+    });
+    // if (Number(usdtBalance) < Number(balance)) {
+    //   Swal.fire({
+    //     text: "Your don't have available balance",
+    //     icon: "error",
+    //     customClass: {
+    //       popup: "custom-swal-modal",
+    //     },
+    //   });
+    // } else {
+    //   navigate("/dashboard/withdraw/preview", { state: { data } });
+    // }
+    return;
     const { domain } = data;
     setLoading(true);
     const planData = {
@@ -86,7 +106,6 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
               resolver={zodResolver(validationSchema)}
               defaultValues={{
                 domain: "",
-                coupon: "",
               }}
             >
               <div className="md:w-10/12 w-full mx-auto">
@@ -101,25 +120,6 @@ const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
                     placeholder="Enter Your Domain Name"
                   />
                 </div>
-                <div className="w-full text-right">
-                  <p
-                    className="hover:text-primary text-slate-800 cursor-pointer"
-                    onClick={() => setCoupon(!coupon)}
-                  >
-                    Do you have coupon?
-                  </p>
-                </div>
-                {coupon ? (
-                  <InputField
-                    name="coupon"
-                    type="text"
-                    className="md:w-1/2 w-full mt-3 border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md py-1 px-2"
-                    placeholder="Enter Your Coupon Code"
-                  />
-                ) : (
-                  ""
-                )}
-
                 <div className="w-full mt-6 border border-slate-300 rounded-lg">
                   {loading ? (
                     <LoaingAnimation size={30} color="#36d7b7" />
