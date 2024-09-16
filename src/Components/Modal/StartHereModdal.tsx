@@ -24,26 +24,24 @@ type IModal = {
 };
 
 const StartHereModal = ({ plan, handleModal, modal, usdtBalance }: IModal) => {
-  console.log(plan);
   const navigate = useNavigate();
   const balance = Math.ceil(Number(plan?.package_price));
-  console.log(balance, usdtBalance);
   const [loading, setLoading] = useState<boolean>(false);
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    navigate("/dashboard/start-here/confirmation", {
-      state: { plan, data },
-    });
-    // if (Number(usdtBalance) < Number(balance)) {
-    //   Swal.fire({
-    //     text: "Your don't have available balance",
-    //     icon: "error",
-    //     customClass: {
-    //       popup: "custom-swal-modal",
-    //     },
-    //   });
-    // } else {
-    //   navigate("/dashboard/withdraw/preview", { state: { data } });
-    // }
+    // navigate("/dashboard/start-here/confirmation", {
+    //   state: { plan, data },
+    // });
+    if (Number(usdtBalance) < Number(balance)) {
+      Swal.fire({
+        text: "Your don't have available balance",
+        icon: "error",
+        customClass: {
+          popup: "custom-swal-modal",
+        },
+      });
+    } else {
+      navigate("/dashboard/withdraw/preview", { state: { data } });
+    }
     return;
     const { domain } = data;
     setLoading(true);

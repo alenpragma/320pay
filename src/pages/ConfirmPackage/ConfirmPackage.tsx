@@ -5,11 +5,14 @@ import Form from "../../Components/Forms/Form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import InputField from "../../Components/Forms/InputField";
+import axiosInstance from "../../utils/axiosConfig";
+import Swal from "sweetalert2";
+import LoadingButton from "../../Components/Loading/LoadingButton";
+import LoaingAnimation from "../../Components/Loading/LoaingAnimation";
 
 export const validationSchema = z.object({
   coupon: z.string().optional(),
 });
-const verification = "aaaaaa";
 const ConfirmPackage = () => {
   const location = useLocation();
   const { plan, data } = location.state || {};
@@ -17,18 +20,64 @@ const ConfirmPackage = () => {
   const [confirm, setConfirm] = useState<Boolean>(false);
   const { package_name, package_price, duration } = plan;
   const [totalBalance, setToatalBalance] = useState(Number(package_price));
+  const [couponData, setCouponData] = useState<any>("");
+  const [loading, setLoading] = useState(false);
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    if (coupon === verification) {
-      setConfirm(true);
-      const discountPrice = Number(package_price) * 0.1;
-      setToatalBalance(Number(package_price - discountPrice));
+    // setLoading(true);
+    try {
+      const response = await axiosInstance.get(
+        `user-coupon?coupon_code=${data?.coupon}`
+      );
+      setCouponData(response?.data?.data);
+      const couponData = response?.data?.data;
+      if (couponData.status === "valid") {
+        setConfirm(true);
+        const discountPrice =
+          Number(package_price / 100) * couponData?.percentage;
+        setToatalBalance(Number(package_price - discountPrice));
+      }
+    } catch (err) {
+      Swal.fire({
+        text: "Your coupon is invalid",
+        icon: "error",
+        customClass: {
+          popup: "custom-swal-modal",
+        },
+      });
+    } finally {
+      setLoading(false);
     }
   };
   const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCoupon(e.target.value);
     if (coupon.length < 7) {
       setToatalBalance(Number(package_price));
+      setCouponData("");
       setConfirm(false);
+    }
+  };
+
+  const handleConfirm = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/client/purchase-package", {
+        package_id: plan?.id,
+        domain_name: data,
+        coupon_code: couponData?.coupon_code,
+      });
+      const error = response.data.messsage;
+      if (response?.data?.error) {
+        Swal.fire({
+          text: error,
+          icon: "error",
+          customClass: {
+            popup: "custom-swal-modal",
+          },
+        });
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,7 +120,8 @@ const ConfirmPackage = () => {
                       />
                     </div>
                     <button
-                      className={`w-3/12  text-white font-medium h-full py-[5px] border rounded-r-lg ${
+                      type="submit"
+                      className={`w-3/12 text-white font-medium h-full py-[5px] border rounded-r-lg ${
                         coupon.length <= 5
                           ? "bg-[#876fe6] border-[#876fe6] cursor-not-allowed"
                           : "border-primary bg-[#5734dc]"
@@ -93,8 +143,16 @@ const ConfirmPackage = () => {
                   confirm ? "text-slate-700" : "text-slate-400"
                 }`}
               >
-                <span className="">Discount(10%)</span>
-                <span className="">-${package_price * 0.1}</span>
+                <span className="">
+                  Discount {couponData ? <>({couponData?.percentage})%</> : ""}
+                </span>
+                <span className="">
+                  {couponData ? (
+                    <>-${(package_price / 100) * couponData?.percentage}</>
+                  ) : (
+                    "$ 0.00"
+                  )}
+                </span>
               </div>
               <div className="border-b-2 border-dashed border-slate-400 mt-8"></div>
               <div className="flex items-center justify-between py-2 border-b border-b-slate-300">
@@ -102,9 +160,19 @@ const ConfirmPackage = () => {
                 <span className="text-slate-700">${totalBalance}</span>
               </div>
             </div>
-            <button className="bg-primary py-2 rounded-lg text-white font-medium w-full mt-5">
-              Confirm Order
-            </button>
+
+            <div className="w-full mt-6 border border-slate-300 rounded-lg">
+              {loading ? (
+                <LoaingAnimation size={30} color="#36d7b7" />
+              ) : (
+                <div onClick={handleConfirm}>
+                  <LoadingButton className="w-full">
+                    {" "}
+                    Confirm Order
+                  </LoadingButton>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
