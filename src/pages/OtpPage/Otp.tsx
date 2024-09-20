@@ -14,7 +14,7 @@ const Otp = () => {
   const navigate = useNavigate()
 
   const { confirmationResponsData } = location.state || {}
-  console.log(confirmationResponsData)
+  console.log(confirmationResponsData, "confirmationResponsData")
 
   const [loading, setLoading] = useState(false)
   const { control, handleSubmit } = useForm<OTPFormInputs>({
@@ -30,6 +30,7 @@ const Otp = () => {
       id: confirmationResponsData?.id,
       code: otp,
     }
+    console.log(confirmData)
 
     if (!confirmationResponsData?.id) {
       toast.error("data not found")
@@ -40,12 +41,17 @@ const Otp = () => {
       "/client/withdraw-confirm",
       confirmData
     )
+    if (withdrowResponse?.data?.success === false) {
+      toast.error(withdrowResponse?.data?.msg)
+    }
+
     if (withdrowResponse?.data?.success) {
       toast.success(withdrowResponse?.data?.msg)
       navigate("/dashboard")
     }
     if (withdrowResponse?.data?.error) {
       toast.error(withdrowResponse?.data?.msg)
+      setLoading(false)
     }
     setLoading(false)
   }

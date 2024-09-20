@@ -1,5 +1,1 @@
-Purchase notication
-Withdraw notification
-loader
-
-Purchase loader o lgbe
+https://www.pay.web3twenty.com/login
