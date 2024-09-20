@@ -116,7 +116,7 @@ const PaymentModal2 = ({ handleModal, modal }: IProps) => {
             : "bottom-0 opacity-0 duration-300 pointer-events-none"
         }`}
       >
-        <div className="w-full h-full rounded bg-[#ffffff]">
+        <div className="w-full h-full rounded bg-[#fff]">
           <div className="w-full py-3 px-5 bg-primary text-white font-semibold text-[20px] flex justify-between items-center rounded-t">
             <h4> Add New Currency</h4>
             <RxCross1

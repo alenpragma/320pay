@@ -24,6 +24,7 @@ import LoginLayout from "../layouts/LoginLayout";
 import ChangePassword from "../pages/ChangePassword/ChangePassword";
 import RegisterOtp from "../pages/Register/RegisterOtp";
 import RegisterLayout from "../layouts/RegisterLayout";
+import ConfirmPackage from "../pages/ConfirmPackage/ConfirmPackage";
 
 const routes = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const routes = createBrowserRouter([
       {
         path: "start-here",
         element: <StartHere />,
+      },
+      {
+        path: "start-here/confirmation",
+        element: <ConfirmPackage />,
       },
       {
         path: "deposit",
