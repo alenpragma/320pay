@@ -42,7 +42,6 @@ const Dashboard = () => {
 
   const [wallets, setWallets] = useState<any>([])
   const [loading, setLoading] = useState(false)
-  const [totalBalance, setTotalBalance] = useState()
 
   const getWalletbalanceData = async () => {
     setLoading(true)
@@ -50,7 +49,6 @@ const Dashboard = () => {
       const response = await axiosInstance.get("/client-tokens")
       if (response?.data?.success === 200) {
         setWallets(response?.data?.data)
-        setTotalBalance(response?.data?.total_balance)
       }
     } catch (error) {
       // console.error("Failed to fetch wallet data:", error);
@@ -62,13 +60,18 @@ const Dashboard = () => {
   useEffect(() => {
     getWalletbalanceData()
   }, [])
+  interface Wallet {
+    token_symbol: string
+    chainID: string
+  }
+
+  const balance = wallets?.find((wallet: Wallet) => {
+    return wallet.token_symbol === "USDT" && wallet.chainID === "56"
+  })
 
   return (
     <div className="md:p-6 px-3 space-y-5 pt-4">
-      <DashboardCardOne
-        clientProfile={clientProfile}
-        totalBalance={totalBalance}
-      />
+      <DashboardCardOne clientProfile={clientProfile} totalBalance={balance} />
       <BalanceCard wallets={wallets} loading={loading} />
       <DashboardCardTwo />
       <DashboardTable />

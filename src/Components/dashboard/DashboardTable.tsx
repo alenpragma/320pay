@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import TData from "../Table/TData"
 import axiosInstance from "../../utils/axiosConfig"
 import { formatToLocalDate } from "../../hooks/formatDate"
-import PaginationButtons from "../PaginationButton/PaginationButton"
 import Skeleton from "react-loading-skeleton"
 
 const DashboardTable = () => {
@@ -18,6 +17,7 @@ const DashboardTable = () => {
         setLastSessions(response?.data?.sessions?.data)
       }
     } catch (error) {
+      setLoading(false)
     } finally {
       setLoading(false)
     }

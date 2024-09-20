@@ -21,7 +21,9 @@ const BalanceSwiperCard = ({ wallet, keys }: any) => {
             <p className="text-[12px] text-secondary">{wallet?.token_name}</p>
           </div>
           <div>
-            <h4 className="text-[14px]">${wallet.balance}</h4>
+            <h4 className="text-[14px]">
+              {Number(wallet?.balance).toFixed(7)}
+            </h4>
             <h4 className="text-[14px] text-secondary">$0.00</h4>
           </div>
         </div>
