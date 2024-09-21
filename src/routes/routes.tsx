@@ -25,6 +25,7 @@ import ChangePassword from "../pages/ChangePassword/ChangePassword";
 import RegisterOtp from "../pages/Register/RegisterOtp";
 import RegisterLayout from "../layouts/RegisterLayout";
 import ConfirmPackage from "../pages/ConfirmPackage/ConfirmPackage";
+import SomethingWentWorng from "../pages/NotFound/SomethingWentWorng";
 
 const routes = createBrowserRouter([
   {
@@ -109,7 +110,10 @@ const routes = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
-
+  {
+    path: "/wrong-path",
+    element: <SomethingWentWorng />,
+  },
   {
     path: "register",
     element: <RegisterLayout />,

@@ -1,44 +1,43 @@
-import { useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
-import axiosInstance from "../../utils/axiosConfig"
-import { toast } from "react-toastify"
-import LoaingAnimation from "../../Components/Loading/LoaingAnimation"
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axiosInstance from "../../utils/axiosConfig";
+import { toast } from "react-toastify";
+import LoaingAnimation from "../../Components/Loading/LoaingAnimation";
 
 const Preview = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [loading, setLoading] = useState(false)
-  const { withdrawData } = location.state || {}
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+  const { withdrawData } = location.state || {};
 
-  console.log(withdrawData)
+  console.log(withdrawData);
 
   const confirmWithdrow = async () => {
     const confirmData = {
       amount: withdrawData.amount,
       token_id: withdrawData.token_id,
       wallet_address: withdrawData.wallet_address,
-    }
-    setLoading(true)
+    };
+    setLoading(true);
     const withdrowResponse = await axiosInstance.post(
       "/client/withdraw",
       confirmData
-    )
-    console.log(withdrowResponse)
+    );
 
     if (withdrowResponse?.data?.success == 200) {
-      setLoading(false)
-      toast.success(withdrowResponse?.data?.msg)
-      const { ...confirmationResponsData } = withdrowResponse.data
+      setLoading(false);
+      toast.success(withdrowResponse?.data?.msg);
+      const { ...confirmationResponsData } = withdrowResponse.data;
 
       navigate("/dashboard/withdraw/preview/otp", {
         state: { confirmationResponsData },
-      })
+      });
     }
     if (withdrowResponse?.data?.error) {
-      toast.error(withdrowResponse?.data?.messsage)
-      setLoading(false)
+      toast.error(withdrowResponse?.data?.messsage);
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="md:w-1/2 w-full mx-auto mt-20 rounded-lg px-3">
@@ -89,7 +88,7 @@ const Preview = () => {
         </button>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Preview
+export default Preview;

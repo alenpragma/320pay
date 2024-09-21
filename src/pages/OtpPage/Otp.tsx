@@ -1,60 +1,66 @@
-import { useState } from "react"
-import { useForm, Controller } from "react-hook-form"
-import { PuffLoader } from "react-spinners"
-import axiosInstance from "../../utils/axiosConfig"
-import { toast } from "react-toastify"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react";
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  FieldValues,
+} from "react-hook-form";
+import { PuffLoader } from "react-spinners";
+import axiosInstance from "../../utils/axiosConfig";
+import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
+import InputField from "../../Components/Forms/InputField";
+import Form from "../../Components/Forms/Form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 export interface OTPFormInputs {
-  otp: string[]
+  otp: string[];
 }
 
+export const validationSchema = z.object({
+  code: z.string().min(1, "This field is required."),
+});
+
 const Otp = () => {
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const { confirmationResponsData } = location.state || {}
-  console.log(confirmationResponsData, "confirmationResponsData")
+  const { confirmationResponsData } = location.state || {};
+  console.log(confirmationResponsData, "confirmationResponsData");
 
-  const [loading, setLoading] = useState(false)
-  const { control, handleSubmit } = useForm<OTPFormInputs>({
-    defaultValues: {
-      otp: ["", "", "", ""],
-    },
-  })
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (data: OTPFormInputs) => {
-    const otp = data.otp.join("")
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
 
     const confirmData = {
       id: confirmationResponsData?.id,
-      code: otp,
-    }
-    console.log(confirmData)
-
+      code: data,
+    };
+    console.log(confirmData);
     if (!confirmationResponsData?.id) {
-      toast.error("data not found")
-      return
+      toast.error("data not found");
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     const withdrowResponse = await axiosInstance.post(
       "/client/withdraw-confirm",
       confirmData
-    )
+    );
     if (withdrowResponse?.data?.success === false) {
-      toast.error(withdrowResponse?.data?.msg)
+      toast.error(withdrowResponse?.data?.msg);
     }
 
     if (withdrowResponse?.data?.success) {
-      toast.success(withdrowResponse?.data?.msg)
-      navigate("/dashboard")
+      toast.success(withdrowResponse?.data?.msg);
+      navigate("/dashboard");
     }
     if (withdrowResponse?.data?.error) {
-      toast.error(withdrowResponse?.data?.msg)
-      setLoading(false)
+      toast.error(withdrowResponse?.data?.msg);
+      setLoading(false);
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return (
     <div className="md:w-1/2 w-full mx-auto mt-20 border border-slate-300 rounded-lg">
@@ -65,47 +71,20 @@ const Otp = () => {
         Enter The 6 Digit Code To Process <br /> Your Withdraw
       </p>
       <div className="my-10 px-3">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="w-full mx-auto flex justify-around items-center gap-3">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <Controller
-                key={index}
-                name={`otp.${index}`}
-                control={control}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="tel"
-                    maxLength={1}
-                    className="w-12 h-12 text-center border rounded-md"
-                    onChange={(e) => {
-                      const target = e.target as HTMLInputElement
-                      const value = target.value
+        <Form
+          onSubmit={formSubmit}
+          resolver={zodResolver(validationSchema)}
+          defaultValues={{
+            code: "",
+          }}
+        >
+          <InputField
+            name="code"
+            type="text"
+            className="md:w-1/2 w-full border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-md px-3 py-1"
+            placeholder="Enter OTP"
+          />
 
-                      // Allow only digits
-                      if (/^\d$/.test(value) || value === "") {
-                        field.onChange(value)
-                      }
-
-                      // Handle backspace
-                      if (value === "" && index > 0) {
-                        const previousSibling =
-                          target.previousElementSibling as HTMLInputElement | null
-                        previousSibling?.focus()
-                      }
-
-                      // Move to the next input on valid input
-                      if (/^\d$/.test(value) && index < 5) {
-                        const nextSibling =
-                          target.nextElementSibling as HTMLInputElement | null
-                        nextSibling?.focus()
-                      }
-                    }}
-                  />
-                )}
-              />
-            ))}
-          </div>
           <p
             className="text-[14px] px-3 my-10 text-right cursor-pointer hover:text-red-500"
             // onClick={() => handleResendOtp()}
@@ -124,10 +103,10 @@ const Otp = () => {
               </button>
             )}
           </div>
-        </form>
+        </Form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Otp
+export default Otp;
