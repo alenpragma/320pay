@@ -74,7 +74,7 @@ const Dashboard = () => {
       <DashboardCardOne clientProfile={clientProfile} totalBalance={balance} />
       <BalanceCard wallets={wallets} loading={loading} />
       <DashboardCardTwo />
-      <DashboardTable />
+      {/* <DashboardTable /> */}
     </div>
   )
 }
