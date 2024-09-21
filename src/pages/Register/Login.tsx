@@ -1,6 +1,6 @@
 import { FaLock, FaUser } from "react-icons/fa";
 import { images } from "../..";
-import { SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 import Form from "../../Components/Forms/Form";
 import InputField from "../../Components/Forms/InputField";
 import { z } from "zod";
@@ -29,7 +29,7 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
   const [loading, setLoading] = useState<boolean>(false);
-  const formSubmit: SubmitHandler<any> = async (data) => {
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       setLoading(true);
       const response = await axiosInstance.post("/login", data);

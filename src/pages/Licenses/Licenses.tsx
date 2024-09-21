@@ -125,7 +125,7 @@ const Licenses = () => {
                               Details
                             </button>
                           ) : (
-                            <Link to={"/start-here"}>
+                            <Link to={"/dashboard/start-here"}>
                               <button
                                 className={`font-semibold text-[14px] w-[60px] text-white bg-primary rounded   py-1   md:px-0 px-3 ${
                                   data.status == 0
