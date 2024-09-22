@@ -1,64 +1,72 @@
-import Swal from "sweetalert2";
-import axiosInstance from "../../utils/axiosConfig";
-import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import LoaingAnimation from "../../Components/Loading/LoaingAnimation";
-import LoadingButton from "../../Components/Loading/LoadingButton";
+import Swal from "sweetalert2"
+import axiosInstance from "../../utils/axiosConfig"
+import { useState } from "react"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
+import LoaingAnimation from "../../Components/Loading/LoaingAnimation"
+import LoadingButton from "../../Components/Loading/LoadingButton"
+import { removePaymentaToken } from "../../hooks/handelAuthToken"
+import { useNavigate } from "react-router-dom"
 
 const PasswordChange = () => {
-  const [error, setError] = useState<string>("");
-  const [newPasswordError, setNewPasswordError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
-  const { register, handleSubmit, reset } = useForm<FieldValues>();
+  const [error, setError] = useState<string>("")
+  const [newPasswordError, setNewPasswordError] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
+  const { register, handleSubmit, reset } = useForm<FieldValues>()
+
+  const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const { old_password, new_password, password_confirmation } = data;
-    setLoading(true);
+    const { old_password, new_password, password_confirmation } = data
+    setLoading(true)
 
     try {
       if (old_password === new_password) {
-        setError("Old password and new password cannot be the same");
-        setLoading(false);
-        return;
+        setError("Old password and new password cannot be the same")
+        setLoading(false)
+        return
       }
 
       if (password_confirmation !== new_password) {
-        setNewPasswordError("New password and confirmation do not match");
-        setLoading(false);
-        return;
+        setNewPasswordError("New password and confirmation do not match")
+        setLoading(false)
+        return
       }
 
-      const response = await axiosInstance.post("/change-password", data);
+      const response = await axiosInstance.post("/change-password", data)
 
       if (response.status === 200) {
         Swal.fire({
           title: "Updated Successfully",
           text: "Your password has been successfully updated",
           icon: "success",
-        });
-        reset();
+        })
+
+        await axiosInstance.post("/logout")
+        removePaymentaToken()
+        navigate("/login")
+        reset()
       }
     } catch (error) {
       Swal.fire({
         title: "Opps!",
         text: "Your old password doesn't match",
         icon: "error",
-      });
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   const handleNewPassword = () => {
-    setShowNewPassword(!showNewPassword);
-  };
+    setShowNewPassword(!showNewPassword)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -135,7 +143,7 @@ const PasswordChange = () => {
         )}
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default PasswordChange;
+export default PasswordChange
