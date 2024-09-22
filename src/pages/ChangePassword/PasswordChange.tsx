@@ -34,17 +34,14 @@ const PasswordChange = () => {
         setLoading(false)
         return
       }
-
       const response = await axiosInstance.post("/change-password", data)
 
-      if (response.status === 200) {
+      if (response?.data?.status === 200) {
         Swal.fire({
           title: "Updated Successfully",
           text: "Your password has been successfully updated",
           icon: "success",
         })
-
-        await axiosInstance.post("/logout")
         removePaymentaToken()
         navigate("/login")
         reset()

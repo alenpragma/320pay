@@ -28,6 +28,8 @@ axiosInstance.interceptors.response.use(
     return response
   },
   (error) => {
+    console.log(error, "error")
+
     if (
       error.response &&
       (error.response.status === 401 || error.response.status === 403)
