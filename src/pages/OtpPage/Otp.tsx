@@ -1,66 +1,60 @@
-import { useState } from "react";
-import {
-  useForm,
-  Controller,
-  SubmitHandler,
-  FieldValues,
-} from "react-hook-form";
-import { PuffLoader } from "react-spinners";
-import axiosInstance from "../../utils/axiosConfig";
-import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router-dom";
-import InputField from "../../Components/Forms/InputField";
-import Form from "../../Components/Forms/Form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useState } from "react"
+import { SubmitHandler, FieldValues } from "react-hook-form"
+import { PuffLoader } from "react-spinners"
+import axiosInstance from "../../utils/axiosConfig"
+import { toast } from "react-toastify"
+import { useLocation, useNavigate } from "react-router-dom"
+import InputField from "../../Components/Forms/InputField"
+import Form from "../../Components/Forms/Form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 
 export interface OTPFormInputs {
-  otp: string[];
+  otp: string[]
 }
 
 export const validationSchema = z.object({
   code: z.string().min(1, "This field is required."),
-});
+})
 
 const Otp = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation()
+  const navigate = useNavigate()
 
-  const { confirmationResponsData } = location.state || {};
-  console.log(confirmationResponsData, "confirmationResponsData");
+  const { confirmationResponsData } = location.state || {}
+  console.log(confirmationResponsData, "confirmationResponsData")
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-
     const confirmData = {
       id: confirmationResponsData?.id,
-      code: data,
-    };
-    console.log(confirmData);
-    if (!confirmationResponsData?.id) {
-      toast.error("data not found");
-      return;
+      code: data.code,
     }
-    setLoading(true);
+    console.log(confirmData)
+    if (!confirmationResponsData?.id) {
+      toast.error("data not found")
+      return
+    }
+    setLoading(true)
     const withdrowResponse = await axiosInstance.post(
       "/client/withdraw-confirm",
       confirmData
-    );
+    )
     if (withdrowResponse?.data?.success === false) {
-      toast.error(withdrowResponse?.data?.msg);
+      toast.error(withdrowResponse?.data?.msg)
     }
 
-    if (withdrowResponse?.data?.success) {
-      toast.success(withdrowResponse?.data?.msg);
-      navigate("/dashboard");
+    if (withdrowResponse?.data?.success === true) {
+      toast.success(withdrowResponse?.data?.msg)
+      navigate("/dashboard")
     }
     if (withdrowResponse?.data?.error) {
-      toast.error(withdrowResponse?.data?.msg);
-      setLoading(false);
+      toast.error(withdrowResponse?.data?.msg)
+      setLoading(false)
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   return (
     <div className="md:w-1/2 w-full mx-auto mt-20 border border-slate-300 rounded-lg">
@@ -106,7 +100,7 @@ const Otp = () => {
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Otp;
+export default Otp
