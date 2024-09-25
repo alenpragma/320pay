@@ -1,82 +1,68 @@
-import { useEffect, useState } from "react"
-import DashboardCardOne from "../../Components/dashboard/DashboardCardOne"
-import DashboardCardTwo from "../../Components/dashboard/DashboardCardTwo"
-// import DashboardTable from "../../Components/dashboard/DashboardTable"
-import axiosInstance from "../../utils/axiosConfig"
-import BalanceCard from "../../Components/dashboard/BalanceCard"
+import BalanceCard from "../../Components/dashboard/BalanceCard";
+import DashboardCardOne from "../../Components/dashboard/DashboardCardOne";
+import DashboardCardTwo from "../../Components/dashboard/DashboardCardTwo";
+import DashboardTable from "../../Components/dashboard/DashboardTable";
+import axiosInstance from "../../utils/axiosConfig";
+import { useQuery } from "@tanstack/react-query";
+
+interface Wallet {
+  token_symbol: string;
+  chainID: string;
+}
 
 const Dashboard = () => {
-  const [clientWallets, setClientWallets] = useState<any>()
-  const [clientProfile, setClientProfile] = useState()
-
-  const getData = async () => {
-    const response = await axiosInstance.get("/client-profile")
-    if (response?.data?.success == 200) {
-      setClientProfile(response?.data?.profile)
-    }
-  }
-  useEffect(() => {
-    getData()
-  }, [])
-
-  const getWalletData = async () => {
-    const response = await axiosInstance.get("/client-wallets")
-    if (response?.data?.success == 200) {
-      setClientWallets(response?.data?.data)
-    }
-  }
-  useEffect(() => {
-    getWalletData()
-  }, [])
-
-  useEffect(() => {
-    if (clientWallets) {
-      localStorage.setItem(
-        "client_wallet_address",
-        clientWallets?.client_wallet_address
-      )
-    }
-  }, [clientWallets])
-
-  // balance slider
-
-  const [wallets, setWallets] = useState<any>([])
-  const [loading, setLoading] = useState(false)
-
-  const getWalletbalanceData = async () => {
-    setLoading(true)
-    try {
-      const response = await axiosInstance.get("/client-tokens")
-      if (response?.data?.success === 200) {
-        setWallets(response?.data?.data)
-      }
-    } catch (error) {
-      // console.error("Failed to fetch wallet data:", error);
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    getWalletbalanceData()
-  }, [])
-  interface Wallet {
-    token_symbol: string
-    chainID: string
-  }
-
-  const balance = wallets?.find((wallet: Wallet) => {
-    return wallet.token_symbol === "USDT" && wallet.chainID === "56"
-  })
+  const fetchData = async () => {
+    const [profile, tokens, wallets, lastSessions, dashboardData] =
+      await Promise.all([
+        axiosInstance.get(`/client-profile`),
+        axiosInstance.get(`/client-tokens`),
+        axiosInstance.get(`/client-wallets`),
+        axiosInstance.get(`/user-last-sessions`),
+        axiosInstance.get(`/client/dashboard-data`),
+      ]);
+    return {
+      profile: profile.data,
+      tokens: tokens.data,
+      wallet: wallets.data,
+      lastSession: lastSessions.data,
+      dashboardData: dashboardData.data,
+    };
+  };
+  const {
+    data: data,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["profile", "tokens", "wallets", "lastSessions", "dashboardData"],
+    queryFn: fetchData,
+    staleTime: 10000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+  const profile = data?.profile?.profile;
+  const tokens = data?.tokens?.data;
+  const wallets = data?.wallet?.data;
+  const lastSessions = data?.lastSession?.sessions?.data;
+  const dashboardData = data?.dashboardData?.data;
+  const balance = tokens?.find((wallet: Wallet) => {
+    return wallet.token_symbol === "USDT" && wallet.chainID === "56";
+  });
 
   return (
     <div className="md:p-6 px-3 space-y-5 pt-4">
-      <DashboardCardOne clientProfile={clientProfile} totalBalance={balance} />
-      <BalanceCard wallets={wallets} loading={loading} />
-      <DashboardCardTwo />
-      {/* <DashboardTable /> */}
+      <DashboardCardOne
+        clientProfile={profile}
+        totalBalance={balance}
+        isLoading={isLoading}
+        wallets={wallets}
+        refetch={refetch}
+      />
+      <BalanceCard wallets={tokens} loading={isLoading} />
+      <DashboardCardTwo dashboardData={dashboardData} isLoading={isLoading} />
+      <DashboardTable lastSessions={lastSessions} isLoading={isLoading} />
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

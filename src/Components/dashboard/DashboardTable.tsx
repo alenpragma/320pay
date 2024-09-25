@@ -1,30 +1,8 @@
-import { useEffect, useState } from "react"
-import TData from "../Table/TData"
-import axiosInstance from "../../utils/axiosConfig"
-import { formatToLocalDate } from "../../hooks/formatDate"
-import Skeleton from "react-loading-skeleton"
+import TData from "../Table/TData";
+import { formatToLocalDate } from "../../hooks/formatDate";
+import Skeleton from "react-loading-skeleton";
 
-const DashboardTable = () => {
-  const [lastSessions, setLastSessions] = useState([])
-  const [loading, setLoading] = useState<boolean>(false)
-
-  const getData = async () => {
-    setLoading(true)
-    try {
-      const response = await axiosInstance.get("/user-last-sessions")
-      if (response?.data?.success == 200) {
-        setLastSessions(response?.data?.sessions?.data)
-      }
-    } catch (error) {
-      setLoading(false)
-    } finally {
-      setLoading(false)
-    }
-  }
-  useEffect(() => {
-    getData()
-  }, [])
-
+const DashboardTable = ({ isLoading, lastSessions }: any) => {
   return (
     <>
       <div className="rounded-xl border-2 border-[#E2E2E9] pb-4">
@@ -32,8 +10,10 @@ const DashboardTable = () => {
           Last Login Sessions
         </h4>
 
-        {loading ? (
-          <Skeleton height={45} count={5} />
+        {isLoading ? (
+          <div className="mt-5">
+            <Skeleton height={45} count={5} />
+          </div>
         ) : (
           <>
             {lastSessions?.length !== 0 ? (
@@ -80,7 +60,7 @@ const DashboardTable = () => {
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default DashboardTable
+export default DashboardTable;

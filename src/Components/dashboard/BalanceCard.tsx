@@ -22,7 +22,7 @@ const BalanceCard = ({ wallets, loading }: any) => {
           </div>
         ) : (
           <>
-            {wallets.length === 0 ? (
+            {wallets?.length === 0 ? (
               <div className="w-1/3 rounded bg-[#b3b2b9] py-4 border border-slate-100 font-medium px-3 text-white mt-2">
                 <h6>Opps you don't have any balance card</h6>
               </div>
@@ -70,7 +70,7 @@ const BalanceCard = ({ wallets, loading }: any) => {
             )}
           </>
         )}
-        {wallets.length >= 3 ? (
+        {wallets?.length >= 3 ? (
           <div className="button-atrrangment absolute top-0 right-0">
             <div className="button-swiper px-3 flex items-center justify-between w-[100px]">
               <div className="swiper-button-prev  bg-primary rounded-full size-10 balance">
