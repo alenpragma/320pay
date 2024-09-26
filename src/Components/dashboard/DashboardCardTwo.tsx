@@ -61,7 +61,7 @@ const DashboardCardTwo = ({ dashboardData, isLoading }: any) => {
             <div className="size-[48px]  bg-[#fff] rounded-full flex justify-center items-center p-2">
               <img
                 className="md:size-[24px] size-full"
-                src={images.ticket}
+                src={images.file}
                 alt=""
               />
             </div>

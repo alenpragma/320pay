@@ -5,7 +5,7 @@ import DashboardTable from "../../Components/dashboard/DashboardTable";
 import axiosInstance from "../../utils/axiosConfig";
 import { useQuery } from "@tanstack/react-query";
 
-interface Wallet {
+export interface Wallet {
   token_symbol: string;
   chainID: string;
 }
