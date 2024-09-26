@@ -11,7 +11,9 @@ import Register from "../pages/Register/Register";
 import Wallet from "../pages/Wallet/WalletPage";
 import TransitionHistory from "../pages/TransitionHistory/TransitionHistory";
 import NotFound from "../pages/NotFound/NotFound";
-import ProtectRoute from "../Components/ProtectRouter/ProtectRoute";
+import ProtectRoute, {
+  RedirectToDashboard,
+} from "../Components/ProtectRouter/ProtectRoute";
 import Payment from "../pages/Payment/Payment";
 import WithdrawHistory from "../pages/WithdrawHistory/WithdrawHistory";
 import Withdraw from "../pages/Withdraw/Withdraw";
@@ -108,7 +110,12 @@ const routes = createBrowserRouter([
   },
   {
     path: "login",
-    element: <Login />,
+    element: (
+      <RedirectToDashboard>
+        {" "}
+        <Login />
+      </RedirectToDashboard>
+    ),
   },
   {
     path: "/wrong-path",
@@ -116,7 +123,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "register",
-    element: <RegisterLayout />,
+    element: (
+      <RedirectToDashboard>
+        <RegisterLayout />{" "}
+      </RedirectToDashboard>
+    ),
     children: [
       {
         path: "",
@@ -130,7 +141,12 @@ const routes = createBrowserRouter([
   },
   {
     path: "password-reset",
-    element: <LoginLayout />,
+    element: (
+      <RedirectToDashboard>
+        {" "}
+        <LoginLayout />
+      </RedirectToDashboard>
+    ),
     children: [
       {
         path: "",
