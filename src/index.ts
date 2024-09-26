@@ -313,6 +313,7 @@ export const images = {
   shield,
   file,
   ticket,
+  dWallet,
   qrCode,
   loginImage,
   logo,

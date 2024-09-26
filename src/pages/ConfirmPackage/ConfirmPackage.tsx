@@ -29,45 +29,42 @@ const ConfirmPackage = () => {
   const [coupon, setCoupon] = useState("");
   const [confirm, setConfirm] = useState<Boolean>(false);
   const [totalBalance, setToatalBalance] = useState(Number(package_price));
-  const [couponData, setCouponData] = useState<any>("");
+  const [couponData, setCouponData] = useState<any>();
   const [loading, setLoading] = useState(false);
-  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // setLoading(true);
-    try {
-      const response = await axiosInstance.get(
-        `user-coupon?coupon_code=${data?.coupon}`
-      );
-      setCouponData(response?.data?.data);
-      const couponData = response?.data?.data;
-      if (couponData.status === "valid") {
-        setConfirm(true);
-        const discountPrice =
-          Number(package_price / 100) * couponData?.percentage;
-        setToatalBalance(Number(package_price - discountPrice));
-      }
-    } catch (err) {
-      Swal.fire({
-        text: "Your coupon is invalid",
-        icon: "error",
-        customClass: {
-          popup: "custom-swal-modal",
-        },
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [error, setError] = useState<string>("");
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {};
+  const handleCouponChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setCoupon(e.target.value);
-    if (coupon.length < 7) {
+    if (e.target.value.length > 5) {
+      try {
+        const response = await axiosInstance.get(
+          `user-coupon?coupon_code=${e.target.value}`
+        );
+        if (response) {
+          setCouponData(response?.data?.data);
+        }
+        const couponData = response?.data?.data;
+        if (couponData.status === "valid") {
+          setConfirm(true);
+          const discountPrice =
+            Number(package_price / 100) * couponData?.percentage;
+          console.log(discountPrice);
+          setToatalBalance(Number(package_price - discountPrice));
+        }
+      } catch (err) {
+        setError("Invalid Coupon");
+      } finally {
+      }
+    }
+    if (coupon.length > 5) {
       setToatalBalance(Number(package_price));
       setCouponData("");
       setConfirm(false);
+      setError("");
     }
   };
 
   const handleConfirm = async () => {
-    console.log(plan.id, data, couponData.coupon_code);
     setLoading(true);
     try {
       const response = await axiosInstance.post("/client/purchase-package", {
@@ -75,7 +72,7 @@ const ConfirmPackage = () => {
         domain_name: data,
         coupon_code: couponData?.coupon_code,
       });
-      console.log(response);
+
       const error = response.data.messsage;
       if (response?.data?.status === 200) {
         Swal.fire({
@@ -114,12 +111,13 @@ const ConfirmPackage = () => {
               </div>
               <div className="p-3">
                 <h6 className="font-medium flex justify-between items-center">
-                  <span>Domain Name:</span>{" "}
+                  <span>Domain Name:</span>
+                  {""}
                   <span className="font-normal">{data.domain}</span>
                 </h6>
-                <p className="font-medium">{package_name}</p>
+                <p className="font-medium">{package_name} Package</p>
                 <div className="flex justify-between items-center">
-                  <p className="font-medium">{duration}</p>
+                  <p className="font-medium">{parseInt(duration)} Month</p>
                   <p className="font-medium">
                     Price: <span className="font-normal">${package_price}</span>
                   </p>
@@ -133,26 +131,18 @@ const ConfirmPackage = () => {
                     }}
                   >
                     <div className=" mt-8">
-                      <div className=" flex items-center w-full border border-slate-300 rounded-lg">
-                        <div className="md:w-9/12   w-full">
+                      <div className="w-full rounded-lg">
+                        <div className="w-full">
                           <InputField
                             name="coupon"
                             type="text"
-                            className="w-full py-[5px] border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-l-lg px-3"
+                            className="w-full py-[5px] border border-[#E2E2E9] focus:outline focus:outline-slate-500 rounded-lg px-3"
                             placeholder="Coupon Code"
                             onChange={handleCouponChange}
+                            maxlength={6}
                           />
                         </div>
-                        <button
-                          type="submit"
-                          className={`w-3/12 text-white font-medium h-full py-[5px] border rounded-r-lg ${
-                            coupon.length <= 5
-                              ? "bg-[#876fe6] border-[#876fe6] cursor-not-allowed"
-                              : "border-primary bg-[#5734dc]"
-                          }`}
-                        >
-                          Apply
-                        </button>
+                        <p className="text-[12px] text-red-500 mt-5">{error}</p>
                       </div>
                     </div>
                   </Form>

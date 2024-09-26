@@ -4,7 +4,7 @@ import Container from "../../Components/Shared/Container";
 
 const LoginNavbar = () => {
   return (
-    <div className="w-full bg-slate-200 shadow-6">
+    <div className="w-full bg-slate-200 shadow-6 py-3">
       <Container>
         <div className="flex justify-between items-center ">
           <Link to="/">

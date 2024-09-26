@@ -20,10 +20,9 @@ type IModal = {
   handleModal: () => void;
   modal: boolean;
   plan: any;
-  usdtBalance: string;
 };
 
-const StartHereModal = ({ plan, handleModal, modal, usdtBalance }: IModal) => {
+const StartHereModal = ({ plan, handleModal, modal }: IModal) => {
   const navigate = useNavigate();
   const balance = Math.ceil(Number(plan?.package_price));
   const [loading, setLoading] = useState<boolean>(false);
