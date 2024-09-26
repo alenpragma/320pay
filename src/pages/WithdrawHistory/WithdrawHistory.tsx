@@ -43,7 +43,6 @@ const WithdrawHistory = () => {
     setLoading(true);
     try {
       const response = await axiosInstance.get("/client/withdraw-history");
-      console.log(response);
       if (response?.data?.data) {
         setWithdrowHistory(response?.data?.data);
       }

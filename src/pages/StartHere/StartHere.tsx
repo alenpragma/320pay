@@ -105,7 +105,7 @@ const StartHere = () => {
                       ${data?.package_price}
                     </span>
                     <span className="text-secondary text-[14px]">
-                      /{data?.duration} Month
+                      /{parseFloat(data?.duration)} Month
                     </span>
                   </h4>
                   <ul className="space-y-1">
