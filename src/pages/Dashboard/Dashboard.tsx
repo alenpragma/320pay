@@ -61,9 +61,10 @@ const Dashboard = () => {
       <BalanceCard wallets={tokens} loading={isLoading} />
       <DashboardCardTwo dashboardData={dashboardData} isLoading={isLoading} />
 
-      {/* dont show this without permision */}
       {/*  warning */}
+      {/* don't show this without permision */}
       {/* <DashboardTable lastSessions={lastSessions} isLoading={isLoading} /> */}
+      {/*  warning */}
     </div>
   )
 }
