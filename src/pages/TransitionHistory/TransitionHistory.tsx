@@ -36,6 +36,7 @@ const TransitionHistory = () => {
     label: item?.token_symbol,
     value: item?.token_symbol,
   }));
+  console.log(options);
   const defaultOption = { label: "MUSD", value: "MUSD" };
 
   const fetchTransactions = async () => {
@@ -54,6 +55,7 @@ const TransitionHistory = () => {
       refetchOnReconnect: false,
       retry: false,
     });
+    console.log(transactions);
   const transitionData = transactions?.data?.data;
   const handleChange = (newValue: SingleValue<OptionType>) => {
     if (newValue) {
@@ -75,7 +77,7 @@ const TransitionHistory = () => {
   const to = from + perPage;
   //  pagination end
   const totalPage = Math.ceil(filteredDeposits?.length / perPage);
-  console.log(totalPage);
+  console.log(filteredDeposits);
 
   return (
     <>
