@@ -11,7 +11,6 @@ const PaginationButtons = ({
   };
   const showNextButton = currentPage;
   const showPrevButton = currentPage !== 0;
-  console.log(showNextButton, showPrevButton);
 
   return (
     <div>

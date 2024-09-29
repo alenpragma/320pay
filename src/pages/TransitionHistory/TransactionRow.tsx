@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdContentCopy } from "react-icons/md";
 import HoverTableItem from "../../lib/HoverTableItem";
 import { copyToClipboard } from "../../utils/Actions";
@@ -8,7 +8,6 @@ import { TiTick } from "react-icons/ti";
 const TransactionRow = ({
   data,
   selectValue,
-  wallet,
   index,
   perPage,
   currentPage,
