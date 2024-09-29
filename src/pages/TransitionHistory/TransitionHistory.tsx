@@ -1,25 +1,25 @@
-import { Key, useEffect, useState } from "react";
-import Select, { SingleValue } from "react-select";
-import axiosInstance from "../../utils/axiosConfig";
-import { ITokenData, ITransaction } from "../../types/web3";
+import { Key, useState } from "react"
+import Select, { SingleValue } from "react-select"
+import axiosInstance from "../../utils/axiosConfig"
+import { ITokenData, ITransaction } from "../../types/web3"
 
-import { useQuery } from "@tanstack/react-query";
-import Skeleton from "react-loading-skeleton";
-import TransactionRow from "./TransactionRow";
-import SearchInput from "../../Components/SearchInput";
-import PaginationButtons from "../../Components/PaginationButton/PaginationButton";
+import { useQuery } from "@tanstack/react-query"
+import Skeleton from "react-loading-skeleton"
+import TransactionRow from "./TransactionRow"
+import SearchInput from "../../Components/SearchInput"
+import PaginationButtons from "../../Components/PaginationButton/PaginationButton"
 
 type OptionType = {
-  label: string;
-  value: string;
-};
+  label: string
+  value: string
+}
 const TransitionHistory = () => {
-  const [selectedToken, setSelectedToken] = useState<string | null>("MUSD");
-  const [search, setSearch] = useState("");
+  const [selectedToken, setSelectedToken] = useState<string | null>("MUSD")
+  const [search, setSearch] = useState("")
   const fetchApi = async () => {
-    const response = await axiosInstance("/client-tokens");
-    return response;
-  };
+    const response = await axiosInstance("/client-tokens")
+    return response
+  }
 
   const { data: clientTokens, isLoading } = useQuery({
     queryKey: ["walletAddress"],
@@ -28,22 +28,22 @@ const TransitionHistory = () => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: false,
-  });
-  const clientToken = clientTokens?.data?.data;
+  })
+  const clientToken = clientTokens?.data?.data
 
   const options = clientToken?.map((item: ITokenData) => ({
     id: item?.id,
     label: item?.token_symbol,
     value: item?.token_symbol,
-  }));
-  const defaultOption = { label: "MUSD", value: "MUSD" };
+  }))
+  const defaultOption = { label: "MUSD", value: "MUSD" }
 
   const fetchTransactions = async () => {
     const response = await axiosInstance(
       `/client/transactions?token_symbol=${selectedToken}`
-    );
-    return response;
-  };
+    )
+    return response
+  }
   const { data: transactions, isLoading: isTransactionsLoading } =
     useQuery<any>({
       queryKey: ["transactions", selectedToken],
@@ -53,29 +53,32 @@ const TransitionHistory = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       retry: false,
-    });
-  const transitionData = transactions?.data?.data;
+    })
+  const transitionData = transactions?.data?.data
   const handleChange = (newValue: SingleValue<OptionType>) => {
     if (newValue) {
-      setSelectedToken(newValue.value);
+      setSelectedToken(newValue.value)
     }
-  };
-  const filteredDeposits = transitionData?.filter(
-    (data: any) =>
-      data?.to?.toLowerCase().includes(search.toLowerCase()) ||
-      data?.from?.toLowerCase().includes(search.toLowerCase()) ||
-      data?.hash?.toLowerCase().includes(search.toLowerCase()) ||
-      data?.value?.toString().toLowerCase().includes(search.toLowerCase())
-  );
-  // pagination calculate
-  const [currentPage, setCurrentPage] = useState(0);
-  const [perPage, setparePage] = useState(10);
+  }
 
-  const from = currentPage * perPage;
-  const to = from + perPage;
+  const filteredDeposits =
+    Array.isArray(transitionData) &&
+    transitionData?.filter(
+      (data: any) =>
+        data?.to?.toLowerCase().includes(search.toLowerCase()) ||
+        data?.from?.toLowerCase().includes(search.toLowerCase()) ||
+        data?.hash?.toLowerCase().includes(search.toLowerCase()) ||
+        data?.value?.toString().toLowerCase().includes(search.toLowerCase())
+    )
+  // pagination calculate
+  const [currentPage, setCurrentPage] = useState(0)
+  const [perPage, setparePage] = useState(10)
+
+  const from = currentPage * perPage
+  const to = from + perPage
   //  pagination end
-  const totalPage = Math.ceil(filteredDeposits?.length / perPage);
-  console.log(totalPage);
+  const totalPage = Math.ceil(filteredDeposits?.length / perPage)
+  console.log(totalPage)
 
   return (
     <>
@@ -127,18 +130,19 @@ const TransitionHistory = () => {
                         </thead>
 
                         <tbody className="bg-white">
-                          {filteredDeposits
-                            ?.slice(from, to)
-                            .map((data: ITransaction, i: Key) => (
-                              <TransactionRow
-                                key={i}
-                                data={data}
-                                selectValue={selectedToken}
-                                index={i}
-                                perPage={perPage}
-                                currentPage={currentPage}
-                              />
-                            ))}
+                          {Array.isArray(transitionData) &&
+                            filteredDeposits
+                              ?.slice(from, to)
+                              .map((data: ITransaction, i: Key) => (
+                                <TransactionRow
+                                  key={i}
+                                  data={data}
+                                  selectValue={selectedToken}
+                                  index={i}
+                                  perPage={perPage}
+                                  currentPage={currentPage}
+                                />
+                              ))}
                         </tbody>
                       </table>
                     </div>
@@ -157,10 +161,10 @@ const TransitionHistory = () => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default TransitionHistory;
+export default TransitionHistory
 
 // import { Key, useEffect, useState } from "react";
 // import Select, { SingleValue } from "react-select";
