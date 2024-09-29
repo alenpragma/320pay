@@ -119,7 +119,7 @@ const DashboardCardOne = ({
                           <div className="w-full flex justify-center items-center">
                             {!isPending && (
                               <button
-                                // onClick={() => createWallets()}
+                                onClick={() => createWallets()}
                                 className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]"
                               >
                                 Create Wallets

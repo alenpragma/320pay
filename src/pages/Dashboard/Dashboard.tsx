@@ -40,8 +40,6 @@ const Dashboard = () => {
     refetchOnReconnect: false,
     retry: false,
   });
-
-  console.log(data);
   const profile = data?.profile?.profile;
   const tokens = data?.tokens?.data;
   const wallets = data?.wallet?.data;
