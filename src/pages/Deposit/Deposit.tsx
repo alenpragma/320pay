@@ -1,17 +1,14 @@
-import { FaCopy } from "react-icons/fa";
 import { images } from "../..";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { copyToClipboard } from "../../utils/Actions";
 import axiosInstance from "../../utils/axiosConfig";
 import Skeleton from "react-loading-skeleton";
 import { MdContentCopy } from "react-icons/md";
-import { TiTick } from "react-icons/ti";
+import { useQuery } from "@tanstack/react-query";
+import TickIcon from "../../lib/TickIcon";
 
 const Deposit = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [wallet, setWallet] = useState<any>();
   const [timeout, setTimeouts] = useState<boolean>(false);
-
   const handleCopy = (copy: string) => {
     copyToClipboard(copy);
     setTimeouts(true);
@@ -20,24 +17,6 @@ const Deposit = () => {
     }, 3000);
   };
 
-  const getWallet = async () => {
-    try {
-      setLoading(true);
-      const response = await axiosInstance.get("/client-wallets");
-      if (response?.data?.success === 200) {
-        setWallet(response?.data?.data);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch wallet data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getWallet();
-  }, []);
-
   const shortenAddress = (address: string) => {
     if (!address) return "";
     const firstPart = address.slice(0, 10);
@@ -45,24 +24,23 @@ const Deposit = () => {
     return `${firstPart}....${lastPart}`;
   };
 
+  const fetchApi = async () => {
+    const response = await axiosInstance("/client-wallets");
+    return response;
+  };
+  const { data, isLoading } = useQuery({
+    queryKey: ["walletAddress"],
+    queryFn: fetchApi,
+    staleTime: 10000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+  const wallet = data?.data?.data;
+
   return (
     <div className="md:p-8 pt-5">
       <div className="md:w-2/5 w-11/12 mx-auto ">
-        {/* <Form
-          onSubmit={formSubmit}
-          resolver={zodResolver(validationSchema)}
-
-          defaultValues={{
-            currency: "",
-          }}
-        >
-          <SelectField
-            name="currency"
-            className=""
-            options={currency}
-            placeholder="Please select an option"
-          />
-        </Form> */}
         <div className="mt-5 border border-[#E2E2E9] rounded-2xl">
           <div className="py-2 bg-primary w-full rounded-t-2xl px-5">
             <span className="font-semibold text-white ">
@@ -74,8 +52,8 @@ const Deposit = () => {
               <img src={images.qrCode} alt="" />
             </div>
             <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
-              <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                {loading ? (
+              <span className=" w-full text-[14px]  text-start px-3 font-semibold">
+                {isLoading ? (
                   <Skeleton height={30} count={1} />
                 ) : (
                   shortenAddress(wallet?.client_wallet_address)
@@ -87,7 +65,7 @@ const Deposit = () => {
                   className="cursor-pointer rotate-180 size-6"
                 />
               ) : (
-                <TiTick className="size-6" />
+                <TickIcon className="size-6" />
               )}
             </div>
           </div>

@@ -1,51 +1,37 @@
-import { Key, useEffect, useState } from "react"
-import { tableData } from "../.."
-import TData from "../../Components/Table/TData"
-import Modal from "../../Components/Modal/Modal"
-import Pagination from "../../Components/Pagination/Pagination"
-import axiosInstance from "../../utils/axiosConfig"
-import { formatToLocalDate } from "../../hooks/formatDate"
-import { Link } from "react-router-dom"
-import Skeleton from "react-loading-skeleton"
+import { Key, useState } from "react";
+import TData from "../../Components/Table/TData";
+import Modal from "../../Components/Modal/Modal";
+import axiosInstance from "../../utils/axiosConfig";
+import { formatToLocalDate } from "../../hooks/formatDate";
+import { Link } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import { useQuery } from "@tanstack/react-query";
 
 const Licenses = () => {
-  const [modal, setModal] = useState<boolean>(false)
-  // const [renewModal, setRenewModal] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [data, setData] = useState()
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
-
-  const totalPages = Math.ceil(tableData?.length / itemsPerPage)
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-  }
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
-
+  const [modal, setModal] = useState<boolean>(false);
   const handleModal = () => {
-    setModal(!modal)
-  }
+    setModal(!modal);
+  };
+  const [data, setData] = useState();
+
   const handelDetailsModal = (data: any) => {
-    setData(data)
-  }
+    setData(data);
+  };
 
-  const [licenses, setLicenses] = useState<any>([])
-
-  const getLicenses = async () => {
-    setLoading(true)
-    const response = await axiosInstance.get("/client/license-purchase-history")
-    if (response?.data?.success == 200) {
-      setLicenses(response?.data?.data)
-    }
-    setLoading(false)
-  }
-  useEffect(() => {
-    getLicenses()
-  }, [])
+  const fetchApi = async () => {
+    const response = await axiosInstance("/client/license-purchase-history");
+    return response;
+  };
+  const { data: licenseData, isLoading } = useQuery({
+    queryKey: ["walletAddress"],
+    queryFn: fetchApi,
+    staleTime: 10000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+  console.log(isLoading);
+  const licenses = licenseData?.data?.data;
 
   return (
     <>
@@ -61,9 +47,9 @@ const Licenses = () => {
         </div>
         <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
           <div className="overflow-x-auto w-full">
-            {loading == true ? (
+            {isLoading == true ? (
               <div>
-                <Skeleton height={35} count={3} />
+                <Skeleton height={35} count={5} />
               </div>
             ) : (
               <table className=" border-collapse md:w-full w-fit">
@@ -117,8 +103,8 @@ const Licenses = () => {
                           {data.status == 0 ? (
                             <button
                               onClick={() => {
-                                handleModal()
-                                handelDetailsModal(data)
+                                handleModal();
+                                handelDetailsModal(data);
                               }}
                               className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
                             >
@@ -147,14 +133,8 @@ const Licenses = () => {
           </div>
         </div>
       </div>
-      <Pagination
-        totalPages={totalPages}
-        handleNextPage={handleNextPage}
-        currentPage={currentPage}
-        handlePrevPage={handlePrevPage}
-      />
     </>
-  )
-}
+  );
+};
 
-export default Licenses
+export default Licenses;

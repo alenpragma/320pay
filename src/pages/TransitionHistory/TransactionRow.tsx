@@ -1,23 +1,30 @@
-import React, { useState } from "react"
-import { MdContentCopy } from "react-icons/md"
-import HoverTableItem from "../../lib/HoverTableItem"
-import { copyToClipboard } from "../../utils/Actions"
-import TData from "../../Components/Table/TData"
-import { TiTick } from "react-icons/ti"
+import React, { useState } from "react";
+import { MdContentCopy } from "react-icons/md";
+import HoverTableItem from "../../lib/HoverTableItem";
+import { copyToClipboard } from "../../utils/Actions";
+import TData from "../../Components/Table/TData";
+import { TiTick } from "react-icons/ti";
 
-const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
-  const [hoveredField, setHoveredField] = useState<string | null>(null)
+const TransactionRow = ({
+  data,
+  selectValue,
+  wallet,
+  index,
+  perPage,
+  currentPage,
+}: any) => {
+  const [hoveredField, setHoveredField] = useState<string | null>(null);
   const handleMouseEnter = (field: string) => {
-    setHoveredField(field)
-  }
+    setHoveredField(field);
+  };
 
   const handleMouseLeave = () => {
-    setHoveredField(null)
-  }
+    setHoveredField(null);
+  };
 
-  const [tranHas, setTranHas] = useState<string | null>("")
-  const [walletFrom, setWalletFrom] = useState<string | null>("")
-  const [walletTo, setWalletTo] = useState<string | null>("")
+  const [tranHas, setTranHas] = useState<string | null>("");
+  const [walletFrom, setWalletFrom] = useState<string | null>("");
+  const [walletTo, setWalletTo] = useState<string | null>("");
 
   const handleCopy = (
     copy: string | null,
@@ -25,21 +32,21 @@ const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
     fromWallet: string | null,
     toWallet: string | null
   ) => {
-    copyToClipboard(copy)
-    setTranHas(hashIdid)
-    setWalletFrom(fromWallet)
-    setWalletTo(toWallet)
+    copyToClipboard(copy);
+    setTranHas(hashIdid);
+    setWalletFrom(fromWallet);
+    setWalletTo(toWallet);
     setTimeout(() => {
-      setTranHas(null)
-      setWalletFrom(null)
-      setWalletTo(null)
-    }, 3000)
-  }
+      setTranHas(null);
+      setWalletFrom(null);
+      setWalletTo(null);
+    }, 3000);
+  };
 
   return (
     <>
       <tr className="border-b border-[#E2E2E9]">
-        <TData data={index + 1} className="px-6" />
+        <TData data={index + 1 + perPage * currentPage} className="px-6" />
         <TData data={data?.timestamp} className="px-6" />
         <TData className="px-3">
           <div className="relative">
@@ -49,9 +56,9 @@ const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
                 onMouseEnter={() => handleMouseEnter("hash")}
                 onMouseLeave={handleMouseLeave}
               >
-                {data.hash?.slice(0, 6)}
-                ........
-                {data.hash?.slice(-8)}
+                {data.hash?.slice(0, 4)}
+                ....
+                {data.hash?.slice(-4)}
               </span>
               {tranHas !== data?.hash ? (
                 <MdContentCopy
@@ -75,9 +82,9 @@ const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
                 onMouseEnter={() => handleMouseEnter("from")}
                 onMouseLeave={handleMouseLeave}
               >
-                {data.from?.slice(0, 10)}
-                .......
-                {data.from?.slice(-8)}
+                {data.from?.slice(0, 5)}
+                ....
+                {data.from?.slice(-5)}
               </span>
               {walletFrom !== data?.from ? (
                 <MdContentCopy
@@ -99,9 +106,9 @@ const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
                 onMouseEnter={() => handleMouseEnter("to")}
                 onMouseLeave={handleMouseLeave}
               >
-                {data.to?.slice(0, 10)}
-                .......
-                {data.to?.slice(-8)}
+                {data.to?.slice(0, 5)}
+                ....
+                {data.to?.slice(-5)}
               </span>
               {walletTo !== data?.to ? (
                 <MdContentCopy
@@ -116,17 +123,17 @@ const TransactionRow = ({ data, selectValue, wallet, index }: any) => {
           </div>
         </TData>
         <TData className="px-6">
-          <div className="w-14 text-center">
-            {data?.to?.toLowerCase() === wallet?.toLowerCase() ? (
-              <p className="text-green-500 bg-[#DCF3DE] rounded">in</p>
+          <div className="w-20 text-center">
+            {data?.status == 0 ? (
+              <p className="text-green-500 bg-[#DCF3DE] rounded">Receive</p>
             ) : (
-              <p className="text-red-500 bg-[#ff26262a] rounded">out</p>
+              <p className="text-red-500 bg-[#ff26262a] rounded">Send</p>
             )}
           </div>
         </TData>
       </tr>
     </>
-  )
-}
+  );
+};
 
-export default TransactionRow
+export default TransactionRow;

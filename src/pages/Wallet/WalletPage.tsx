@@ -5,42 +5,39 @@ import { copyToClipboard } from "../../utils/Actions";
 import { ethers } from "ethers";
 import axiosInstance from "../../utils/axiosConfig";
 import { PuffLoader } from "react-spinners";
+import { useQuery } from "@tanstack/react-query";
+import { CreateWallet } from "../../Actions/CreateWalletAction/CreateWalletAction";
+import { MdContentCopy } from "react-icons/md";
+import TickIcon from "../../lib/TickIcon";
 
 const Deposit = () => {
-  const handleCopy = (copy: string | null) => {
+  const [timeout, setTimeouts] = useState<boolean>(false);
+  const handleCopy = (copy: string) => {
     copyToClipboard(copy);
+    setTimeouts(true);
+    setTimeout(() => {
+      setTimeouts(false);
+    }, 3000);
   };
 
-  const createWallet = () => {
-    const wallet = ethers.Wallet.createRandom();
-    const address = wallet.address;
-    const privateKey = wallet.privateKey;
-    localStorage.setItem("address", address);
-    localStorage.setItem("privateKey", privateKey);
-    window.location.reload();
+  const fetchApi = async () => {
+    const response = await axiosInstance("/client-wallets");
+    return response;
   };
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["walletAddress"],
+    queryFn: fetchApi,
+    staleTime: 10000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+  const wallet = data?.data?.data;
 
-  const [wallet, setWallet] = useState<any>({});
-  const [loading, setLoading] = useState(false);
-
-  const getWallet = async () => {
-    try {
-      setLoading(true);
-      const response = await axiosInstance.get("/client-wallets");
-      if (response?.data?.success === 200) {
-        setWallet(response?.data?.data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch wallet data:", error);
-    } finally {
-      setLoading(false);
-    }
+  const { mutate, isPending } = CreateWallet(refetch);
+  const createWallets = async () => {
+    mutate();
   };
-  useEffect(() => {
-    getWallet();
-  }, []);
-
-  console.log(wallet?.client_wallet_address);
 
   return (
     <div className="md:p-8 pt-5">
@@ -58,7 +55,7 @@ const Deposit = () => {
                 <p className="text-[14px]">Wallet Address</p>
                 <div className="w-full  rounded-lg bg-[#91919131] flex justify-end items-center text-end">
                   <span className=" w-full text-[14px]  text-start pl-3 font-semibold">
-                    {loading ? (
+                    {isLoading ? (
                       <div className="w-full flex justify-center items-center">
                         <PuffLoader size={30} />
                       </div>
@@ -73,19 +70,21 @@ const Deposit = () => {
                       </>
                     )}
                   </span>
-                  <span
-                    onClick={() => handleCopy(wallet?.client_wallet_address)}
-                    className="px-3 py-3 text-white bg-primary rounded-r-lg cursor-pointer"
-                  >
-                    <FaCopy />
-                  </span>
+                  {timeout == false ? (
+                    <MdContentCopy
+                      onClick={() => handleCopy(wallet?.client_wallet_address)}
+                      className="cursor-pointer rotate-180 size-6"
+                    />
+                  ) : (
+                    <TickIcon className="size-6" />
+                  )}
                 </div>
               </div>
             </div>
           </div>
         ) : (
           <button
-            onClick={createWallet}
+            onClick={createWallets}
             className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]"
           >
             Add Wallet

@@ -1,11 +1,8 @@
 import { FaRegCopy } from "react-icons/fa";
 import { images } from "../..";
 import { copyToClipboard } from "../../utils/Actions";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import axiosInstance from "../../utils/axiosConfig";
 import Skeleton from "react-loading-skeleton";
-import { useMutation } from "@tanstack/react-query";
+import { CreateWallet } from "../../Actions/CreateWalletAction/CreateWalletAction";
 
 const DashboardCardOne = ({
   clientProfile,
@@ -16,25 +13,10 @@ const DashboardCardOne = ({
 }: any) => {
   const handleCopy = (copy: string) => {
     copyToClipboard(copy);
-    // toast.success("Successfully copyed!");
   };
-  const navigate = useNavigate();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
-      const response = await axiosInstance.post("/client/create-address");
-      console.log(response);
-      if (response?.data?.success == 200) {
-        refetch();
-        toast.info(response?.data?.message);
-        navigate("/dashboard/wallet");
-        return;
-      }
-      return response.data;
-    },
-  });
-
-  const creteWallets = async () => {
+  const { mutate, isPending } = CreateWallet(refetch);
+  const createWallets = async () => {
     mutate();
   };
   return (
@@ -119,10 +101,10 @@ const DashboardCardOne = ({
               />
             </div>
             <div className="text-xl">
-              <h4 className="text-[#616365] font-medium md:text-[24px] ">
+              <h4 className="text-[#616365] font-medium md:text-[24px]">
                 Wallet
               </h4>
-              <div className="flex flex-row md:items-center items-start justify-between   mt-3 mb-2">
+              <div className="flex flex-row md:items-center items-start justify-between mt-3 mb-2">
                 <span className="md:text-[28px] font-medium text-[#313436] w-full">
                   <div>
                     {!wallets?.client_wallet_address && isLoading == true ? (
@@ -137,7 +119,7 @@ const DashboardCardOne = ({
                           <div className="w-full flex justify-center items-center">
                             {!isPending && (
                               <button
-                                onClick={() => creteWallets()}
+                                onClick={() => createWallets()}
                                 className="w-full py-2 rounded-lg bg-gradient-to-r  to-[#5634dc7a] hover:via-[#5634dccd] from-[#5634dcd6] hover:bg-[#5634dc7a] text-white font-light text-[16px]"
                               >
                                 Create Wallets
