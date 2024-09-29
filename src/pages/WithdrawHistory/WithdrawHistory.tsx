@@ -8,6 +8,7 @@ import axiosInstance from "../../utils/axiosConfig";
 import { formatToLocalDate } from "../../hooks/formatDate";
 import { TiTick } from "react-icons/ti";
 import Skeleton from "react-loading-skeleton";
+import { useQuery } from "@tanstack/react-query";
 
 const WithdrawHistory = () => {
   const [modal, setModal] = useState(false);
@@ -37,29 +38,25 @@ const WithdrawHistory = () => {
     setTransId(tranId);
     setAddress(addr);
   };
-  const [withdrowHistory, setWithdrowHistory] = useState([]);
 
-  const getDatas = async () => {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get("/client/withdraw-history");
-      if (response?.data?.data) {
-        setWithdrowHistory(response?.data?.data);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
+  const fetchApi = async () => {
+    const response = await axiosInstance("/client/withdraw-history");
+    return response;
   };
-  useEffect(() => {
-    getDatas();
-  }, []);
+  const { data: withdrawHistory, isLoading } = useQuery({
+    queryKey: ["withdrawHistory"],
+    queryFn: fetchApi,
+    staleTime: 10000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+  const withdrowHistory = withdrawHistory?.data?.data;
 
   return (
     <>
       <PaymenModal renewModal={modal} handleRenewModal={handleModal} />
-      {loading ? (
+      {isLoading ? (
         <div className="mt-8">
           <Skeleton height={50} count={7} />
         </div>
@@ -97,7 +94,7 @@ const WithdrawHistory = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white">
-                      {withdrowHistory.map((data: any) => (
+                      {withdrowHistory?.map((data: any) => (
                         <tr
                           key={data.id}
                           className="border-b border-[#E2E2E9] text-[#616365]"

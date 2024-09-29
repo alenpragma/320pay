@@ -32,6 +32,7 @@ const Dashboard = () => {
     data: data,
     isLoading,
     refetch,
+    error,
   } = useQuery({
     queryKey: ["profile", "tokens", "wallets", "lastSessions", "dashboardData"],
     queryFn: fetchData,
@@ -40,6 +41,10 @@ const Dashboard = () => {
     refetchOnReconnect: false,
     retry: false,
   });
+  if (error) {
+    console.log(error);
+  }
+  console.log(data);
   const profile = data?.profile?.profile;
   const tokens = data?.tokens?.data;
   const wallets = data?.wallet?.data;

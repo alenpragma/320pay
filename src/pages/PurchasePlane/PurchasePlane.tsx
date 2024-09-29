@@ -1,78 +1,38 @@
-import { Key, useEffect, useState } from "react"
-import TData from "../../Components/Table/TData"
-import axiosInstance from "../../utils/axiosConfig"
-import PurchasePlaneModal from "../../Components/Modal/PurchasePlaneModal"
-import Skeleton from "react-loading-skeleton"
-import { formatToLocalDate } from "../../hooks/formatDate"
-import { Link } from "react-router-dom"
-
-type IPurchase = {
-  created_at: string
-  id: string
-}
-
-type IDate = {
-  days: string
-  hours: string
-  id: string
-}
+import { Key, useEffect, useState } from "react";
+import TData from "../../Components/Table/TData";
+import axiosInstance from "../../utils/axiosConfig";
+import PurchasePlaneModal from "../../Components/Modal/PurchasePlaneModal";
+import Skeleton from "react-loading-skeleton";
+import { formatToLocalDate } from "../../hooks/formatDate";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const PurchasePlane = () => {
-  const [modal, setModal] = useState(false)
-  const [singleData, setSingleData] = useState()
+  const [modal, setModal] = useState(false);
+  const [singleData, setSingleData] = useState();
 
-  const [loading, setLoading] = useState(false)
-  // console.log(loading)
-
-  const [purchasePlane, setPurchasePlane] = useState<any>([])
-  // console.log(purchasePlane)
-
-  // *********** get purchase plan data
-  const getPurchasePlane = async () => {
-    setLoading(true)
-    try {
-      const response = await axiosInstance.get(
-        "/client/package-purchase-history"
-      )
-      if (response?.data?.success == 200) {
-        setPurchasePlane(response?.data?.data)
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-  useEffect(() => {
-    getPurchasePlane()
-  }, [])
   //  --------- purchase plan modal show funciton
   const handleModal = (clientId: any) => {
-    setModal(!modal)
+    setModal(!modal);
     const purchasePlanSingleData = purchasePlane?.find(
       (data: any) => data.id === clientId
-    )
-    setSingleData(purchasePlanSingleData)
-  }
+    );
+    setSingleData(purchasePlanSingleData);
+  };
 
-  // const dateCount = () => {
-  //   return purchasePlane.map((purchase: IPurchase) => {
-  //     console.log(purchase)
-  //     const id = purchase.id
-  //     const creatDate = new Date(purchase.created_at)
-  //     const currentDate = new Date()
-  //     const diffInMilliseconds = currentDate.getTime() - creatDate.getTime()
-  //     const hours = diffInMilliseconds / (1000 * 60 * 60)
-  //     const days = Math.floor(hours / 24)
-  //     const hour = Math.floor(hours % 24)
-  //     return {
-  //       id: id,
-  //       days: days,
-  //       hours: hour,
-  //     }
-  //   })
-  // }
-  // const date = dateCount()
+  const fetchApi = async () => {
+    const response = await axiosInstance("/client/package-purchase-history");
+    return response;
+  };
+  const { data, isLoading } = useQuery({
+    queryKey: ["walletAddress"],
+    queryFn: fetchApi,
+    staleTime: 10000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+  const purchasePlane = data?.data?.data;
   return (
     <>
       <PurchasePlaneModal
@@ -88,7 +48,7 @@ const PurchasePlane = () => {
             </button>
           </Link>
         </div>
-        {loading ? (
+        {isLoading ? (
           <div className="mt-5">
             <Skeleton height={35} count={7} />
           </div>
@@ -161,14 +121,8 @@ const PurchasePlane = () => {
           </>
         )}
       </div>
-      {/* <Pagination
-        totalPages={totalPages}
-        handleNextPage={handleNextPage}
-        currentPage={currentPage}
-        handlePrevPage={handlePrevPage}
-      /> */}
     </>
-  )
-}
+  );
+};
 
-export default PurchasePlane
+export default PurchasePlane;
