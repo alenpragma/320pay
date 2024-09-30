@@ -30,6 +30,7 @@ const TransitionHistory = () => {
     retry: false,
   });
   const clientToken = clientTokens?.data?.data;
+  console.log(clientToken);
 
   const options = clientToken?.map((item: ITokenData) => ({
     id: item?.id,
