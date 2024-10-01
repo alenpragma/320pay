@@ -5,27 +5,32 @@ import axiosInstance from "../../utils/axiosConfig";
 
 export const usePostAction = (
   url: string,
-  refetch: () => void,
-  handleModal?: (e: any) => void
+  handleModal?: (e: any) => void,
+  reset?: () => void,
+  navigate?: (e: any) => void
 ) => {
   const mutation = useMutation({
     mutationFn: async (postData: FieldValues) => {
       const response = await axiosInstance.post(url, postData);
-      return response.data;
+      console.log(response);
+      return response;
     },
     onSuccess: (data) => {
-      if (data) {
-        Swal.fire({
-          title: "Successfully",
-          icon: "success",
-          customClass: {
-            popup: "custom-swal-modal",
-          },
-        });
-        refetch();
-      }
-      if (handleModal) {
-        handleModal("");
+      try {
+        if (data) {
+          Swal.fire({
+            title: "Successfully",
+            icon: "success",
+            customClass: {
+              popup: "custom-swal-modal",
+            },
+          });
+          reset?.();
+          navigate?.("/");
+          handleModal?.("");
+        }
+      } catch (error) {
+        console.error("Error during success handling:", error);
       }
     },
     onError: () => {

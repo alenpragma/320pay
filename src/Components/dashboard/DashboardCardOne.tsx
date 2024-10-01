@@ -3,6 +3,8 @@ import { images } from "../..";
 import { copyToClipboard } from "../../utils/Actions";
 import Skeleton from "react-loading-skeleton";
 import { CreateWallet } from "../../Actions/CreateWalletAction/CreateWalletAction";
+import { useState } from "react";
+import TickIcon from "../../lib/TickIcon";
 
 const DashboardCardOne = ({
   clientProfile,
@@ -11,8 +13,20 @@ const DashboardCardOne = ({
   refetch,
   wallets,
 }: any) => {
-  const handleCopy = (copy: string) => {
+  const [clientId, setClientId] = useState<string | null>("");
+  const [wallet, setWallet] = useState<string | null>("");
+  const handleCopy = (
+    copy: string,
+    clientId: string | null,
+    wallet: string | null
+  ) => {
     copyToClipboard(copy);
+    setClientId(clientId);
+    setWallet(wallet);
+    setTimeout(() => {
+      setClientId(null);
+      setWallet(null);
+    }, 3000);
   };
 
   const { mutate, isPending } = CreateWallet(refetch);
@@ -45,12 +59,24 @@ const DashboardCardOne = ({
                         {clientProfile?.client_secret_id}
                       </p>
                       <span className="  text-[#5734DC] md:text-[24px] text-[20px]">
-                        <FaRegCopy
-                          className="cursor-pointer"
-                          onClick={() =>
-                            handleCopy(clientProfile?.client_secret_id)
-                          }
-                        />
+                        {!clientId ? (
+                          <FaRegCopy
+                            className="cursor-pointer"
+                            onClick={() =>
+                              handleCopy(
+                                clientProfile?.client_secret_id,
+                                clientProfile?.client_secret_id,
+                                null
+                              )
+                            }
+                          />
+                        ) : (
+                          <TickIcon
+                            className="size-6"
+                            strokeWidth="2"
+                            stroke="#5734DC"
+                          />
+                        )}
                       </span>
                     </div>
                   )}
@@ -141,12 +167,24 @@ const DashboardCardOne = ({
                               -6
                             )}`}{" "}
                             <div className="text-[#5734DC] md:text-[24px] text-[20px]">
-                              <FaRegCopy
-                                className="cursor-pointer"
-                                onClick={() =>
-                                  handleCopy(wallets?.client_wallet_address)
-                                }
-                              />
+                              {!wallet ? (
+                                <FaRegCopy
+                                  className="cursor-pointer"
+                                  onClick={() =>
+                                    handleCopy(
+                                      wallets?.client_wallet_address,
+                                      null,
+                                      wallets?.client_wallet_address
+                                    )
+                                  }
+                                />
+                              ) : (
+                                <TickIcon
+                                  className="size-6"
+                                  strokeWidth="2"
+                                  stroke="#5734DC"
+                                />
+                              )}
                             </div>
                           </>
                         )}

@@ -6,7 +6,7 @@ const LoginLayout = () => {
   return (
     <div className="relative">
       <div className="fixed right-0 left-0 mx-auto">
-        <LoginNavbar />
+        {/* <LoginNavbar /> */}
       </div>
       <Outlet />
     </div>

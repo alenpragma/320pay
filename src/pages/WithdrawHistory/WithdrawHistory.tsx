@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TData from "../../Components/Table/TData";
 import PaymenModal from "../../Components/Modal/PaymentModal";
 import { copyToClipboard } from "../../utils/Actions";
@@ -6,13 +6,17 @@ import HoverTableItem from "../../lib/HoverTableItem";
 import { MdContentCopy } from "react-icons/md";
 import axiosInstance from "../../utils/axiosConfig";
 import { formatToLocalDate } from "../../hooks/formatDate";
-import { TiTick } from "react-icons/ti";
 import Skeleton from "react-loading-skeleton";
 import { useQuery } from "@tanstack/react-query";
+import TickIcon from "../../lib/TickIcon";
+
+type ITokenSymbole = {
+  token_symbol?: string;
+  tokenId?: string;
+};
 
 const WithdrawHistory = () => {
   const [modal, setModal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const handleModal = () => {
     setModal(!modal);
   };
@@ -39,19 +43,28 @@ const WithdrawHistory = () => {
     setAddress(addr);
   };
 
-  const fetchApi = async () => {
-    const response = await axiosInstance("/client/withdraw-history");
-    return response;
+  const fetchData = async () => {
+    const [withdraw, tokens] = await Promise.all([
+      axiosInstance.get(`/client/withdraw-history`),
+      axiosInstance.get(`/client-tokens`),
+    ]);
+    return {
+      profile: withdraw,
+      tokens: tokens,
+    };
   };
-  const { data: withdrawHistory, isLoading } = useQuery({
-    queryKey: ["withdrawHistory"],
-    queryFn: fetchApi,
+  const { data, isLoading } = useQuery({
+    queryKey: ["withdrawHistory", "token"],
+    queryFn: fetchData,
     staleTime: 10000,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: false,
   });
-  const withdrowHistory = withdrawHistory?.data?.data;
+  const withdrowHistory = data?.profile?.data?.data;
+  const tokens = data?.tokens?.data?.data;
+
+  console.log("withdraw", withdrowHistory);
 
   return (
     <>
@@ -112,9 +125,9 @@ const WithdrawHistory = () => {
                                   }
                                   onMouseLeave={() => handleTras(null, null)}
                                 >
-                                  {data?.txn_hash?.slice(0, 12)}
+                                  {data?.txn_hash?.slice(0, 5)}
                                   .......
-                                  {data?.txn_hash?.slice(-8)}
+                                  {data?.txn_hash?.slice(-5)}
                                 </span>
                                 {timeout !== data?.id ? (
                                   <MdContentCopy
@@ -124,7 +137,7 @@ const WithdrawHistory = () => {
                                     className="cursor-pointer rotate-180 size-6"
                                   />
                                 ) : (
-                                  <TiTick className="size-6" />
+                                  <TickIcon className="size-6" />
                                 )}
                               </div>
                               {data?.id == transId && data.txn_hash !== null ? (
@@ -135,7 +148,17 @@ const WithdrawHistory = () => {
                             </div>
                           </TData>
                           <TData className="px-6">
-                            <h4>{data?.amount}</h4>
+                            <h4>
+                              {data?.amount}{" "}
+                              {tokens
+                                ?.filter(
+                                  (token: ITokenSymbole) =>
+                                    token?.tokenId == data?.token_id
+                                )
+                                .map((item: ITokenSymbole) => (
+                                  <span>{item?.token_symbol}</span>
+                                ))}
+                            </h4>
                           </TData>
                           <TData className="px-6">
                             <div
@@ -145,19 +168,19 @@ const WithdrawHistory = () => {
                             >
                               <div className="flex items-center">
                                 <span className="hover:bg-green-100 px-3 rounded">
-                                  {data?.wallet_address.slice(0, 10)}
+                                  {data?.wallet_address.slice(0, 5)}
                                   .......
-                                  {data?.wallet_address.slice(-8)}
+                                  {data?.wallet_address.slice(-5)}
                                 </span>
                                 {addressTimeOut !== data?.id ? (
                                   <MdContentCopy
                                     onClick={() =>
-                                      handleCopy(data?.txn_hash, null, data?.id)
+                                      handleCopy(data?.wallet_address, null, data?.id)
                                     }
                                     className="cursor-pointer rotate-180 size-6"
                                   />
                                 ) : (
-                                  <TiTick className="size-6" />
+                                  <TickIcon className="size-6" />
                                 )}
                               </div>
                               {data?.id == address &&

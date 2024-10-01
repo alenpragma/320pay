@@ -89,19 +89,26 @@ const PurchasePlane = () => {
                           key={i}
                           className="border-b border-[#E2E2E9] text-[#616365]"
                         >
-                          <TData data={item.client_id} className="  px-6" />
-                          <TData data={item.package_name} className="px-6" />
-                          <TData className="px-6">${item.package_price}</TData>
-                          <TData
-                            data={formatToLocalDate(item.created_at)}
-                            className="  px-6"
-                          />
-                          <TData className="px-6">
-                            <span className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded px-5 py-1">
-                              {item.status == 0 ? "Valid" : "Expired"}
-                            </span>
+                          <TData data={item.client_id} className="px-6 w-2/12" />
+                          <TData data={item.package_name} className="px-6 w-2/12" />
+                          <TData className="px-6 w-2/12">${item.package_price}</TData>
+                          <TData className="px-6 w-2/12">
+                            {formatToLocalDate(item.created_at)}
                           </TData>
-                          <TData className="  px-6">
+                          <TData className=" w-2/12 px-6">
+                            <div className="w-2/3">
+                            {item.status == 0 ? (
+                              <button className="font-semibold text-[14px] text-green-500 bg-[#DCF3DE] rounded py-1 w-full px-3">
+                                Valied
+                              </button>
+                            ) : (
+                              <button className="font-semibold text-[14px] text-red-500 bg-red-100 rounded py-1 w-full px-3">
+                                Expired
+                              </button>
+                            )}
+                            </div>
+                          </TData>
+                          <TData className="px-6 w-2/12">
                             <button
                               onClick={() => handleModal(item.id)}
                               className="font-semibold text-[14px] text-white bg-[#000000ae] rounded px-5 py-1"
