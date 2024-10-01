@@ -66,6 +66,8 @@ import mind from "./assets/icon/dashboard/mind.svg"
 
 import rightArrow from "./assets/icon/withdraw/right-slide.svg"
 
+import profileImage from "./assets/image/profile/profile.png"
+
 export const walletHistory = [
   {
     id: "012",
@@ -327,4 +329,5 @@ export const images = {
   settings,
   settingsHover,
   rightArrow,
+  profileImage
 }

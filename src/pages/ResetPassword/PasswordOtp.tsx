@@ -9,6 +9,7 @@ import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axiosInstance from "../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { images } from "../..";
 
 export const validationSchema = z.object({
   password: z.string().min(1, "This field is required."),
@@ -66,9 +67,13 @@ const PasswordOtp = () => {
   return (
     <div className="flex justify-center items-center h-screen px-3">
       <div className="md:w-1/3 w-full mx-auto border border-slate-300 rounded-lg p-3">
-        <div className="text-[24px] font-medium border-b w-fit border-secondary pb-1 mb-4 pr-4">
-          <p>Reset your password</p>
+        <div className="flex flex-col justify-center items-center">
+          <img className="h-14" src={images.logo} alt="" />
+          <h4 className=" text-[#1e1e1e] text-[24px] font-semibold my-2">
+            Reset your password
+          </h4>
         </div>
+
         <Form
           onSubmit={formSubmit}
           resolver={zodResolver(validationSchema)}

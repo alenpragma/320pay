@@ -45,93 +45,111 @@ const Licenses = () => {
             </button>
           </Link>
         </div>
-        <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
-          <div className="overflow-x-auto w-full">
-            {isLoading == true ? (
-              <div>
-                <Skeleton height={35} count={5} />
+
+        {isLoading == true ? (
+          <div>
+            <Skeleton height={35} count={5} />
+          </div>
+        ) : (
+          <>
+            {licenses?.length !== 0 ? (
+              <div className=" rounded-xl border-2 border-[#E2E2E9] pb-4 mt-4">
+                <div className="overflow-x-auto w-full">
+                  <table className=" border-collapse md:w-full w-fit">
+                    <thead>
+                      <tr className="bg-[#FAFAFA] text-secondary">
+                        <th className="py-2 px-6 text-start  rounded-l-xl">
+                          SL
+                        </th>
+                        <th className="py-2 px-6 text-start">Server</th>
+                        <th className="py-2 px-6 text-start">Start</th>
+                        <th className="py-2 px-6 text-start">Expiry</th>
+                        <th className="py-2 px-6 text-start">license key</th>
+                        <th className="py-2 px-6 text-start">Status</th>
+                        <th className="py-2 px-6 w-[30px] text-start  rounded-r-xl">
+                          More
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody className="bg-white">
+                      {licenses?.map((data: any, i: Key) => (
+                        <tr key={i} className="border-b border-[#E2E2E9]">
+                          {/* <TData
+                    children={` ${i <= 8 ? "0" : ""}${i + 1}`}
+                    className="w-2/12 px-6"
+                  /> */}{" "}
+                          <TData
+                            children={Number(i) + 1}
+                            className="w-2/12 px-6"
+                          />
+                          <TData
+                            data={data.domain_name}
+                            className="w-2/12  px-6"
+                          />
+                          <TData
+                            data={formatToLocalDate(data?.start_date)}
+                            className="w-2/12 px-6"
+                          />
+                          <TData
+                            data={formatToLocalDate(data.end_date)}
+                            className="w-2/12 px-6"
+                          />
+                          <TData
+                            data={data.license_key}
+                            className="w-2/12 px-6"
+                          />
+                          <TData className=" w-full px-6">
+                            <div className=" w-full">
+                              {data.status == 0 ? (
+                                <button className="font-semibold cursor-text text-[14px] w-[60px] text-green-500 bg-[#DCF3DE] rounded py-1   md:px-0 px-3">
+                                  Active
+                                </button>
+                              ) : (
+                                <button className="font-semibold text-[14px] w-[60px] text-[#FF9F43] bg-[#FFECD9] rounded py-1    md:px-0 px-3">
+                                  Expired
+                                </button>
+                              )}
+                            </div>
+                          </TData>
+                          <TData className="w-full px-7">
+                            <div className="w-full">
+                              {data.status == 0 ? (
+                                <button
+                                  onClick={() => {
+                                    handleModal();
+                                    handelDetailsModal(data);
+                                  }}
+                                  className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
+                                >
+                                  Details
+                                </button>
+                              ) : (
+                                <Link to={"/dashboard/start-here"}>
+                                  <button
+                                    className={`font-semibold text-[14px] w-[60px] text-white bg-primary rounded   py-1   md:px-0 px-3 ${
+                                      data.status == 0
+                                        ? "cursor-not-allowed opacity-80"
+                                        : ""
+                                    }`}
+                                  >
+                                    Renew
+                                  </button>
+                                </Link>
+                              )}
+                            </div>
+                          </TData>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             ) : (
-              <table className=" border-collapse md:w-full w-fit">
-                <thead>
-                  <tr className="bg-[#FAFAFA] text-secondary">
-                    <th className="py-2 px-6 text-start  rounded-l-xl">SL</th>
-                    <th className="py-2 px-6 text-start">Server</th>
-                    <th className="py-2 px-6 text-start">Start</th>
-                    <th className="py-2 px-6 text-start">Expiry</th>
-                    <th className="py-2 px-6 text-start">license key</th>
-                    <th className="py-2 px-6 text-start">Status</th>
-                    <th className="py-2 px-6 w-[30px] text-start  rounded-r-xl">
-                      More
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="bg-white">
-                  {licenses?.map((data: any, i: Key) => (
-                    <tr key={i} className="border-b border-[#E2E2E9]">
-                      {/* <TData
-                      children={` ${i <= 8 ? "0" : ""}${i + 1}`}
-                      className="w-2/12 px-6"
-                    /> */}{" "}
-                      <TData children={Number(i) + 1} className="w-2/12 px-6" />
-                      <TData data={data.domain_name} className="w-2/12  px-6" />
-                      <TData
-                        data={formatToLocalDate(data?.start_date)}
-                        className="w-2/12 px-6"
-                      />
-                      <TData
-                        data={formatToLocalDate(data.end_date)}
-                        className="w-2/12 px-6"
-                      />
-                      <TData data={data.license_key} className="w-2/12 px-6" />
-                      <TData className=" w-full px-6">
-                        <div className=" w-full">
-                          {data.status == 0 ? (
-                            <button className="font-semibold cursor-text text-[14px] w-[60px] text-green-500 bg-[#DCF3DE] rounded py-1   md:px-0 px-3">
-                              Active
-                            </button>
-                          ) : (
-                            <button className="font-semibold text-[14px] w-[60px] text-[#FF9F43] bg-[#FFECD9] rounded py-1    md:px-0 px-3">
-                              Expired
-                            </button>
-                          )}
-                        </div>
-                      </TData>
-                      <TData className="w-full px-7">
-                        <div className="w-full">
-                          {data.status == 0 ? (
-                            <button
-                              onClick={() => {
-                                handleModal();
-                                handelDetailsModal(data);
-                              }}
-                              className="font-semibold text-[14px] w-[60px] text-white bg-[#000000ae] rounded  py-1  md:px-0 px-4"
-                            >
-                              Details
-                            </button>
-                          ) : (
-                            <Link to={"/dashboard/start-here"}>
-                              <button
-                                className={`font-semibold text-[14px] w-[60px] text-white bg-primary rounded   py-1   md:px-0 px-3 ${
-                                  data.status == 0
-                                    ? "cursor-not-allowed opacity-80"
-                                    : ""
-                                }`}
-                              >
-                                Renew
-                              </button>
-                            </Link>
-                          )}
-                        </div>
-                      </TData>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              "Empty License"
             )}
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </>
   );

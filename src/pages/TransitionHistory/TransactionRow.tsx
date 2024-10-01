@@ -4,6 +4,7 @@ import HoverTableItem from "../../lib/HoverTableItem";
 import { copyToClipboard } from "../../utils/Actions";
 import TData from "../../Components/Table/TData";
 import { TiTick } from "react-icons/ti";
+import TickIcon from "../../lib/TickIcon";
 
 const TransactionRow = ({
   data,
@@ -65,7 +66,7 @@ const TransactionRow = ({
                   className="cursor-pointer rotate-180 size-6"
                 />
               ) : (
-                <TiTick className="size-6" />
+                <TickIcon className="size-6" />
               )}
             </div>
             {hoveredField === "hash" && <HoverTableItem value={data.hash} />}
@@ -91,7 +92,7 @@ const TransactionRow = ({
                   className="cursor-pointer rotate-180 size-6"
                 />
               ) : (
-                <TiTick className="size-6" />
+                <TickIcon className="size-6" />
               )}
             </div>
             {hoveredField === "from" && <HoverTableItem value={data.from} />}
@@ -115,7 +116,7 @@ const TransactionRow = ({
                   className="cursor-pointer rotate-180 size-6"
                 />
               ) : (
-                <TiTick className="size-6" />
+                <TickIcon className="size-6" />
               )}
             </div>
             {hoveredField === "to" && <HoverTableItem value={data.to} />}

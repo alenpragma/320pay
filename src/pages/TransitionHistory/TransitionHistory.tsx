@@ -1,4 +1,4 @@
-import { Key, useEffect, useState } from "react";
+import { Key, useState } from "react";
 import Select, { SingleValue } from "react-select";
 import axiosInstance from "../../utils/axiosConfig";
 import { ITokenData, ITransaction } from "../../types/web3";
@@ -30,7 +30,6 @@ const TransitionHistory = () => {
     retry: false,
   });
   const clientToken = clientTokens?.data?.data;
-  console.log(clientToken);
 
   const options = clientToken?.map((item: ITokenData) => ({
     id: item?.id,
@@ -61,32 +60,25 @@ const TransitionHistory = () => {
       setSelectedToken(newValue.value);
     }
   };
-  const filteredDeposits = transitionData?.filter(
-    (data: any) =>
-      data?.to?.toLowerCase().includes(search.toLowerCase()) ||
-      data?.from?.toLowerCase().includes(search.toLowerCase()) ||
-      data?.hash?.toLowerCase().includes(search.toLowerCase()) ||
-      data?.value?.toString().toLowerCase().includes(search.toLowerCase())
-  );
-
-  // const filteredDeposits = Array.isArray(transitionData)
-  //   ? transitionData.filter(
-  //       (data: any) =>
-  //         data?.to?.toLowerCase().includes(search.toLowerCase()) ||
-  //         data?.from?.toLowerCase().includes(search.toLowerCase()) ||
-  //         data?.hash?.toLowerCase().includes(search.toLowerCase()) ||
-  //         data?.value?.toString().toLowerCase().includes(search.toLowerCase())
-  //     )
-  //   : [];
-
+  const filteredDeposits =
+    Array.isArray(transitionData) &&
+    transitionData?.filter(
+      (data: any) =>
+        data?.to?.toLowerCase().includes(search.toLowerCase()) ||
+        data?.from?.toLowerCase().includes(search.toLowerCase()) ||
+        data?.hash?.toLowerCase().includes(search.toLowerCase()) ||
+        data?.value?.toString().toLowerCase().includes(search.toLowerCase())
+    );
   // pagination calculate
   const [currentPage, setCurrentPage] = useState(0);
-  const [perPage, setparePage] = useState(10);
+  const [perPage, setparePage] = useState(25);
 
   const from = currentPage * perPage;
   const to = from + perPage;
   //  pagination end
-  const totalPage = Math.ceil(filteredDeposits?.length / perPage);
+  const totalPage = Array.isArray(filteredDeposits)
+    ? Math.ceil(filteredDeposits.length / perPage)
+    : 0;
 
   return (
     <>
@@ -136,20 +128,21 @@ const TransitionHistory = () => {
                             <th className="py-2 px-6 text-start">Status</th>
                           </tr>
                         </thead>
-
                         <tbody className="bg-white">
-                          {filteredDeposits
-                            ?.slice(from, to)
-                            ?.map((data: ITransaction, i: Key) => (
-                              <TransactionRow
-                                key={i}
-                                data={data}
-                                selectValue={selectedToken}
-                                index={i}
-                                perPage={perPage}
-                                currentPage={currentPage}
-                              />
-                            ))}
+                          {Array.isArray(transitionData) &&
+                            Array.isArray(filteredDeposits) &&
+                            filteredDeposits
+                              .slice(from, to)
+                              .map((data: ITransaction, i: Key) => (
+                                <TransactionRow
+                                  key={i}
+                                  data={data}
+                                  selectValue={selectedToken}
+                                  index={i}
+                                  perPage={perPage}
+                                  currentPage={currentPage}
+                                />
+                              ))}
                         </tbody>
                       </table>
                     </div>
@@ -161,11 +154,15 @@ const TransitionHistory = () => {
             )}
           </>
         )}
-        <PaginationButtons
-          totalPages={totalPage}
-          currentPage={2}
-          setCurrentPage={setCurrentPage}
-        />
+        {totalPage > 25 ? (
+          <PaginationButtons
+            totalPages={totalPage}
+            currentPage={2}
+            setCurrentPage={setCurrentPage}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

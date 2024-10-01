@@ -11,6 +11,7 @@ import Container from "../../Components/Shared/Container";
 import axiosInstance from "../../utils/axiosConfig";
 import { PuffLoader } from "react-spinners";
 import Swal from "sweetalert2";
+import { images } from "../..";
 
 export const validationSchema = z.object({
   email: z.string().min(1, "This field is required."),
@@ -43,9 +44,13 @@ const ResetPassword = () => {
       <div className="flex justify-center items-center h-screen w-full">
         <div className="md:w-2/5 w-full mx-auto border border-slate-300 rounded-lg p-4 shadow-md">
           <div className="md:bg-[#fff] bg-[#313fd52b] md:p-0 p-4 md:rounded-none rounded-md  mx-auto">
-            <h4 className=" text-[#1e1e1e] text-[24px] font-semibold my-2">
-              Forgot Password
-            </h4>
+            <div className="flex flex-col justify-center items-center">
+              <img className="h-14" src={images.logo} alt="" />
+              <h4 className=" text-[#1e1e1e] text-[24px] font-semibold my-2">
+                Forgot Password
+              </h4>
+            </div>
+
             <Form
               onSubmit={formSubmit}
               resolver={zodResolver(validationSchema)}
